@@ -43,8 +43,6 @@ replace `REPLACE_WITH_WEB3FORMS_ACCESS_KEY` in `js/main.js`. Until then the form
 - Accessibility 100, Best Practices 100, SEO 100.
 - LCP 868 ms and CLS 0.00 under 4x CPU + Slow 4G throttling.
 
-Run `coding-rules-review` before calling any change done.
-
 ## Local development
 
 ```
@@ -56,5 +54,4 @@ Then open http://127.0.0.1:8787/.
 ## Deploy
 
 Static, Cloudflare Pages (Git integration, output directory `/`), custom domain
-`helban.dev` on the helban.dev account. `_headers` caches `fonts/` and `assets/` for a
-year. See `~/notes/hosting-demos.md`.
+`helban.dev`. `_headers` caches `fonts/` and `assets/` for a year.
