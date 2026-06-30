@@ -254,6 +254,13 @@ section{position:relative; padding:84px 0}
 .stat .lab{font-size:12.5px; color:var(--muted); margin-top:4px}
 .about p{color:#c6c9d8; font-size:16px; margin-bottom:14px}
 .about p:last-child{margin-bottom:0}
+.author{display:flex; align-items:center; gap:18px; margin-bottom:18px}
+.avatar{width:112px; height:112px; border-radius:50%; object-fit:cover; flex:none;
+  border:2px solid rgba(167,139,250,.5);
+  box-shadow:0 12px 30px rgba(124,58,237,.42), inset 0 1px 0 rgba(255,255,255,.3);
+  background:linear-gradient(160deg,#241a45,#140e29)}
+.author-name{font-weight:800; font-size:22px; letter-spacing:-.4px; color:#fff; margin-top:6px}
+.author-role{font-family:var(--mono); font-size:12.5px; color:var(--violet-l); margin-top:3px}
 
 /* ---------- contact / order ---------- */
 .contact{display:grid; grid-template-columns:1fr 1.1fr; gap:34px; align-items:start}
@@ -646,7 +653,14 @@ footer .copy{width:100%; font-size:12.5px; color:#8a90a6; font-family:var(--mono
       <div class="wrap">
         <div class="about">
           <div>
-            <span class="eyebrow" data-en="About">O mnie</span>
+            <div class="author">
+              <img class="avatar" src="assets/avatar.webp" width="112" height="112" alt="Adam K" loading="lazy" decoding="async">
+              <div>
+                <span class="eyebrow" data-en="About">O mnie</span>
+                <div class="author-name">Adam K</div>
+                <div class="author-role" data-en="C++ embedded · freelancer">C++ embedded · freelancer</div>
+              </div>
+            </div>
             <h2 id="about-h" style="font-size:clamp(24px,3.4vw,32px);font-weight:800;letter-spacing:-.8px;margin:12px 0 16px" data-en="An embedded engineer who writes web like firmware">Inżynier embedded, który pisze web jak firmware</h2>
             <p data-en="10 years of C++ embedded, where a wasted kilobyte and a leaked handle have consequences. I carry that habit into web work: small payloads, no dead dependencies, code that says what it does.">10 lat C++ embedded, gdzie zmarnowany kilobajt i wyciekły uchwyt mają konsekwencje. Ten nawyk przenoszę na web: małe payloady, brak martwych zależności, kod który mówi co robi.</p>
             <p data-en="That is why the sites score PageSpeed 100, and the Python scrapers and tools come with tests. You get the source, no lock-in, no monthly rent on your own site.">Dlatego strony jadą na PageSpeed 100, a scrapery i narzędzia w Pythonie mają testy. Dostajesz źródła, bez vendor lock-in, bez miesięcznego czynszu za własną stronę.</p>
