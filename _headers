@@ -1,0 +1,7 @@
+# Cache content-stable assets for a year. HTML keeps Cloudflare's default
+# (revalidated), so content edits go live on the next deploy.
+/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable

@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>helban.dev — szybkie strony, scrapery i automatyzacje</title>
+  <meta name="description" content="Adam K, 10 lat C++ embedded. Buduję szybkie strony (PSI 100), web scrapery w Pythonie, rozszerzenia Chrome MV3 i automatyzacje. Każda usługa ma żywe demo do kliknięcia.">
+  <meta name="theme-color" content="#0b0817">
+  <link rel="canonical" href="https://helban.dev/">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="helban.dev">
+  <meta property="og:title" content="helban.dev — szybkie strony, scrapery i automatyzacje">
+  <meta property="og:description" content="Lekki kod bez bloatu, na własność, z testami. Strony PSI 100, scrapery w Pythonie, rozszerzenia Chrome, automatyzacje. Żywe dema do kliknięcia.">
+  <meta property="og:url" content="https://helban.dev/">
+  <meta property="og:image" content="https://helban.dev/assets/og-image.svg">
+
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="fonts/inter-800-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/inter-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "name": "helban.dev",
+    "url": "https://helban.dev/",
+    "image": "https://helban.dev/assets/og-image.svg",
+    "description": "Szybkie strony, web scrapery, rozszerzenia Chrome i automatyzacje. 10 lat C++ embedded.",
+    "areaServed": "Worldwide",
+    "knowsLanguage": ["pl", "en"],
+    "founder": { "@type": "Person", "name": "Adam K", "jobTitle": "Software Engineer" },
+    "sameAs": [
+      "https://github.com/Helban"
+    ]
+  }
+  </script>
+
+  <style>
+/* ---------------------------------------------------------------
+   Self-hosted, subset Inter + JetBrains Mono (latin + latin-ext;
+   Polish glyphs live in latin-ext). Replaces a render-blocking
+   Google Fonts <link>, so first paint never waits on a stylesheet.
+   --------------------------------------------------------------- */
+@font-face{font-family:'Inter';font-style:normal;font-weight:400;font-display:swap;src:url(fonts/inter-400-latin-ext.woff2) format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'Inter';font-style:normal;font-weight:400;font-display:swap;src:url(fonts/inter-400-latin.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'Inter';font-style:normal;font-weight:600;font-display:swap;src:url(fonts/inter-600-latin-ext.woff2) format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'Inter';font-style:normal;font-weight:600;font-display:swap;src:url(fonts/inter-600-latin.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'Inter';font-style:normal;font-weight:700;font-display:swap;src:url(fonts/inter-700-latin-ext.woff2) format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'Inter';font-style:normal;font-weight:700;font-display:swap;src:url(fonts/inter-700-latin.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'Inter';font-style:normal;font-weight:800;font-display:swap;src:url(fonts/inter-800-latin-ext.woff2) format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'Inter';font-style:normal;font-weight:800;font-display:swap;src:url(fonts/inter-800-latin.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:500;font-display:swap;src:url(fonts/jetbrains-mono-500-latin-ext.woff2) format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:500;font-display:swap;src:url(fonts/jetbrains-mono-500-latin.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:700;font-display:swap;src:url(fonts/jetbrains-mono-700-latin-ext.woff2) format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:700;font-display:swap;src:url(fonts/jetbrains-mono-700-latin.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+
+:root{
+  --sans:'Inter',-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,"SF Mono",Menlo,monospace;
+
+  --violet:#7C3AED; --violet-l:#a78bfa; --violet-ll:#c4b5fd;
+  --coral:#F43F5E; --green:#22c55e; --green-d:#16a34a;
+
+  --paper:#f4f3fb; --ink:#ffffff; --muted:#9aa0b6; --muted-d:#7b8197;
+  --line:rgba(255,255,255,.11);
+  --line-strong:rgba(255,255,255,.18);
+  --glass-1:rgba(255,255,255,.072);
+  --glass-2:rgba(255,255,255,.022);
+
+  --maxw:1120px;
+  --radius:18px; --radius-sm:12px; --radius-xs:9px;
+  --shadow-card:0 18px 40px rgba(0,0,0,.46), inset 0 1px 0 rgba(255,255,255,.10);
+  --shadow-pop:0 24px 60px rgba(0,0,0,.55);
+  --space:8px;
+}
+
+*{box-sizing:border-box; margin:0; padding:0}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+body{
+  font-family:var(--sans); color:var(--paper);
+  background:#0b0817;
+  -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+  line-height:1.6; overflow-x:hidden;
+}
+
+/* mesh background, fixed so it doesn't repaint on scroll */
+.bg{position:fixed; inset:0; z-index:-2; pointer-events:none;
+  background:
+    radial-gradient(680px 460px at 6% -8%, rgba(139,92,246,.34), transparent 60%),
+    radial-gradient(560px 420px at 96% 4%, rgba(99,102,241,.26), transparent 60%),
+    radial-gradient(620px 520px at 88% 92%, rgba(244,63,94,.18), transparent 58%),
+    radial-gradient(520px 420px at 12% 96%, rgba(217,70,239,.16), transparent 60%),
+    linear-gradient(170deg,#181034 0%,#110c25 52%,#0b0817 100%);}
+.bg::after{content:""; position:absolute; inset:0;
+  background-image:radial-gradient(rgba(255,255,255,.05) 1px, transparent 1.4px);
+  background-size:28px 28px;
+  -webkit-mask-image:radial-gradient(1200px 700px at 60% 24%, #000 22%, transparent 78%);
+          mask-image:radial-gradient(1200px 700px at 60% 24%, #000 22%, transparent 78%);}
+
+a{color:inherit; text-decoration:none}
+img,svg{display:block}
+:focus-visible{outline:2px solid var(--violet-l); outline-offset:3px; border-radius:6px}
+
+.wrap{width:100%; max-width:var(--maxw); margin:0 auto; padding:0 22px}
+.mono{font-family:var(--mono)}
+
+/* ---------- skip link ---------- */
+.skip{position:absolute; left:-9999px; top:0; z-index:100;
+  background:var(--violet); color:#fff; padding:10px 16px; border-radius:0 0 10px 0; font-weight:600}
+.skip:focus{left:0}
+
+/* ---------- top bar ---------- */
+.topbar{position:sticky; top:0; z-index:50;
+  backdrop-filter:saturate(150%) blur(14px); -webkit-backdrop-filter:saturate(150%) blur(14px);
+  background:rgba(11,8,23,.62); border-bottom:1px solid var(--line);}
+.topbar .wrap{display:flex; align-items:center; gap:18px; height:64px}
+.brand{font-family:var(--mono); font-weight:700; font-size:18px; letter-spacing:.3px; color:#efe9ff}
+.brand .tld{color:var(--coral)}
+.nav{display:flex; gap:6px; margin-left:auto; align-items:center}
+.nav a{padding:8px 12px; border-radius:10px; font-size:14.5px; font-weight:500; color:#d2d4e3}
+.nav a:hover{background:rgba(255,255,255,.06); color:#fff}
+.nav-cta{font-weight:600; color:#fff !important;
+  background:linear-gradient(160deg,#8b5cf6,#6d28d9); box-shadow:0 8px 20px rgba(124,58,237,.45)}
+.nav-cta:hover{filter:brightness(1.08)}
+
+/* language toggle */
+.lang{display:inline-flex; align-items:center; gap:2px; padding:3px;
+  background:rgba(255,255,255,.06); border:1px solid var(--line); border-radius:999px}
+.lang button{font-family:var(--mono); font-size:12px; font-weight:700; letter-spacing:.5px;
+  color:var(--muted); background:transparent; border:0; cursor:pointer; padding:5px 11px; border-radius:999px}
+.lang button[aria-pressed="true"]{color:#fff; background:linear-gradient(160deg,#8b5cf6,#6d28d9)}
+
+.nav-toggle{display:none; margin-left:auto; background:rgba(255,255,255,.06);
+  border:1px solid var(--line); border-radius:10px; width:42px; height:38px; cursor:pointer; color:#fff}
+.nav-toggle svg{width:22px; height:22px; margin:auto; stroke:#fff}
+
+/* ---------- shared section ---------- */
+section{position:relative; padding:84px 0}
+.eyebrow{font-family:var(--mono); font-size:12px; font-weight:700; letter-spacing:2px;
+  text-transform:uppercase; color:var(--violet-l)}
+.sec-head{max-width:680px; margin-bottom:40px}
+.sec-head h2{font-size:clamp(26px,4vw,38px); font-weight:800; letter-spacing:-1px; line-height:1.08; margin:12px 0 10px}
+.sec-head p{color:#c3c6d6; font-size:16.5px}
+
+/* ---------- hero ---------- */
+.hero{padding:96px 0 72px; text-align:center}
+.hero .eyebrow{display:inline-block}
+.hero h1{font-size:clamp(34px,6.4vw,62px); font-weight:800; line-height:1.02; letter-spacing:-1.8px;
+  margin:18px auto 0; max-width:14ch;
+  background:linear-gradient(98deg,#ffffff 0%,#d7c9ff 46%,#f4b9c6 100%);
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+  filter:drop-shadow(0 8px 30px rgba(167,139,250,.34))}
+.hero .lede{max-width:60ch; margin:22px auto 0; font-size:clamp(16px,2.2vw,19px); color:#cdd0e0}
+.hero-cta{display:flex; gap:13px; justify-content:center; flex-wrap:wrap; margin-top:30px}
+.trust{display:flex; gap:10px 22px; justify-content:center; flex-wrap:wrap; margin-top:34px;
+  font-family:var(--mono); font-size:12.5px; color:var(--muted)}
+.trust span{display:inline-flex; align-items:center; gap:8px}
+.trust .dot{width:6px; height:6px; border-radius:50%; background:var(--green); box-shadow:0 0 9px rgba(34,197,94,.9)}
+
+/* ---------- buttons ---------- */
+.btn{display:inline-flex; align-items:center; justify-content:center; gap:9px;
+  font-family:var(--sans); font-weight:600; font-size:15px; cursor:pointer;
+  padding:13px 22px; border-radius:12px; border:1px solid transparent; transition:transform .12s ease, filter .12s ease}
+.btn:hover{transform:translateY(-1px)}
+.btn:active{transform:translateY(0)}
+.btn-primary{color:#fff; background:linear-gradient(160deg,#8b5cf6,#6d28d9);
+  box-shadow:0 12px 26px rgba(124,58,237,.45), inset 0 1px 0 rgba(255,255,255,.35)}
+.btn-primary:hover{filter:brightness(1.08)}
+.btn-ghost{color:#e9e7f5; background:rgba(255,255,255,.05); border-color:var(--line-strong)}
+.btn-ghost:hover{background:rgba(255,255,255,.1)}
+.btn-block{width:100%}
+
+/* ---------- glass card primitives ---------- */
+.card{position:relative; overflow:hidden;
+  background:linear-gradient(180deg, var(--glass-1), var(--glass-2));
+  border:1px solid var(--line); border-radius:var(--radius); padding:22px;
+  box-shadow:var(--shadow-card)}
+.card::before{content:""; position:absolute; left:22px; right:22px; top:0; height:1px;
+  background:linear-gradient(90deg, transparent, rgba(167,139,250,.7), transparent)}
+
+.ico{width:44px; height:44px; border-radius:12px; flex:none;
+  background:linear-gradient(160deg,#8b5cf6,#6d28d9);
+  box-shadow:0 9px 20px rgba(124,58,237,.5), inset 0 1px 0 rgba(255,255,255,.4);
+  display:flex; align-items:center; justify-content:center}
+.ico svg{width:23px; height:23px; stroke:#fff; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round}
+.tag{font-family:var(--mono); font-size:11px; font-weight:700; letter-spacing:1.5px;
+  text-transform:uppercase; color:var(--violet-l)}
+
+/* ---------- proof strip ---------- */
+.proof-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:18px}
+.proof{display:flex; flex-direction:column}
+.proof .shot{aspect-ratio:16/10; border-radius:var(--radius-sm); overflow:hidden;
+  border:1px solid var(--line); margin-bottom:15px; position:relative;
+  background:linear-gradient(150deg,#241a45,#140e29)}
+.proof .shot svg{width:100%; height:100%}
+.proof h3{font-size:17px; font-weight:700; letter-spacing:-.3px; margin-bottom:4px}
+.proof p{font-size:14px; color:#b6b9c9; margin-bottom:13px; flex:1}
+.psi{display:flex; gap:6px; margin-bottom:14px}
+.psi b{flex:1; text-align:center; font-family:var(--mono); font-weight:700; font-size:12.5px; color:#fff;
+  border-radius:8px; padding:6px 0; background:linear-gradient(180deg,#26d366,#16a34a);
+  box-shadow:0 6px 14px rgba(34,197,94,.3), inset 0 1px 0 rgba(255,255,255,.45)}
+.psi b small{display:block; font-size:8px; font-weight:600; opacity:.85; letter-spacing:.5px; margin-top:2px}
+.live{font-family:var(--mono); font-size:13px; font-weight:600; color:var(--violet-ll);
+  display:inline-flex; align-items:center; gap:7px; align-self:flex-start}
+.live:hover{color:#fff}
+.live .arrow{transition:transform .15s ease}
+.live:hover .arrow{transform:translateX(3px)}
+
+/* ---------- services ---------- */
+.svc-group{margin-top:48px}
+.svc-group:first-of-type{margin-top:0}
+.svc-group > h3{display:flex; align-items:center; gap:12px; font-size:14px; font-weight:700;
+  letter-spacing:1.4px; text-transform:uppercase; color:#cfd2e0; margin-bottom:20px; font-family:var(--mono)}
+.svc-group > h3::after{content:""; flex:1; height:1px;
+  background:linear-gradient(90deg, var(--line-strong), transparent)}
+.svc-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(310px,1fr)); gap:18px}
+.svc{display:flex; flex-direction:column; gap:11px}
+.svc-top{display:flex; align-items:center; gap:13px}
+.svc h4{font-size:17px; font-weight:700; letter-spacing:-.3px; line-height:1.25; color:#fff}
+.svc .scope{font-size:14px; color:#b6b9c9; line-height:1.55}
+.svc .meta{display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:auto; padding-top:8px}
+.price{font-family:var(--mono); font-weight:700; font-size:16px; color:#fff}
+.price small{font-family:var(--mono); font-weight:500; font-size:11px; color:var(--muted); display:block; letter-spacing:.4px}
+.svc-proof{font-family:var(--mono); font-size:12px; font-weight:500; color:var(--violet-ll);
+  display:inline-flex; align-items:center; gap:6px}
+.svc-proof:hover{color:#fff}
+.svc-proof .dot{width:5px; height:5px; border-radius:50%; background:var(--coral); box-shadow:0 0 8px rgba(244,63,94,.9); flex:none}
+.order-btn{margin-top:4px}
+.svc-metrics{display:flex; gap:8px; margin-top:2px}
+.svc-metrics span{flex:1; text-align:center; background:rgba(255,255,255,.04); border:1px solid var(--line); border-radius:10px; padding:7px 4px}
+.svc-metrics b{display:block; font-family:var(--mono); font-weight:700; font-size:12.5px; color:#fff; letter-spacing:-.2px}
+.svc-metrics b i{font-style:normal; color:var(--green)}
+.svc-metrics small{display:block; font-family:var(--mono); font-size:8.5px; font-weight:600; color:var(--muted); letter-spacing:.5px; text-transform:uppercase; margin-top:3px}
+
+/* ---------- steps ---------- */
+.steps{display:grid; grid-template-columns:repeat(3,1fr); gap:18px}
+.step{display:flex; flex-direction:column; gap:10px}
+.step .n{font-family:var(--mono); font-weight:700; font-size:13px; color:#fff; width:34px; height:34px;
+  display:flex; align-items:center; justify-content:center; border-radius:10px;
+  background:rgba(124,58,237,.22); border:1px solid var(--line-strong)}
+.step h3{font-size:16px; font-weight:700; color:#fff}
+.step p{font-size:14px; color:#b6b9c9}
+
+/* ---------- about ---------- */
+.about{display:grid; grid-template-columns:1.4fr 1fr; gap:30px; align-items:center}
+.about-stats{display:grid; grid-template-columns:1fr 1fr; gap:14px}
+.stat{padding:18px}
+.stat .big{font-family:var(--mono); font-weight:700; font-size:26px; color:#fff;
+  background:linear-gradient(96deg,#fff,#d7c9ff); -webkit-background-clip:text; background-clip:text}
+.stat .lab{font-size:12.5px; color:var(--muted); margin-top:4px}
+.about p{color:#c6c9d8; font-size:16px; margin-bottom:14px}
+.about p:last-child{margin-bottom:0}
+
+/* ---------- contact / order ---------- */
+.contact{display:grid; grid-template-columns:1fr 1.1fr; gap:34px; align-items:start}
+.contact .sec-head{margin-bottom:24px}
+.order-readout{display:none; align-items:center; gap:10px; padding:12px 15px; margin-bottom:18px;
+  border-radius:12px; background:rgba(124,58,237,.16); border:1px solid var(--line-strong); font-size:14px}
+.order-readout.show{display:flex}
+.order-readout b{color:#fff}
+.order-readout .clear{margin-left:auto; background:none; border:0; color:var(--violet-ll); cursor:pointer;
+  font-family:var(--mono); font-size:12px}
+form .field{margin-bottom:15px}
+label{display:block; font-size:13px; font-weight:600; color:#c9ccda; margin-bottom:7px}
+input,textarea{width:100%; font-family:var(--sans); font-size:15px; color:#fff;
+  background:rgba(255,255,255,.045); border:1px solid var(--line-strong); border-radius:12px; padding:12px 14px}
+input::placeholder,textarea::placeholder{color:#868ca2}
+input:focus,textarea:focus{outline:none; border-color:var(--violet-l); background:rgba(255,255,255,.07)}
+textarea{resize:vertical; min-height:120px}
+.hp{position:absolute; left:-9999px}
+.form-note{font-size:13px; color:var(--muted); margin-top:12px}
+.form-status{font-size:14px; margin-top:14px; min-height:1.2em; font-weight:600}
+.form-status.ok{color:var(--green)}
+.form-status.err{color:var(--coral)}
+.contact-aside .card{margin-bottom:14px}
+.contact-aside a.row{display:flex; align-items:center; gap:12px; padding:14px 16px;
+  border-radius:12px; border:1px solid var(--line); background:rgba(255,255,255,.03); margin-bottom:10px}
+.contact-aside a.row:hover{background:rgba(255,255,255,.07); border-color:var(--line-strong)}
+.contact-aside .row .ico{width:38px; height:38px}
+.contact-aside .row .ico svg{width:20px; height:20px}
+.contact-aside .row b{font-size:14.5px; color:#fff}
+.contact-aside .row span{font-size:12.5px; color:var(--muted); font-family:var(--mono)}
+
+/* ---------- footer ---------- */
+footer{border-top:1px solid var(--line); padding:34px 0 46px; margin-top:20px}
+footer .wrap{display:flex; align-items:center; gap:18px; flex-wrap:wrap}
+footer .brand{font-size:16px}
+footer .f-links{display:flex; gap:16px; margin-left:auto; flex-wrap:wrap}
+footer .f-links a{font-size:13.5px; color:var(--muted)}
+footer .f-links a:hover{color:#fff}
+footer .copy{width:100%; font-size:12.5px; color:#8a90a6; font-family:var(--mono); padding-top:6px}
+
+/* ---------- responsive ---------- */
+@media (max-width:880px){
+  .proof-grid,.steps{grid-template-columns:1fr}
+  .about,.contact{grid-template-columns:1fr}
+  .nav{display:none; position:absolute; top:64px; left:0; right:0; flex-direction:column; align-items:stretch;
+    gap:4px; padding:14px 22px 18px; background:rgba(11,8,23,.97); border-bottom:1px solid var(--line)}
+  .nav.open{display:flex}
+  .nav a{padding:12px 14px}
+  .nav .lang{align-self:flex-start; margin-top:6px}
+  .nav-toggle{display:block}
+}
+@media (max-width:520px){
+  section{padding:60px 0}
+  .hero{padding:64px 0 48px}
+  .svc-grid{grid-template-columns:1fr}
+}
+  </style>
+</head>
+<body>
+  <div class="bg" aria-hidden="true"></div>
+  <a class="skip" href="#services" data-en="Skip to services">Przejdź do usług</a>
+
+  <!-- ================= TOP BAR ================= -->
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="#top">helban<span class="tld">.dev</span></a>
+      <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false" aria-controls="nav">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+      <nav class="nav" id="nav">
+        <a href="#services" data-en="Services">Usługi</a>
+        <a href="#work" data-en="Live work">Realizacje</a>
+        <a href="#how" data-en="How it works">Jak to działa</a>
+        <a href="#about" data-en="About">O mnie</a>
+        <a href="#contact" class="nav-cta" data-en="Get in touch">Napisz</a>
+        <div class="lang" role="group" aria-label="Language / Język">
+          <button id="langPl" aria-pressed="true">PL</button>
+          <button id="langEn" aria-pressed="false">EN</button>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- ================= HERO ================= -->
+    <section class="hero" aria-labelledby="hero-h">
+      <div class="wrap">
+        <span class="eyebrow" data-en="10 years C++ embedded · freelancing">10 lat C++ embedded · freelancing</span>
+        <h1 id="hero-h" data-en="Lean code, no bloat. Yours to keep, with tests.">Lekki kod bez bloatu. Na własność, z testami.</h1>
+        <p class="lede" data-en="I build fast websites (PageSpeed 100), Python web scrapers, Chrome MV3 extensions and automations. Every service comes with a live demo you can click.">Buduję szybkie strony (PageSpeed 100), web scrapery w Pythonie, rozszerzenia Chrome MV3 i automatyzacje. Każda usługa ma żywe demo, które możesz kliknąć.</p>
+        <div class="hero-cta">
+          <a href="#services" class="btn btn-primary" data-en="See services">Zobacz usługi</a>
+          <a href="#work" class="btn btn-ghost" data-en="Live work">Realizacje na żywo</a>
+        </div>
+        <div class="trust">
+          <span><span class="dot"></span><span data-en="3 live sites, PageSpeed 97-100">3 żywe strony, PageSpeed 97-100</span></span>
+          <span><span class="dot"></span><span data-en="code you own, with tests">kod na własność, z testami</span></span>
+          <span><span class="dot"></span><span data-en="billing via Useme / Upwork">rozliczenie przez Useme / Upwork</span></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= LIVE WORK / PROOF ================= -->
+    <section id="work" aria-labelledby="work-h">
+      <div class="wrap">
+        <div class="sec-head">
+          <span class="eyebrow" data-en="Live work">Realizacje na żywo</span>
+          <h2 id="work-h" data-en="Click the proof, don't take my word">Dowód do kliknięcia, nie obietnice</h2>
+          <p data-en="Three hand-coded sites, no WordPress, no page builder. Real PageSpeed scores on mobile, measured not promised.">Trzy ręcznie napisane strony, bez WordPressa, bez page buildera. Realne wyniki PageSpeed na mobile, zmierzone a nie obiecane.</p>
+        </div>
+        <div class="proof-grid">
+
+          <article class="card proof">
+            <div class="shot" aria-hidden="true">
+              <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f6c8d6"/><stop offset="1" stop-color="#c9a8ff"/></linearGradient></defs><rect width="320" height="200" fill="#1a1230"/><rect x="24" y="28" width="150" height="14" rx="7" fill="url(#g1)"/><rect x="24" y="52" width="110" height="8" rx="4" fill="#6d5a9c"/><rect x="24" y="72" width="84" height="26" rx="13" fill="#8b5cf6"/><rect x="196" y="28" width="100" height="120" rx="12" fill="#2a1f4d"/><circle cx="246" cy="78" r="26" fill="url(#g1)"/></svg>
+            </div>
+            <h3>salon.helban.dev</h3>
+            <p data-en="Premium salon site, multi-page, JSON-LD schema and a validated contact form.">Strona salonu premium, wielostronicowa, schema JSON-LD i walidowany formularz kontaktowy.</p>
+            <div class="psi"><b>97<small>PERF</small></b><b>100<small>A11Y</small></b><b>100<small>BP</small></b><b>100<small>SEO</small></b></div>
+            <a class="live" href="https://salon.helban.dev" target="_blank" rel="noopener">salon.helban.dev <span class="arrow">→</span></a>
+          </article>
+
+          <article class="card proof">
+            <div class="shot" aria-hidden="true">
+              <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice"><rect width="320" height="200" fill="#101b18"/><rect x="24" y="26" width="130" height="12" rx="6" fill="#7ee0b0"/><rect x="24" y="50" width="180" height="7" rx="3" fill="#3c6b58"/><rect x="24" y="78" width="120" height="96" rx="12" fill="#16241f"/><rect x="38" y="96" width="92" height="9" rx="4" fill="#2f5447"/><rect x="38" y="116" width="64" height="9" rx="4" fill="#2f5447"/><rect x="38" y="142" width="72" height="20" rx="10" fill="#22c55e"/><rect x="164" y="78" width="132" height="96" rx="12" fill="#16241f"/><text x="230" y="138" font-family="monospace" font-size="40" fill="#7ee0b0" text-anchor="middle">zł</text></svg>
+            </div>
+            <h3>kalkulator.helban.dev</h3>
+            <p data-en="Service landing with an interactive price calculator and lead capture, no backend.">Landing usługowy z interaktywnym kalkulatorem ceny i przechwytywaniem leadów, bez backendu.</p>
+            <div class="psi"><b>100<small>PERF</small></b><b>100<small>A11Y</small></b><b>100<small>BP</small></b><b>100<small>SEO</small></b></div>
+            <a class="live" href="https://kalkulator.helban.dev" target="_blank" rel="noopener">kalkulator.helban.dev <span class="arrow">→</span></a>
+          </article>
+
+          <article class="card proof">
+            <div class="shot" aria-hidden="true">
+              <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice"><rect width="320" height="200" fill="#0e1426"/><rect x="24" y="26" width="150" height="12" rx="6" fill="#9dbcff"/><rect x="24" y="50" width="190" height="7" rx="3" fill="#36456b"/><polyline points="30,160 80,130 120,142 170,96 220,108 280,64" fill="none" stroke="#22c55e" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="280" cy="64" r="6" fill="#22c55e"/></svg>
+            </div>
+            <h3>dropwatch.helban.dev</h3>
+            <p data-en="English SaaS / product landing, PageSpeed 100 on mobile and desktop, no React.">Angielski landing SaaS / produktowy, PageSpeed 100 na mobile i desktop, bez Reacta.</p>
+            <div class="psi"><b>100<small>PERF</small></b><b>100<small>A11Y</small></b><b>100<small>BP</small></b><b>100<small>SEO</small></b></div>
+            <a class="live" href="https://dropwatch.helban.dev" target="_blank" rel="noopener">dropwatch.helban.dev <span class="arrow">→</span></a>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SERVICES ================= -->
+    <section id="services" aria-labelledby="svc-h">
+      <div class="wrap">
+        <div class="sec-head">
+          <span class="eyebrow" data-en="Services">Usługi</span>
+          <h2 id="svc-h" data-en="Pick a package, see the proof, order it">Wybierz pakiet, zobacz dowód, zamów</h2>
+          <p data-en="Fixed-scope packages with a starting price. Each one links to live code or a live demo. Custom scope gets an individual quote.">Pakiety o stałym zakresie z ceną wyjściową. Każdy linkuje do żywego kodu albo żywego dema. Niestandardowy zakres wyceniam indywidualnie.</p>
+        </div>
+
+        <!-- GROUP 1: WEB -->
+        <div class="svc-group">
+          <h3 data-en="Websites &amp; landing pages">Strony i landingi</h3>
+          <div class="svc-grid">
+
+            <article class="card svc">
+              <div class="svc-top">
+                <span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/></svg></span>
+                <span class="tag" data-en="Business site">Strona firmowa</span>
+              </div>
+              <h4 data-en="Company website / business card">Strona firmowa / wizytówka</h4>
+              <p class="scope" data-en="Lean hand-coded site, PageSpeed 100, real technical SEO (per-page meta, schema, sitemap). Not a page builder.">Lekka, ręcznie pisana strona, PageSpeed 100, realne techniczne SEO (meta per podstrona, schema, sitemap). Bez page buildera.</p>
+              <a class="svc-proof" href="https://salon.helban.dev" target="_blank" rel="noopener"><span class="dot"></span>salon.helban.dev</a>
+              <div class="meta"><span class="price" data-price-pl="od 2500 zł" data-price-en="from $600">od 2500 zł</span></div>
+              <button class="btn btn-primary btn-block order-btn" data-en="Order" data-service="Strona firmowa / wizytówka" data-service-en="Company website" data-price-pl="od 2500 zł" data-price-en="from $600">Zamów</button>
+            </article>
+
+            <article class="card svc">
+              <div class="svc-top">
+                <span class="ico"><svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h4"/></svg></span>
+                <span class="tag" data-en="Calculator landing">Landing z kalkulatorem</span>
+              </div>
+              <h4 data-en="Landing with a price calculator + lead form">Landing z kalkulatorem wyceny + lead form</h4>
+              <p class="scope" data-en="One-page landing with an interactive cost calculator and a working lead form. Price shows instantly, the lead lands in your inbox.">Jednostronicowy landing z interaktywnym kalkulatorem kosztu i działającym formularzem. Cena liczy się od razu, lead trafia na twoją skrzynkę.</p>
+              <a class="svc-proof" href="https://kalkulator.helban.dev" target="_blank" rel="noopener"><span class="dot"></span>kalkulator.helban.dev</a>
+              <div class="meta"><span class="price" data-price-pl="od 1900 zł" data-price-en="from $450">od 1900 zł</span></div>
+              <button class="btn btn-primary btn-block order-btn" data-en="Order" data-service="Landing z kalkulatorem wyceny" data-service-en="Calculator landing" data-price-pl="od 1900 zł" data-price-en="from $450">Zamów</button>
+            </article>
+
+            <article class="card svc">
+              <div class="svc-top">
+                <span class="ico"><svg viewBox="0 0 24 24"><path d="M3 5h18v11H3z"/><path d="M8 20h8M12 16v4"/></svg></span>
+                <span class="tag" data-en="SaaS landing">SaaS landing</span>
+              </div>
+              <h4 data-en="SaaS / product landing (EN)">SaaS / product landing (EN)</h4>
+              <p class="scope" data-en="Full product-landing anatomy: hero, features, pricing toggle, FAQ. PageSpeed 100 without a framework.">Pełna anatomia landingu produktowego: hero, funkcje, przełącznik cennika, FAQ. PageSpeed 100 bez frameworka.</p>
+              <a class="svc-proof" href="https://dropwatch.helban.dev" target="_blank" rel="noopener"><span class="dot"></span>dropwatch.helban.dev</a>
+              <div class="meta"><span class="price" data-price-pl="od 1900 zł" data-price-en="from $450">od 1900 zł</span></div>
+              <button class="btn btn-primary btn-block order-btn" data-en="Order" data-service="SaaS / product landing" data-service-en="SaaS / product landing" data-price-pl="od 1900 zł" data-price-en="from $450">Zamów</button>
+            </article>
+
+            <article class="card svc">
+              <div class="svc-top">
+                <span class="ico"><svg viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg></span>
+                <span class="tag" data-en="WordPress speed">WordPress speed-up</span>
+              </div>
+              <h4 data-en="WordPress speed-up">Przyspieszenie WordPress</h4>
+              <p class="scope" data-en="Lighthouse audit, render-blocking and image fixes, measured before and after on the same landing page.">Audyt Lighthouse, naprawa render-blocking i obrazów, pomiar przed i po na tej samej stronie.</p>
+              <div class="svc-metrics">
+                <span><b>63 <i>→ 99</i></b><small>Perf</small></span>
+                <span><b><i>−91%</i></b><small data-en="weight">waga</small></span>
+                <span><b>26.5s <i>→ 2.0s</i></b><small>LCP</small></span>
+              </div>
+              <a class="svc-proof" href="https://wp-speed.helban.dev" target="_blank" rel="noopener"><span class="dot"></span><span data-en="wp-speed.helban.dev · full study">wp-speed.helban.dev · pełne badanie</span></a>
+              <div class="meta"><span class="price" data-price-pl="od 900 zł" data-price-en="from $250">od 900 zł</span></div>
+              <button class="btn btn-primary btn-block order-btn" data-en="Order" data-service="Przyspieszenie WordPress" data-service-en="WordPress speed-up" data-price-pl="od 900 zł" data-price-en="from $250">Zamów</button>
+            </article>
+
+            <article class="card svc">
+              <div class="svc-top">
+                <span class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg></span>
+                <span class="tag" data-en="WordPress build">WordPress / Elementor</span>
+              </div>
+              <h4 data-en="WordPress + Elementor build / fixes">Build / poprawki WordPress + Elementor</h4>
+              <p class="scope" data-en="New pages or fixes on an existing WordPress, including real Elementor builds. I drive the admin myself on staging.">Nowe podstrony albo poprawki na istniejącym WordPressie, łącznie z realnym buildem w Elementorze. Sam steruję adminem na stagingu.</p>
+              <a class="svc-proof" href="https://github.com/Helban/wp-speed-optimization" target="_blank" rel="noopener"><span class="dot"></span>github.com/Helban/wp-speed-optimization</a>
+              <div class="meta"><span class="price" data-price-pl="wycena" data-price-en="custom">wycena</span></div>
+              <button class="btn btn-primary btn-block order-btn" data-en="Order" data-service="Build / poprawki WordPress + Elementor" data-service-en="WordPress + Elementor build" data-price-pl="wycena" data-price-en="custom">Zamów</button>
+            </article>
+
+          </div>
+        </div>
+
+        <!-- GROUP 2: SCRAPERS / DATA -->
+        <div class="svc-group">
+          <h3 data-en="Scrapers &amp; data">Scrapery i dane</h3>
+          <div class="svc-grid">
+
+            <article class="card svc">
+              <div class="svc-top">
+                <span class="ico"><svg viewBox="0 0 24 24"><path d="M4 6h6M4 10h6M4 14h4"/><rect x="13" y="4" width="7" height="16" rx="1.5"/><path d="M15.5 8h2M15.5 11h2M15.5 14h2"/></svg></span>
+                <span class="tag" data-en="Scraper">Scraper</span>
+              </div>
+              <h4 data-en="Web scraper → Excel / CSV / SQL">Web scraper → Excel / CSV / SQL</h4>
+              <p class="scope" data-en="Single source, clean export, deduped and normalized. httpx + BeautifulSoup, or Playwright for JS-heavy pages.">Jedno źródło, czysty eksport, odduplikowany i znormalizowany. httpx + BeautifulSoup, albo Playwright dla stron z dużym JS.</p>
+              <a class="svc-proof" href="https://github.com/Helban/fmcsa-carrier-lead-scraper" target="_blank" rel="noopener"><span class="dot"></span>github.com/Helban/fmcsa-carrier-lead-scraper</a>
+              <div class="meta"><span class="price" data-price-pl="od 400 zł" data-price-en="from $60">od 400 zł</span></div>
+              <button class="btn btn-primary btn-block order-btn" data-en="Order" data-service="Web scraper → Excel / CSV / SQL" data-service-en="Web scraper → Excel / CSV / SQL" data-price-pl="od 400 zł" data-price-en="from $60">Zamów</button>
+            </article>
+
+            <article class="card svc">
+              <div class="svc-top">
+                <span class="ico"><svg viewBox="0 0 24 24"><path d="M3 7h18M6 7v13h12V7M9 7V4h6v3M9 11h6M9 15h4"/></svg></span>
+                <span class="tag" data-en="Lead generation">Lead generation</span>
+              </div>
+              <h4 data-en="Lead generation / company database → Excel">Lead generation / baza firm → Excel</h4>
+              <p class="scope" data-en="Filtered company lists with phones and emails, QA sheet included. Volume tested before I promise a count.">Przefiltrowane listy firm z telefonami i mailami, arkusz QA w komplecie. Test wolumenu zanim obiecam liczbę rekordów.</p>
+              <a class="svc-proof" href="https://github.com/Helban/fmcsa-carrier-lead-scraper" target="_blank" rel="noopener"><span class="dot"></span>github.com/Helban/fmcsa-carrier-lead-scraper</a>
+              <div class="meta"><span class="price" data-price-pl="od 500 zł" data-price-en="from $90">od 500 zł</span></div>
+              <button class="btn btn-primary btn-block order-btn" data-en="Order" data-service="Lead generation / baza firm" data-service-en="Lead generation / company database" data-price-pl="od 500 zł" data-price-en="from $90">Zamów</button>
+            </article>
+
+            <article class="card svc">
+              <div class="svc-top">
+                <span class="ico"><svg viewBox="0 0 24 24"><path d="M3 17l5-5 4 3 8-8"/><path d="M16 4h5v5"/></svg></span>
+                <span class="tag" data-en="Price monitoring">Monitoring cen</span>
+              </div>
+              <h4 data-en="Price monitoring / multi-source + tests">Monitoring cen / multi-source + testy</h4>
+              <p class="scope" data-en="Several sources merged, scheduled runs, fixture-based tests and CI. Built to keep running, not a one-off script.">Kilka źródeł złączonych, uruchomienia cykliczne, testy na fixturach i CI. Zbudowane żeby działało dalej, nie jednorazowy skrypt.</p>
+              <a class="svc-proof" href="https://github.com/Helban/price-aggregator" target="_blank" rel="noopener"><span class="dot"></span>github.com/Helban/price-aggregator</a>
+              <div class="meta"><span class="price" data-price-pl="od 800 zł" data-price-en="from $180">od 800 zł</span></div>
+              <button class="btn btn-primary btn-block order-btn" data-en="Order" data-service="Monitoring cen / multi-source" data-service-en="Price monitoring / multi-source" data-price-pl="od 800 zł" data-price-en="from $180">Zamów</button>
+            </article>
+
+          </div>
+        </div>
+
+        <!-- GROUP 3: CHROME EXTENSIONS -->
+        <div class="svc-group">
+          <h3 data-en="Chrome extensions (MV3)">Rozszerzenia Chrome (MV3)</h3>
+          <div class="svc-grid">
+
+            <article class="card svc">
+              <div class="svc-top">
+                <span class="ico"><svg viewBox="0 0 24 24" fill="#fff" stroke="none"><path d="M11 3a2.2 2.2 0 0 1 2.2 2.2c0 .3-.06.58-.17.84H16a1.4 1.4 0 0 1 1.4 1.4v2.77c.26-.11.54-.17.84-.17A2.2 2.2 0 0 1 20.44 12a2.2 2.2 0 0 1-2.2 2.2c-.3 0-.58-.06-.84-.17V16.8A1.4 1.4 0 0 1 16 18.2h-2.96c.11-.26.17-.54.17-.84a2.2 2.2 0 0 0-4.4 0c0 .3.06.58.17.84H6a1.4 1.4 0 0 1-1.4-1.4v-2.6c.26.11.54.17.84.17a2.2 2.2 0 0 0 0-4.4c-.3 0-.58.06-.84.17V7.44A1.4 1.4 0 0 1 6 6.04h2.97a2.3 2.3 0 0 1-.17-.84A2.2 2.2 0 0 1 11 3z"/></svg></span>
+                <span class="tag" data-en="Chrome MV3">Chrome MV3</span>
+              </div>
+              <h4 data-en="Chrome extension (MV3)">Rozszerzenie Chrome (MV3)</h4>
+              <p class="scope" data-en="Manifest V3 extension: content scripts, background worker, OAuth, REST APIs, injected UI. One delivered contract behind these.">Rozszerzenie Manifest V3: content scripty, service worker, OAuth, REST API, wstrzykiwany UI. Za tym stoi też zrealizowany kontrakt.</p>
+              <a class="svc-proof" href="https://github.com/Helban/keeptouch" target="_blank" rel="noopener"><span class="dot"></span>github.com/Helban/keeptouch</a>
+              <div class="meta"><span class="price" data-price-pl="od 700 zł" data-price-en="from $150">od 700 zł</span></div>
+              <button class="btn btn-primary btn-block order-btn" data-en="Order" data-service="Rozszerzenie Chrome (MV3)" data-service-en="Chrome extension (MV3)" data-price-pl="od 700 zł" data-price-en="from $150">Zamów</button>
+            </article>
+
+          </div>
+        </div>
+
+        <!-- GROUP 4: AUTOMATION / AI -->
+        <div class="svc-group">
+          <h3 data-en="Automation &amp; AI">Automatyzacje i AI</h3>
+          <div class="svc-grid">
+
+            <article class="card svc">
+              <div class="svc-top">
+                <span class="ico"><svg viewBox="0 0 24 24"><circle cx="6" cy="6" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="12" cy="18" r="2.5"/><path d="M6 8.5v3a3 3 0 0 0 3 3h6a3 3 0 0 0 3-3v-3"/><path d="M12 14.5v1"/></svg></span>
+                <span class="tag" data-en="n8n workflow">n8n</span>
+              </div>
+              <h4 data-en="n8n workflow / automation">n8n workflow / automatyzacja</h4>
+              <p class="scope" data-en="Connect the tools you already use: triggers, API calls, email, AI drafting steps. Built and tested on real data shapes.">Spięcie narzędzi, których już używasz: triggery, wywołania API, mail, kroki z AI. Zbudowane i przetestowane na realnych danych.</p>
+              <a class="svc-proof" href="https://github.com/Helban/upwork-job-alert" target="_blank" rel="noopener"><span class="dot"></span>github.com/Helban/upwork-job-alert</a>
+              <div class="meta"><span class="price" data-price-pl="od 500 zł" data-price-en="from $80">od 500 zł</span></div>
+              <button class="btn btn-primary btn-block order-btn" data-en="Order" data-service="n8n workflow / automatyzacja" data-service-en="n8n workflow / automation" data-price-pl="od 500 zł" data-price-en="from $80">Zamów</button>
+            </article>
+
+            <article class="card svc">
+              <div class="svc-top">
+                <span class="ico"><svg viewBox="0 0 24 24"><path d="M4 7c0-1.7 3.6-3 8-3s8 1.3 8 3-3.6 3-8 3-8-1.3-8-3z"/><path d="M4 7v10c0 1.7 3.6 3 8 3s8-1.3 8-3V7"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg></span>
+                <span class="tag" data-en="Airtable sync">Airtable sync</span>
+              </div>
+              <h4 data-en="Airtable sync / data integration">Airtable sync / integracja danych</h4>
+              <p class="scope" data-en="Change-aware upsert: new rows created, changed ones updated, identical ones skipped. No duplicates, no needless writes.">Upsert świadomy zmian: nowe wiersze dodane, zmienione zaktualizowane, identyczne pominięte. Bez duplikatów, bez zbędnych zapisów.</p>
+              <a class="svc-proof" href="https://github.com/Helban/airtable-sync" target="_blank" rel="noopener"><span class="dot"></span>github.com/Helban/airtable-sync</a>
+              <div class="meta"><span class="price" data-price-pl="od 500 zł" data-price-en="from $80">od 500 zł</span></div>
+              <button class="btn btn-primary btn-block order-btn" data-en="Order" data-service="Airtable sync / integracja danych" data-service-en="Airtable sync / data integration" data-price-pl="od 500 zł" data-price-en="from $80">Zamów</button>
+            </article>
+
+            <article class="card svc">
+              <div class="svc-top">
+                <span class="ico"><svg viewBox="0 0 24 24"><path d="M12 3l1.8 4.2L18 9l-4.2 1.8L12 15l-1.8-4.2L6 9l4.2-1.8z"/><path d="M18 14l.9 2.1L21 17l-2.1.9L18 20l-.9-2.1L15 17l2.1-.9z"/></svg></span>
+                <span class="tag" data-en="AI chatbot">AI chatbot</span>
+              </div>
+              <h4 data-en="AI chatbot (WhatsApp / web) with memory">AI chatbot (WhatsApp / web) z pamięcią</h4>
+              <p class="scope" data-en="Answers customer messages with an LLM and remembers each conversation. Webhook signature checks, retry/backoff, message dedup.">Odpowiada na wiadomości klientów przez LLM i pamięta każdą rozmowę. Walidacja podpisu webhooka, retry/backoff, deduplikacja wiadomości.</p>
+              <a class="svc-proof" href="https://github.com/Helban/whatsapp-ai-bot" target="_blank" rel="noopener"><span class="dot"></span>github.com/Helban/whatsapp-ai-bot</a>
+              <div class="meta"><span class="price" data-price-pl="od 1500 zł" data-price-en="from $350">od 1500 zł</span></div>
+              <button class="btn btn-primary btn-block order-btn" data-en="Order" data-service="AI chatbot (WhatsApp / web)" data-service-en="AI chatbot (WhatsApp / web)" data-price-pl="od 1500 zł" data-price-en="from $350">Zamów</button>
+            </article>
+
+          </div>
+        </div>
+
+        <!-- GROUP 5: DEBUG / FIX -->
+        <div class="svc-group">
+          <h3 data-en="Fixing &amp; debugging">Naprawa i debug</h3>
+          <div class="svc-grid">
+
+            <article class="card svc">
+              <div class="svc-top">
+                <span class="ico"><svg viewBox="0 0 24 24"><rect x="8" y="8" width="8" height="11" rx="4"/><path d="M12 4v4M9 6 7 4M15 6l2-2M5 11H3M21 11h-2M6 16H3M21 16h-3M7 20l2-2M17 20l-2-2"/></svg></span>
+                <span class="tag" data-en="Debug / fix">Debug / fix</span>
+              </div>
+              <h4 data-en="Debug someone else's code (WP / PHP / Python / scraper)">Debug cudzego kodu (WP / PHP / Python / scraper)</h4>
+              <p class="scope" data-en="Diagnostic first: written cause and fix plan as milestone 1, the fix and test as milestone 2. No blind quoting on legacy code.">Najpierw diagnoza: opisana przyczyna i plan naprawy jako etap 1, fix i test jako etap 2. Bez wyceny w ciemno na cudzym legacy.</p>
+              <a class="svc-proof" href="https://wp-speed.helban.dev" target="_blank" rel="noopener"><span class="dot"></span>wp-speed.helban.dev</a>
+              <div class="meta"><span class="price" data-price-pl="od 300 zł" data-price-en="from $60">od 300 zł</span></div>
+              <button class="btn btn-primary btn-block order-btn" data-en="Order" data-service="Debug cudzego kodu" data-service-en="Debug someone else's code" data-price-pl="od 300 zł (diagnoza)" data-price-en="from $60 (diagnosis)">Zamów</button>
+            </article>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ================= HOW IT WORKS ================= -->
+    <section id="how" aria-labelledby="how-h">
+      <div class="wrap">
+        <div class="sec-head">
+          <span class="eyebrow" data-en="How it works">Jak to działa</span>
+          <h2 id="how-h" data-en="No payment on this site. Here's why that protects you.">Brak płatności na tej stronie. I dlaczego to chroni ciebie.</h2>
+          <p data-en="Money, invoice and escrow stay on Useme (PL) or Upwork (EN). You only pay once the contract is signed there.">Pieniądze, faktura i escrow zostają na Useme (PL) albo Upwork (EN). Płacisz dopiero gdy umowa jest podpisana po tamtej stronie.</p>
+        </div>
+        <div class="steps">
+          <div class="card step">
+            <span class="n">1</span>
+            <h3 data-en="Pick a service">Wybierasz usługę</h3>
+            <p data-en="Click order on a package, or just write what you need. The scope and starting price come with you.">Klikasz zamów przy pakiecie, albo po prostu opisujesz czego potrzebujesz. Zakres i cena wyjściowa idą razem z tobą.</p>
+          </div>
+          <div class="card step">
+            <span class="n">2</span>
+            <h3 data-en="You get a contract">Dostajesz umowę</h3>
+            <p data-en="I send a Useme contract (PL) or an Upwork Direct Contract (EN) with the agreed scope and price. You accept and fund it.">Wysyłam umowę na Useme (PL) albo Upwork Direct Contract (EN) z ustalonym zakresem i ceną. Akceptujesz i fundujesz.</p>
+          </div>
+          <div class="card step">
+            <span class="n">3</span>
+            <h3 data-en="Delivery, then release">Delivery, potem wypłata</h3>
+            <p data-en="I build and deliver. The platform holds the money in escrow and releases it only when you accept the work.">Buduję i oddaję. Platforma trzyma pieniądze w escrow i wypłaca dopiero gdy odbierzesz pracę.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= ABOUT ================= -->
+    <section id="about" aria-labelledby="about-h">
+      <div class="wrap">
+        <div class="about">
+          <div>
+            <span class="eyebrow" data-en="About">O mnie</span>
+            <h2 id="about-h" style="font-size:clamp(24px,3.4vw,32px);font-weight:800;letter-spacing:-.8px;margin:12px 0 16px" data-en="An embedded engineer who writes web like firmware">Inżynier embedded, który pisze web jak firmware</h2>
+            <p data-en="10 years of C++ embedded, where a wasted kilobyte and a leaked handle have consequences. I carry that habit into web work: small payloads, no dead dependencies, code that says what it does.">10 lat C++ embedded, gdzie zmarnowany kilobajt i wyciekły uchwyt mają konsekwencje. Ten nawyk przenoszę na web: małe payloady, brak martwych zależności, kod który mówi co robi.</p>
+            <p data-en="That is why the sites score PageSpeed 100, and the Python scrapers and tools come with tests. You get the source, no lock-in, no monthly rent on your own site.">Dlatego strony jadą na PageSpeed 100, a scrapery i narzędzia w Pythonie mają testy. Dostajesz źródła, bez vendor lock-in, bez miesięcznego czynszu za własną stronę.</p>
+          </div>
+          <div class="about-stats">
+            <div class="card stat"><div class="big">10+</div><div class="lab" data-en="years of engineering">lat inżynierii</div></div>
+            <div class="card stat"><div class="big">100</div><div class="lab" data-en="PageSpeed on the demos">PageSpeed na demach</div></div>
+            <div class="card stat"><div class="big">11</div><div class="lab" data-en="public repos">publicznych repo</div></div>
+            <div class="card stat"><div class="big">0</div><div class="lab" data-en="page builders used">page builderów</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= CONTACT / ORDER ================= -->
+    <section id="contact" aria-labelledby="contact-h">
+      <div class="wrap">
+        <div class="contact">
+          <div class="contact-main">
+            <div class="sec-head">
+              <span class="eyebrow" data-en="Get in touch">Kontakt</span>
+              <h2 id="contact-h" data-en="Tell me what you need">Napisz czego potrzebujesz</h2>
+              <p data-en="A short message is enough. I reply in Polish or English, async, usually within a day.">Wystarczy krótka wiadomość. Odpowiadam po polsku lub angielsku, asynchronicznie, zwykle w ciągu doby.</p>
+            </div>
+
+            <div class="order-readout" id="orderReadout">
+              <span><span data-en="You're ordering:">Zamawiasz:</span> <b id="orderName"></b> <span id="orderPrice" class="mono"></span></span>
+              <button type="button" class="clear" id="orderClear" data-en="clear">wyczyść</button>
+            </div>
+
+            <form id="orderForm" novalidate>
+              <div class="field">
+                <label for="name" data-en="Your name">Imię</label>
+                <input id="name" name="name" type="text" autocomplete="name" required data-en-placeholder="Jan Kowalski" placeholder="Jan Kowalski">
+              </div>
+              <div class="field">
+                <label for="email" data-en="Email">Email</label>
+                <input id="email" name="email" type="email" autocomplete="email" required placeholder="jan@firma.pl">
+              </div>
+              <div class="field">
+                <label for="message" data-en="What do you need?">Czego potrzebujesz?</label>
+                <textarea id="message" name="message" required data-en-placeholder="A few sentences about the project, deadline and budget." placeholder="Kilka zdań o projekcie, terminie i budżecie."></textarea>
+              </div>
+              <input class="hp" type="text" name="botcheck" tabindex="-1" autocomplete="off" aria-hidden="true">
+              <input type="hidden" name="service" id="fService">
+              <input type="hidden" name="package_price" id="fPrice">
+              <input type="hidden" name="ui_language" id="fLang" value="pl">
+              <input type="hidden" name="platform" id="fPlatform" value="Useme">
+              <button class="btn btn-primary btn-block" type="submit" id="submitBtn" data-en="Send the request">Wyślij zapytanie</button>
+              <p class="form-note" id="formNote" data-en="I'll reply with a Useme or Upwork contract for the agreed scope. No payment happens on this site.">Odpowiem umową na Useme lub Upwork na ustalony zakres. Na tej stronie nie ma żadnej płatności.</p>
+              <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
+            </form>
+          </div>
+
+          <aside class="contact-aside">
+            <div class="card">
+              <span class="tag" data-en="Direct links" style="display:block;margin-bottom:14px">Bezpośrednio</span>
+              <a class="row" href="mailto:contact@helban.dev">
+                <span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span>
+                <span><b>contact@helban.dev</b><br><span data-en="fastest by email">najszybciej mailem</span></span>
+              </a>
+              <a class="row" href="https://github.com/Helban" target="_blank" rel="noopener">
+                <span class="ico"><svg viewBox="0 0 24 24" fill="#fff" stroke="none"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.53 2.36 1.09 2.94.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02a9.5 9.5 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.69-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10 10 0 0 0 12 2z"/></svg></span>
+                <span><b>github.com/Helban</b><br><span data-en="11 public repos">11 publicznych repo</span></span>
+              </a>
+            </div>
+            <div class="card">
+              <span class="tag" data-en="Languages" style="display:block;margin-bottom:10px">Języki</span>
+              <p style="font-size:14px;color:#c3c6d6" data-en="Polish and English, written. I work async, no calls required.">Polski i angielski, pisemnie. Pracuję asynchronicznie, bez rozmów telefonicznych.</p>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer>
+    <div class="wrap">
+      <span class="brand">helban<span class="tld">.dev</span></span>
+      <nav class="f-links" aria-label="Footer">
+        <a href="#services" data-en="Services">Usługi</a>
+        <a href="#work" data-en="Live work">Realizacje</a>
+        <a href="#contact" data-en="Contact">Kontakt</a>
+        <a href="https://github.com/Helban" target="_blank" rel="noopener">GitHub</a>
+      </nav>
+      <p class="copy"><span data-en="Built by hand, no framework, no build step. Hosted on Cloudflare Pages.">Napisane ręcznie, bez frameworka, bez build stepu. Hostowane na Cloudflare Pages.</span> · © 2026 helban.dev</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js" defer></script>
+</body>
+</html>
