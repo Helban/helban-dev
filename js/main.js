@@ -7,9 +7,10 @@
 (() => {
   const DEBUG = false;
 
-  // Paste a free key from https://web3forms.com (no account). Until then the
-  // form falls back to a plain mailto prompt instead of silently failing.
-  const WEB3FORMS_ACCESS_KEY = "REPLACE_WITH_WEB3FORMS_ACCESS_KEY";
+  // Web3Forms public access key (safe in client-side code). Delivers leads to the
+  // email the key is tied to. If it ever reverts to the placeholder, the form shows
+  // an "email me directly" fallback instead of failing silently.
+  const WEB3FORMS_ACCESS_KEY = "52aa9b5b-27a0-4842-9dbf-0e384294bd0f";
   const WEB3FORMS_ENDPOINT = "https://api.web3forms.com/submit";
 
   const CONTACT_EMAIL = "contact@helban.dev";
