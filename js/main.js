@@ -29,7 +29,7 @@
       en: "Thanks, your message is in. I'll get back to you soon.",
     },
     failed: {
-      pl: `Nie udało się wysłać. Napisz proszę bezpośrednio na ${CONTACT_EMAIL}.`,
+      pl: `Nie udało się wysłać. Napisz bezpośrednio na ${CONTACT_EMAIL}.`,
       en: `Sending failed. Please email me directly at ${CONTACT_EMAIL}.`,
     },
     incomplete: {
