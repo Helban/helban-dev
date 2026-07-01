@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Przyspieszenie WordPress: 63 → 99 w PageSpeed · helban.dev</title>
+  <meta name="description" content="Studium przypadku: ta sama strona WordPress zbudowana trzy razy (rozdmuchany Elementor, optymalizacja w miejscu, lekki rebuild). Zmierzone w Lighthouse na mobile: Performance 63 → 99, LCP 26,5 s → 2,0 s, waga strony −91%.">
+  <meta name="theme-color" content="#0b0817">
+  <link rel="canonical" href="https://helban.dev/case-studies/wordpress-speed/">
+
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="helban.dev">
+  <meta property="og:title" content="Przyspieszenie WordPress: 63 → 99 w PageSpeed">
+  <meta property="og:description" content="Ta sama strona zbudowana trzy razy, zmierzona w Lighthouse na mobile. Gdzie siedzi sufit page buildera i ile realnie da się odzyskać.">
+  <meta property="og:url" content="https://helban.dev/case-studies/wordpress-speed/">
+  <meta property="og:image" content="https://helban.dev/assets/og-image.svg">
+
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="../../fonts/inter-800-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../../fonts/inter-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "One WordPress page, built three ways: 63 to 99 on PageSpeed",
+    "description": "The same WordPress landing page measured in three states on Lighthouse mobile: bloated Elementor, in-place optimization, and a lean hand-coded rebuild.",
+    "url": "https://helban.dev/case-studies/wordpress-speed/",
+    "image": "https://helban.dev/assets/og-image.svg",
+    "author": { "@type": "Person", "name": "Adam K" },
+    "publisher": { "@type": "Organization", "name": "helban.dev", "url": "https://helban.dev/" },
+    "inLanguage": ["pl", "en"],
+    "about": "WordPress performance optimization"
+  }
+  </script>
+
+  <style>
+@font-face{font-family:'Inter';font-style:normal;font-weight:400;font-display:swap;src:url(../../fonts/inter-400-latin-ext.woff2) format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'Inter';font-style:normal;font-weight:400;font-display:swap;src:url(../../fonts/inter-400-latin.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'Inter';font-style:normal;font-weight:600;font-display:swap;src:url(../../fonts/inter-600-latin-ext.woff2) format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'Inter';font-style:normal;font-weight:600;font-display:swap;src:url(../../fonts/inter-600-latin.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'Inter';font-style:normal;font-weight:700;font-display:swap;src:url(../../fonts/inter-700-latin-ext.woff2) format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'Inter';font-style:normal;font-weight:700;font-display:swap;src:url(../../fonts/inter-700-latin.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'Inter';font-style:normal;font-weight:800;font-display:swap;src:url(../../fonts/inter-800-latin-ext.woff2) format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'Inter';font-style:normal;font-weight:800;font-display:swap;src:url(../../fonts/inter-800-latin.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:500;font-display:swap;src:url(../../fonts/jetbrains-mono-500-latin-ext.woff2) format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:500;font-display:swap;src:url(../../fonts/jetbrains-mono-500-latin.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:700;font-display:swap;src:url(../../fonts/jetbrains-mono-700-latin-ext.woff2) format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:700;font-display:swap;src:url(../../fonts/jetbrains-mono-700-latin.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+
+:root{
+  --sans:'Inter',-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,"SF Mono",Menlo,monospace;
+  --violet:#7C3AED; --violet-l:#a78bfa; --violet-ll:#c4b5fd;
+  --coral:#F43F5E; --green:#22c55e; --amber:#f59e0b; --red:#ef4444;
+  --paper:#f4f3fb; --ink:#ffffff; --muted:#9aa0b6;
+  --line:rgba(255,255,255,.11); --line-strong:rgba(255,255,255,.18);
+  --glass-1:rgba(255,255,255,.072); --glass-2:rgba(255,255,255,.022);
+  --maxw:860px; --radius:18px; --radius-sm:12px;
+  --shadow-card:0 18px 40px rgba(0,0,0,.46), inset 0 1px 0 rgba(255,255,255,.10);
+}
+*{box-sizing:border-box; margin:0; padding:0}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{font-family:var(--sans); color:var(--paper); background:#0b0817;
+  -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; line-height:1.7; overflow-x:hidden}
+.bg{position:fixed; inset:0; z-index:-2; pointer-events:none;
+  background:
+    radial-gradient(680px 460px at 6% -8%, rgba(139,92,246,.30), transparent 60%),
+    radial-gradient(560px 420px at 96% 2%, rgba(99,102,241,.22), transparent 60%),
+    radial-gradient(620px 520px at 88% 96%, rgba(244,63,94,.15), transparent 58%),
+    linear-gradient(170deg,#181034 0%,#110c25 52%,#0b0817 100%);}
+.bg::after{content:""; position:absolute; inset:0;
+  background-image:radial-gradient(rgba(255,255,255,.05) 1px, transparent 1.4px);
+  background-size:28px 28px;
+  -webkit-mask-image:radial-gradient(1100px 640px at 60% 12%, #000 20%, transparent 78%);
+          mask-image:radial-gradient(1100px 640px at 60% 12%, #000 20%, transparent 78%);}
+a{color:inherit; text-decoration:none}
+:focus-visible{outline:2px solid var(--violet-l); outline-offset:3px; border-radius:6px}
+.wrap{width:100%; max-width:var(--maxw); margin:0 auto; padding:0 22px}
+.mono{font-family:var(--mono)}
+.skip{position:absolute; left:-9999px; top:0; z-index:100; background:var(--violet); color:#fff; padding:10px 16px; border-radius:0 0 10px 0; font-weight:600}
+.skip:focus{left:0}
+
+/* top bar (shared with hub look) */
+.topbar{position:sticky; top:0; z-index:50;
+  backdrop-filter:saturate(150%) blur(14px); -webkit-backdrop-filter:saturate(150%) blur(14px);
+  background:rgba(11,8,23,.62); border-bottom:1px solid var(--line)}
+.topbar .wrap{display:flex; align-items:center; gap:18px; height:64px}
+.brand{font-family:var(--mono); font-weight:700; font-size:18px; letter-spacing:.3px; color:#efe9ff}
+.brand .tld{color:var(--coral)}
+.nav{display:flex; gap:6px; margin-left:auto; align-items:center}
+.nav a{padding:8px 12px; border-radius:10px; font-size:14.5px; font-weight:500; color:#d2d4e3}
+.nav a:hover{background:rgba(255,255,255,.06); color:#fff}
+.lang{display:inline-flex; align-items:center; gap:2px; padding:3px; background:rgba(255,255,255,.06); border:1px solid var(--line); border-radius:999px}
+.lang button{font-family:var(--mono); font-size:12px; font-weight:700; letter-spacing:.5px; color:var(--muted); background:transparent; border:0; cursor:pointer; padding:5px 11px; border-radius:999px}
+.lang button[aria-pressed="true"]{color:#fff; background:linear-gradient(160deg,#8b5cf6,#6d28d9)}
+.nav-toggle{display:none; margin-left:auto; background:rgba(255,255,255,.06); border:1px solid var(--line); border-radius:10px; width:42px; height:38px; cursor:pointer; color:#fff}
+.nav-toggle svg{width:22px; height:22px; margin:auto; stroke:#fff}
+
+/* article */
+.doc{padding:56px 0 30px}
+.crumb{font-family:var(--mono); font-size:12.5px; color:var(--muted); margin-bottom:18px}
+.crumb a:hover{color:#fff}
+.eyebrow{font-family:var(--mono); font-size:12px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--violet-l)}
+h1.title{font-size:clamp(28px,5vw,46px); font-weight:800; letter-spacing:-1.2px; line-height:1.08; margin:14px 0 16px;
+  background:linear-gradient(98deg,#ffffff 0%,#e2d7ff 55%,#f4b9c6 100%);
+  -webkit-background-clip:text; background-clip:text; color:transparent}
+.lead{font-size:clamp(16px,2.2vw,19px); color:#cdd0e0; max-width:66ch}
+.meta{display:flex; flex-wrap:wrap; gap:9px; margin-top:22px}
+.meta .chip{font-family:var(--mono); font-size:12px; color:#d3d9e4;
+  background:rgba(255,255,255,.05); border:1px solid var(--line); border-radius:9px; padding:7px 11px}
+.meta .chip b{color:var(--violet-ll); font-weight:600}
+
+.glance{display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:34px 0 8px}
+.gstat{position:relative; overflow:hidden; text-align:center;
+  background:linear-gradient(180deg, var(--glass-1), var(--glass-2)); border:1px solid var(--line);
+  border-radius:var(--radius); padding:20px 14px; box-shadow:var(--shadow-card)}
+.gstat::before{content:""; position:absolute; left:18px; right:18px; top:0; height:1px; background:linear-gradient(90deg, transparent, rgba(167,139,250,.7), transparent)}
+.gstat .big{font-family:var(--mono); font-weight:800; font-size:clamp(20px,3.4vw,27px); letter-spacing:-.5px; color:#fff}
+.gstat .big i{font-style:normal; color:var(--green)}
+.gstat .lab{font-size:12px; color:var(--muted); margin-top:6px; line-height:1.4}
+
+section{padding:34px 0}
+section > h2{font-size:clamp(21px,3vw,27px); font-weight:800; letter-spacing:-.6px; line-height:1.15; margin-bottom:6px}
+.kicker{font-family:var(--mono); font-size:11px; font-weight:700; letter-spacing:1.6px; text-transform:uppercase; color:var(--violet-l); display:block; margin-bottom:9px}
+section p{color:#c6c9d8; font-size:16.5px; margin-top:14px}
+section p:first-of-type{margin-top:12px}
+strong{color:#efe9ff; font-weight:700}
+.ul{list-style:none; margin-top:16px; display:flex; flex-direction:column; gap:11px}
+.ul li{position:relative; padding-left:26px; color:#c6c9d8; font-size:16px}
+.ul li::before{content:""; position:absolute; left:4px; top:9px; width:8px; height:8px; border-radius:2px;
+  background:linear-gradient(160deg,#8b5cf6,#6d28d9); box-shadow:0 0 10px rgba(124,58,237,.7)}
+.ul li b{color:#efe9ff}
+
+/* results table */
+.tablewrap{overflow-x:auto; margin:22px 0 6px; border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow-card)}
+table.results{width:100%; border-collapse:collapse; font-size:14.5px; min-width:560px}
+table.results thead th{font-family:var(--mono); font-size:10.5px; font-weight:700; letter-spacing:1px; text-transform:uppercase;
+  color:var(--muted); text-align:right; padding:14px 12px; background:rgba(255,255,255,.03)}
+table.results thead th:first-child{text-align:left}
+table.results tbody td{padding:14px 12px; text-align:right; border-top:1px solid var(--line); font-family:var(--mono)}
+table.results tbody td:first-child{text-align:left; font-family:var(--sans)}
+.state{font-weight:700; color:#fff; font-size:14.5px}
+.state small{display:block; font-family:var(--mono); font-weight:500; font-size:11px; color:var(--muted); letter-spacing:.2px; margin-top:2px}
+.s-good{color:var(--green); font-weight:700}
+.s-avg{color:var(--amber); font-weight:700}
+.win td{background:rgba(34,197,94,.07)}
+.caption{font-size:13.5px; color:var(--muted); margin-top:12px}
+
+/* callout */
+.callout{margin:24px 0 6px; padding:20px 22px; border-radius:var(--radius);
+  background:rgba(244,63,94,.10); border:1px solid rgba(244,63,94,.3)}
+.callout .kicker{color:#f7a6b4}
+.callout p{color:#e7d9dc; margin-top:8px; font-size:16.5px}
+
+/* two paths */
+.paths{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:20px}
+.path{position:relative; overflow:hidden; background:linear-gradient(180deg, var(--glass-1), var(--glass-2));
+  border:1px solid var(--line); border-radius:var(--radius); padding:20px; box-shadow:var(--shadow-card)}
+.path::before{content:""; position:absolute; left:20px; right:20px; top:0; height:1px; background:linear-gradient(90deg, transparent, rgba(167,139,250,.7), transparent)}
+.path h3{font-size:16px; font-weight:700; color:#fff; margin-bottom:8px}
+.path p{font-size:14.5px; color:#b6b9c9; margin:0}
+.path .num{font-family:var(--mono); font-weight:700; font-size:13px; color:var(--violet-ll); margin-bottom:10px; display:block}
+
+/* cta + refs */
+.cta{margin:30px 0 8px; padding:26px 24px; text-align:center; border-radius:var(--radius);
+  background:linear-gradient(180deg, rgba(124,58,237,.18), rgba(124,58,237,.06)); border:1px solid var(--line-strong)}
+.cta h2{font-size:clamp(20px,3vw,26px); font-weight:800; letter-spacing:-.5px}
+.cta p{color:#cdd0e0; margin:10px 0 18px; font-size:16px}
+.btn{display:inline-flex; align-items:center; gap:9px; font-weight:600; font-size:15px; cursor:pointer;
+  padding:13px 24px; border-radius:12px; border:1px solid transparent; color:#fff;
+  background:linear-gradient(160deg,#8b5cf6,#6d28d9); box-shadow:0 12px 26px rgba(124,58,237,.45), inset 0 1px 0 rgba(255,255,255,.35)}
+.btn:hover{filter:brightness(1.08)}
+.refs{display:flex; flex-wrap:wrap; gap:12px; margin-top:26px}
+.refs a{font-family:var(--mono); font-size:13px; color:var(--violet-ll); display:inline-flex; align-items:center; gap:8px;
+  background:rgba(255,255,255,.04); border:1px solid var(--line); border-radius:10px; padding:11px 14px}
+.refs a:hover{color:#fff; border-color:var(--line-strong)}
+.refs .dot{width:6px; height:6px; border-radius:50%; background:var(--coral); box-shadow:0 0 9px rgba(244,63,94,.9)}
+
+footer{border-top:1px solid var(--line); padding:30px 0 44px; margin-top:26px}
+footer .wrap{display:flex; align-items:center; gap:16px; flex-wrap:wrap}
+footer .f-links{display:flex; gap:16px; margin-left:auto; flex-wrap:wrap}
+footer .f-links a{font-size:13.5px; color:var(--muted)}
+footer .f-links a:hover{color:#fff}
+footer .copy{width:100%; font-size:12.5px; color:#8a90a6; font-family:var(--mono); padding-top:6px}
+
+@media (max-width:760px){
+  .glance{grid-template-columns:1fr 1fr 1fr; gap:10px}
+  .gstat{padding:16px 8px}
+  .paths{grid-template-columns:1fr}
+  .nav{display:none; position:absolute; top:64px; left:0; right:0; flex-direction:column; align-items:stretch;
+    gap:4px; padding:14px 22px 18px; background:rgba(11,8,23,.97); border-bottom:1px solid var(--line)}
+  .nav.open{display:flex}
+  .nav a{padding:12px 14px}
+  .nav .lang{align-self:flex-start; margin-top:6px}
+  .nav-toggle{display:block}
+}
+  </style>
+</head>
+<body>
+  <div class="bg" aria-hidden="true"></div>
+  <a class="skip" href="#article" data-en="Skip to article">Przejdź do treści</a>
+
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="/">helban<span class="tld">.dev</span></a>
+      <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false" aria-controls="nav">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+      <nav class="nav" id="nav">
+        <a href="/#services" data-en="Services">Usługi</a>
+        <a href="/#work" data-en="Live work">Realizacje</a>
+        <a href="/case-studies/" data-en="Case studies">Case studies</a>
+        <a href="/#contact" data-en="Contact">Kontakt</a>
+        <div class="lang" role="group" aria-label="Language / Język">
+          <button id="langPl" aria-pressed="true">PL</button>
+          <button id="langEn" aria-pressed="false">EN</button>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main id="article">
+    <article class="doc">
+      <div class="wrap">
+        <div class="crumb"><a href="/case-studies/" data-en="← Case studies">← Case studies</a></div>
+        <span class="eyebrow" data-en="Case study · WordPress speed">Case study · Przyspieszenie WordPress</span>
+        <h1 class="title" data-en="One WordPress page, built three ways: 63 → 99 on PageSpeed">Ta sama strona WordPress, zbudowana trzy razy: 63 → 99 w PageSpeed</h1>
+        <p class="lead" data-en="I took one landscaping-company homepage and built it three ways: a bloated Elementor build, the same Elementor optimized in place, and a lean hand-coded rebuild. Each one measured on Lighthouse mobile. Below is exactly what changed, by how much, and why.">Wziąłem jedną stronę główną firmy ogrodniczej i zbudowałem ją trzy razy: rozdmuchany Elementor, ten sam Elementor po optymalizacji w miejscu, i lekki rebuild napisany ręcznie. Każdą zmierzyłem w Lighthouse na mobile. Poniżej dokładnie co się zmieniło, o ile i dlaczego.</p>
+
+        <div class="meta">
+          <span class="chip"><b data-en="Role:">Rola:</b> <span data-en="optimization + rebuild">optymalizacja + rebuild</span></span>
+          <span class="chip"><b data-en="Stack:">Stack:</b> WordPress · Elementor · OceanWP · Python (Pillow) · HTML/CSS</span>
+          <span class="chip"><b data-en="Measured:">Pomiar:</b> Lighthouse mobile</span>
+        </div>
+
+        <div class="glance">
+          <div class="gstat"><div class="big">63 <i>→ 99</i></div><div class="lab" data-en="Performance (mobile)">Performance (mobile)</div></div>
+          <div class="gstat"><div class="big">26,5s <i>→ 2,0s</i></div><div class="lab">LCP</div></div>
+          <div class="gstat"><div class="big"><i>−91%</i></div><div class="lab" data-en="page weight (5,111 → 461 KiB)">waga strony (5111 → 461 KiB)</div></div>
+        </div>
+      </div>
+
+      <div class="wrap">
+        <section>
+          <span class="kicker" data-en="The numbers">Liczby</span>
+          <h2 data-en="Three states, one page">Trzy stany, jedna strona</h2>
+          <div class="tablewrap">
+            <table class="results">
+              <thead>
+                <tr>
+                  <th data-en="Build">Wariant</th>
+                  <th>Perf</th><th>A11y</th><th>BP</th><th>SEO</th><th>LCP</th>
+                  <th data-en="Weight">Waga</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><span class="state" data-en="Before">Przed</span><small data-en="bloated Elementor">rozdmuchany Elementor</small></td>
+                  <td class="s-avg">63</td><td class="s-good">96</td><td class="s-good">100</td><td class="s-avg">85</td><td>26,5&nbsp;s</td><td>5111&nbsp;KiB</td>
+                </tr>
+                <tr>
+                  <td><span class="state" data-en="In place">W miejscu</span><small data-en="Elementor kept">Elementor zostaje</small></td>
+                  <td class="s-avg">71</td><td class="s-good">96</td><td class="s-good">100</td><td class="s-avg">85</td><td>5,9&nbsp;s</td><td>1183&nbsp;KiB</td>
+                </tr>
+                <tr class="win">
+                  <td><span class="state" data-en="Lean rebuild">Rebuild</span><small data-en="hand-coded, no builder">ręczny, bez buildera</small></td>
+                  <td class="s-good">99</td><td class="s-good">100</td><td class="s-good">100</td><td class="s-good">100</td><td>2,0&nbsp;s</td><td>461&nbsp;KiB</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="caption" data-en="All three render the same full-width landing (hero, about, gallery, contact form). Only the build and the speed differ. Desktop scored high from the start; the problem lives on mobile.">Wszystkie trzy renderują tę samą pełnoszerokościową stronę (hero, o nas, galeria, formularz). Różni się tylko sposób budowy i szybkość. Desktop był wysoki od początku, problem siedzi na mobile.</p>
+        </section>
+
+        <section>
+          <span class="kicker" data-en="The setup">Punkt wyjścia</span>
+          <h2 data-en="One landscaping homepage, built on a page builder">Jedna strona ogrodnicza na page builderze</h2>
+          <p data-en="Fictional brand Greenfield Landscaping, a single full-width homepage. Built on OceanWP + Elementor, the same stack as most of the sites people hand me to speed up. Every measurement is Lighthouse on the mobile preset with simulated throttling, so the numbers reflect a mid-range phone, not a desktop on fibre.">Fikcyjna marka Greenfield Landscaping, jedna pełnoszerokościowa strona główna. Zbudowana na OceanWP + Elementor, czyli tym samym zestawie co większość stron, które dostaję do przyspieszenia. Każdy pomiar to Lighthouse na presecie mobile z symulowanym throttlingiem, więc liczby oddają telefon ze średniej półki, nie desktop na światłowodzie.</p>
+        </section>
+
+        <section>
+          <span class="kicker" data-en="Before">Przed</span>
+          <h2 data-en="What was dragging it down">Co ją ciągnęło w dół</h2>
+          <ul class="ul">
+            <li data-en="Hero and gallery photos served as full-size 2400px JPEGs (~5 MB) into small slots on the page.">Zdjęcia hero i galerii serwowane jako pełnowymiarowe JPEG 2400px (~5 MB) w małe sloty na stronie.</li>
+            <li data-en="The hero is a CSS background image, discovered late by the browser, so LCP waited behind everything else. That is the 26.5 s.">Hero to obraz tła w CSS, odkrywany przez przeglądarkę późno, więc LCP czekał na wszystko inne. Stąd te 26,5 s.</li>
+            <li data-en="OceanWP + Elementor + Happy Addons + Contact Form 7 + Font Awesome + AddToAny each enqueue CSS and JS site-wide. Three of them are not even used on this page.">OceanWP + Elementor + Happy Addons + Contact Form 7 + Font Awesome + AddToAny, każdy ładuje CSS i JS na całej stronie. Trzy z nich nie są nawet używane na tej podstronie.</li>
+            <li data-en="Render-blocking Google Fonts (Roboto + Roboto Slab, every weight), with no preload.">Render-blocking Google Fonts (Roboto + Roboto Slab, wszystkie grubości), bez preload.</li>
+          </ul>
+        </section>
+
+        <section>
+          <span class="kicker" data-en="Path 1 · keep the editor">Ścieżka 1 · zostaje edytor</span>
+          <h2 data-en="In place: fix it without touching Elementor">W miejscu: naprawa bez ruszania Elementora</h2>
+          <p data-en="First the version for someone who does not want to change how they edit the site. Everything goes through one mu-plugin, no rebuild, the editor stays exactly as it was.">Najpierw wariant dla kogoś, kto nie chce zmieniać sposobu edycji strony. Wszystko idzie przez jeden mu-plugin, bez przebudowy, edytor zostaje dokładnie taki, jaki był.</p>
+          <ul class="ul">
+            <li data-en="Images converted to display-sized WebP with a Python script (Pillow): ~5 MB down to ~0.8 MB.">Obrazy przekonwertowane do WebP w rozmiarze wyświetlania skryptem w Pythonie (Pillow): ~5 MB w dół do ~0,8 MB.</li>
+            <li data-en="Deactivated the three unused plugins, removed Google Fonts, fell back to system fonts.">Wyłączone trzy nieużywane wtyczki, usunięte Google Fonts, fallback na fonty systemowe.</li>
+            <li data-en="Lazy-loaded the below-the-fold images, preloaded the hero (the LCP element).">Lazy-load obrazów pod foldem, preload hero (elementu LCP).</li>
+          </ul>
+          <p data-en="Result: 63 → 71 Performance, LCP 26.5 s → 5.9 s, page weight down 77%. Big, real wins, and the editor is untouched.">Wynik: 63 → 71 Performance, LCP 26,5 s → 5,9 s, waga strony w dół o 77%. Duże, realne wygrane, a edytor nietknięty.</p>
+          <div class="callout">
+            <span class="kicker" data-en="The honest ceiling">Uczciwy sufit</span>
+            <p data-en="The remaining ceiling is the page builder's render-blocking CSS. Hand-rolling critical CSS made it worse (more HTML plus layout shift), so the honest in-place ceiling on free tooling is the low-to-mid 70s. Going higher needs a paid optimizer that does automatic critical CSS and JS delay.">To, co zostaje, to render-blocking CSS page buildera. Ręczne wydłubywanie critical CSS pogorszyło sprawę (więcej HTML plus skok layoutu), więc uczciwy pułap in-place na darmowych narzędziach to niskie/średnie 70. Wyżej wymaga płatnego optymalizatora, który robi automatyczny critical CSS i opóźnianie JS.</p>
+          </div>
+        </section>
+
+        <section>
+          <span class="kicker" data-en="Path 2 · rebuild">Ścieżka 2 · rebuild</span>
+          <h2 data-en="Lean rebuild: same page, no builder">Lekki rebuild: ta sama strona, bez buildera</h2>
+          <p data-en="Same content, same layout, no WordPress and no page builder. One HTML file with the CSS inlined, so nothing blocks the first render.">Ta sama treść, ten sam układ, bez WordPressa i bez page buildera. Jeden plik HTML z CSS w środku, więc nic nie blokuje pierwszego renderowania.</p>
+          <ul class="ul">
+            <li data-en="One HTML file, CSS inlined (zero render-blocking stylesheets).">Jeden plik HTML, CSS w środku (zero blokujących arkuszy stylów).</li>
+            <li data-en="System fonts, so no font download on the critical path.">Fonty systemowe, więc żadnego pobierania fontów na ścieżce krytycznej.</li>
+            <li data-en="AVIF with a WebP fallback for the photos.">AVIF z fallbackiem WebP dla zdjęć.</li>
+            <li data-en="Responsive hero with preload; below-the-fold images lazy-loaded with width and height set, so CLS is 0.">Responsywne hero z preload; obrazy pod foldem lazy z ustawioną szerokością i wysokością, więc CLS wynosi 0.</li>
+          </ul>
+          <p data-en="Result: 99 / 100 / 100 / 100, LCP 2.0 s, 461 KiB. The page weight is 91% lower than the bloated build, on the same content.">Wynik: 99 / 100 / 100 / 100, LCP 2,0 s, 461 KiB. Waga strony o 91% niższa niż w wersji rozdmuchanej, przy tej samej treści.</p>
+        </section>
+
+        <section>
+          <span class="kicker" data-en="The finding">Wniosek</span>
+          <h2 data-en="A page builder has a ceiling, and it is honest to say so">Page builder ma sufit, i uczciwie to powiedzieć</h2>
+          <p data-en="The page builder's render-blocking CSS costs a chunk of Performance that free tooling cannot claw back without a rebuild. In-place optimization still delivers large, real wins (weight down 77%, LCP 26.5 → 5.9 s) without changing how you work. The high 90s on mobile need either a paid optimizer or a lean rebuild. Anyone promising a page builder at 100 on free tooling is either measuring desktop or not measuring at all.">Render-blocking CSS page buildera kosztuje kawał Performance, którego na darmowych narzędziach nie da się odzyskać bez rebuildu. Optymalizacja w miejscu i tak daje duże, realne wygrane (waga w dół o 77%, LCP 26,5 → 5,9 s) i nie zmienia sposobu, w jaki pracujesz. Wysokie 90 na mobile wymagają albo płatnego optymalizatora, albo lekkiego rebuildu. Kto obiecuje page builder na 100 przy darmowych narzędziach, ten albo mierzy desktop, albo nie mierzy wcale.</p>
+          <div class="paths">
+            <div class="path">
+              <span class="num">63 → 71</span>
+              <h3 data-en="&quot;Speed up my WordPress&quot;">„Przyspiesz mój WordPress"</h3>
+              <p data-en="You keep the editor. I optimize in place: images, fonts, unused plugins, lazy-load, preload. Large wins, honest about the ceiling.">Zostajesz przy edytorze. Optymalizuję w miejscu: obrazy, fonty, nieużywane wtyczki, lazy-load, preload. Duże wygrane, uczciwie o suficie.</p>
+            </div>
+            <div class="path">
+              <span class="num">→ 99</span>
+              <h3 data-en="&quot;Rebuild it properly&quot;">„Zbuduj porządnie"</h3>
+              <p data-en="Same page, hand-coded. I remove the builder's render-blocking CSS entirely and the page reaches 99/100 on mobile.">Ta sama strona, napisana ręcznie. Usuwam render-blocking CSS buildera w całości i strona dochodzi do 99/100 na mobile.</p>
+            </div>
+          </div>
+        </section>
+
+        <div class="wrap" style="padding:0">
+          <div class="cta">
+            <h2 data-en="Send me your site's URL">Podeślij URL swojej strony</h2>
+            <p data-en="I measure it on mobile and tell you which path is worth it, before any contract.">Zmierzę ją na mobile i powiem, która ścieżka się opłaca, jeszcze przed jakąkolwiek umową.</p>
+            <a class="btn" href="/#contact" data-en="Get a speed check">Zamów sprawdzenie szybkości</a>
+          </div>
+
+          <div class="refs">
+            <a href="https://wp-speed.helban.dev" target="_blank" rel="noopener"><span class="dot"></span><span data-en="Full interactive readout · wp-speed.helban.dev">Pełny interaktywny readout · wp-speed.helban.dev</span></a>
+            <a href="https://github.com/Helban/wp-speed-optimization" target="_blank" rel="noopener"><span class="dot"></span><span data-en="Code and scripts · github.com/Helban/wp-speed-optimization">Kod i skrypty · github.com/Helban/wp-speed-optimization</span></a>
+          </div>
+        </div>
+      </div>
+    </article>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <span class="brand">helban<span class="tld">.dev</span></span>
+      <nav class="f-links" aria-label="Footer">
+        <a href="/#services" data-en="Services">Usługi</a>
+        <a href="/case-studies/" data-en="Case studies">Case studies</a>
+        <a href="/#contact" data-en="Contact">Kontakt</a>
+        <a href="https://github.com/Helban" target="_blank" rel="noopener">GitHub</a>
+      </nav>
+      <p class="copy"><span data-en="Built by hand, no framework, no build step.">Napisane ręcznie, bez frameworka, bez etapu budowania.</span> · © 2026 helban.dev</p>
+    </div>
+  </footer>
+
+  <script src="../cs.js" defer></script>
+</body>
+</html>
