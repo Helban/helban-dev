@@ -209,6 +209,12 @@ section{position:relative; padding:84px 0}
 .live:hover{color:#fff}
 .live .arrow{transition:transform .15s ease}
 .live:hover .arrow{transform:translateX(3px)}
+/* whole proof card is one click target: stretch the live link across the card,
+   keeping a single real <a> so screen readers still announce one clean link */
+.proof{cursor:pointer}
+.proof .live::after{content:""; position:absolute; inset:0}
+.proof:focus-within{border-color:var(--violet-l);
+  box-shadow:0 0 0 2px rgba(167,139,250,.55), var(--shadow-card)}
 
 /* ---------- services ---------- */
 .svc-group{margin-top:48px}
@@ -317,6 +323,57 @@ footer .copy{width:100%; font-size:12.5px; color:#8a90a6; font-family:var(--mono
   .hero{padding:64px 0 48px}
   .svc-grid{grid-template-columns:1fr}
 }
+
+/* ---------- motion: hover lift + scroll-triggered reveals ---------- */
+.proof{transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease}
+.proof:hover{transform:translateY(-4px); border-color:var(--line-strong);
+  box-shadow:0 26px 54px rgba(0,0,0,.52), inset 0 1px 0 rgba(255,255,255,.13)}
+.proof:hover::before{background:linear-gradient(90deg, transparent, rgba(167,139,250,1), transparent)}
+
+/* The chart line and its end dot draw themselves once the card scrolls in.
+   .js-reveal is set by main.js only when motion is allowed, so no-JS and
+   reduced-motion visitors keep the fully drawn static chart. */
+.js-reveal .proof .spark{stroke-dasharray:300; stroke-dashoffset:300}
+.js-reveal .proof.in-view .spark{stroke-dashoffset:0; transition:stroke-dashoffset 1.15s ease .1s}
+.js-reveal .proof .spark-dot{opacity:0; transform:scale(0); transform-box:fill-box; transform-origin:center}
+.js-reveal .proof.in-view .spark-dot{opacity:1; transform:scale(1);
+  transition:opacity .3s ease .95s, transform .4s cubic-bezier(.34,1.56,.64,1) .95s}
+
+/* live "last price" ping: a ring expands off the end dot once the line is drawn */
+@keyframes sparkPing{
+  0%{opacity:.5; transform:scale(1)}
+  70%{opacity:0}
+  100%{opacity:0; transform:scale(2.8)}
+}
+.js-reveal .proof .spark-ping{transform-box:fill-box; transform-origin:center; opacity:0}
+.js-reveal .proof.in-view .spark-ping{animation:sparkPing 2.4s ease-out 1s infinite}
+
+/* thumbnail motifs: coins rising off the "zł" (calculator), sparkles round the
+   product (salon). They loop only while the card is in view. */
+@keyframes coinFloat{
+  0%{opacity:0; transform:translateY(7px) scale(.5)}
+  22%{opacity:1}
+  70%{opacity:1}
+  100%{opacity:0; transform:translateY(-30px) scale(1)}
+}
+.js-reveal .proof .coin{transform-box:fill-box; transform-origin:center; opacity:0}
+.js-reveal .proof.in-view .coin{animation:coinFloat 3.2s ease-in-out infinite}
+.js-reveal .proof.in-view .coin.c2{animation-delay:.6s}
+.js-reveal .proof.in-view .coin.c3{animation-delay:1.3s}
+
+@keyframes twinkle{
+  0%,100%{opacity:0; transform:scale(.35)}
+  50%{opacity:1; transform:scale(1)}
+}
+.js-reveal .proof .twinkle{transform-box:fill-box; transform-origin:center; opacity:0}
+.js-reveal .proof.in-view .twinkle{animation:twinkle 2.4s ease-in-out infinite}
+.js-reveal .proof.in-view .twinkle.t2{animation-delay:.9s}
+.js-reveal .proof.in-view .twinkle.t3{animation-delay:1.6s}
+
+@media (prefers-reduced-motion:reduce){
+  .proof{transition:none}
+  .proof:hover{transform:none}
+}
   </style>
 </head>
 <body>
@@ -376,7 +433,7 @@ footer .copy{width:100%; font-size:12.5px; color:#8a90a6; font-family:var(--mono
 
           <article class="card proof">
             <div class="shot" aria-hidden="true">
-              <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f6c8d6"/><stop offset="1" stop-color="#c9a8ff"/></linearGradient></defs><rect width="320" height="200" fill="#1a1230"/><rect x="24" y="28" width="150" height="14" rx="7" fill="url(#g1)"/><rect x="24" y="52" width="110" height="8" rx="4" fill="#6d5a9c"/><rect x="24" y="72" width="84" height="26" rx="13" fill="#8b5cf6"/><rect x="196" y="28" width="100" height="120" rx="12" fill="#2a1f4d"/><circle cx="246" cy="78" r="26" fill="url(#g1)"/></svg>
+              <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f6c8d6"/><stop offset="1" stop-color="#c9a8ff"/></linearGradient></defs><rect width="320" height="200" fill="#1a1230"/><rect x="24" y="28" width="150" height="14" rx="7" fill="url(#g1)"/><rect x="24" y="52" width="110" height="8" rx="4" fill="#6d5a9c"/><rect x="24" y="72" width="84" height="26" rx="13" fill="#8b5cf6"/><rect x="196" y="28" width="100" height="120" rx="12" fill="#2a1f4d"/><circle cx="246" cy="78" r="26" fill="url(#g1)"/><g class="sparkles"><g transform="translate(277,54)"><polygon class="twinkle t1" points="0,-6 1.5,-1.5 6,0 1.5,1.5 0,6 -1.5,1.5 -6,0 -1.5,-1.5" fill="#fff0f6"/></g><g transform="translate(222,98)"><polygon class="twinkle t2" points="0,-5 1.3,-1.3 5,0 1.3,1.3 0,5 -1.3,1.3 -5,0 -1.3,-1.3" fill="#fff0f6"/></g><g transform="translate(266,114)"><polygon class="twinkle t3" points="0,-7 1.7,-1.7 7,0 1.7,1.7 0,7 -1.7,1.7 -7,0 -1.7,-1.7" fill="#fff0f6"/></g></g></svg>
             </div>
             <h3>salon.helban.dev</h3>
             <p data-en="Premium salon site, multi-page, JSON-LD schema and a validated contact form.">Wielostronicowa strona salonu premium, schema JSON-LD i formularz kontaktowy z walidacją.</p>
@@ -386,7 +443,7 @@ footer .copy{width:100%; font-size:12.5px; color:#8a90a6; font-family:var(--mono
 
           <article class="card proof">
             <div class="shot" aria-hidden="true">
-              <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice"><rect width="320" height="200" fill="#101b18"/><rect x="24" y="26" width="130" height="12" rx="6" fill="#7ee0b0"/><rect x="24" y="50" width="180" height="7" rx="3" fill="#3c6b58"/><rect x="24" y="78" width="120" height="96" rx="12" fill="#16241f"/><rect x="38" y="96" width="92" height="9" rx="4" fill="#2f5447"/><rect x="38" y="116" width="64" height="9" rx="4" fill="#2f5447"/><rect x="38" y="142" width="72" height="20" rx="10" fill="#22c55e"/><rect x="164" y="78" width="132" height="96" rx="12" fill="#16241f"/><text x="230" y="138" font-family="monospace" font-size="40" fill="#7ee0b0" text-anchor="middle">zł</text></svg>
+              <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="coinGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffe487"/><stop offset="1" stop-color="#dda43a"/></linearGradient></defs><rect width="320" height="200" fill="#101b18"/><rect x="24" y="26" width="130" height="12" rx="6" fill="#7ee0b0"/><rect x="24" y="50" width="180" height="7" rx="3" fill="#3c6b58"/><rect x="24" y="78" width="120" height="96" rx="12" fill="#16241f"/><rect x="38" y="96" width="92" height="9" rx="4" fill="#2f5447"/><rect x="38" y="116" width="64" height="9" rx="4" fill="#2f5447"/><rect x="38" y="142" width="72" height="20" rx="10" fill="#22c55e"/><rect x="164" y="78" width="132" height="96" rx="12" fill="#16241f"/><text x="230" y="138" font-family="monospace" font-size="40" fill="#7ee0b0" text-anchor="middle">zł</text><g class="coins"><circle class="coin c1" cx="202" cy="152" r="8" fill="url(#coinGrad)" stroke="#ffefb0" stroke-width="1.2"/><circle class="coin c2" cx="232" cy="156" r="9.5" fill="url(#coinGrad)" stroke="#ffefb0" stroke-width="1.2"/><circle class="coin c3" cx="262" cy="150" r="7" fill="url(#coinGrad)" stroke="#ffefb0" stroke-width="1.2"/></g></svg>
             </div>
             <h3>kalkulator.helban.dev</h3>
             <p data-en="Service landing with an interactive price calculator and lead capture, no backend.">Landing usługowy z interaktywnym kalkulatorem ceny i formularzem, który zbiera zapytania, bez backendu.</p>
@@ -396,7 +453,7 @@ footer .copy{width:100%; font-size:12.5px; color:#8a90a6; font-family:var(--mono
 
           <article class="card proof">
             <div class="shot" aria-hidden="true">
-              <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice"><rect width="320" height="200" fill="#0e1426"/><rect x="24" y="26" width="150" height="12" rx="6" fill="#9dbcff"/><rect x="24" y="50" width="190" height="7" rx="3" fill="#36456b"/><polyline points="30,160 80,130 120,142 170,96 220,108 280,64" fill="none" stroke="#22c55e" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="280" cy="64" r="6" fill="#22c55e"/></svg>
+              <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice"><rect width="320" height="200" fill="#0e1426"/><rect x="24" y="26" width="150" height="12" rx="6" fill="#9dbcff"/><rect x="24" y="50" width="190" height="7" rx="3" fill="#36456b"/><polyline class="spark" points="30,160 80,130 120,142 170,96 220,108 280,64" fill="none" stroke="#22c55e" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><circle class="spark-ping" cx="280" cy="64" r="6" fill="#22c55e"/><circle class="spark-dot" cx="280" cy="64" r="6" fill="#22c55e"/></svg>
             </div>
             <h3>dropwatch.helban.dev</h3>
             <p data-en="English SaaS / product landing, PageSpeed 100 on mobile and desktop, no React.">Angielski landing SaaS / produktowy, PageSpeed 100 na mobile i desktop, bez Reacta.</p>
