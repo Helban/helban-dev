@@ -1,7 +1,14 @@
-# Cache content-stable assets for a year. HTML keeps Cloudflare's default
-# (revalidated), so content edits go live on the next deploy.
+# Cache content-stable assets for a year. HTML and the hand-edited scripts must
+# revalidate on every load so a deploy reaches returning visitors at once.
+# Cloudflare's default gives .js a 4h cache, which once served stale animation code.
 /fonts/*
   Cache-Control: public, max-age=31536000, immutable
 
 /assets/*
   Cache-Control: public, max-age=31536000, immutable
+
+/js/*
+  Cache-Control: public, max-age=0, must-revalidate
+
+/case-studies/cs.js
+  Cache-Control: public, max-age=0, must-revalidate
