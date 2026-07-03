@@ -238,7 +238,7 @@ footer .copy{width:100%; font-size:12.5px; color:#8a90a6; font-family:var(--mono
         <div class="crumb"><a href="/case-studies/" data-en="← Case studies">← Case studies</a></div>
         <span class="eyebrow" data-en="Case study · Notion architecture">Case study · Architektura Notion</span>
         <h1 class="title" data-en="A company operating system in Notion: 17 areas, 8 databases, zero duplication">Firmowy system operacyjny w Notionie: 17 działów, 8 baz, zero duplikacji</h1>
-        <p class="lead" data-en="An early-stage brand wants one place for the whole company and asks how to lay it out so it grows instead of falling apart. Below is the architecture I would propose: how seventeen areas from the brief collapse into eight connected databases, why exactly this way, and how a dashboard comes out of it that shows, first thing in the morning, what needs attention.">Młoda marka chce jednego miejsca na całą firmę i pyta, jak je ułożyć, żeby rosło, a nie rozpadało się. Poniżej architektura, którą bym zaproponował: jak siedemnaście działów z briefu schodzi do ośmiu połączonych baz, dlaczego akurat tak, i jak z tego powstaje pulpit, który rano od razu pokazuje, co wymaga uwagi.</p>
+        <p class="lead" data-en="An early-stage brand wants one place for the whole company and asks how to lay it out so it grows instead of falling apart. Below is the architecture I would propose: how seventeen areas from the brief collapse into eight connected databases, why exactly this way, and how a dashboard comes out of it that shows, first thing in the morning, what needs attention.">Młoda marka chce trzymać całą firmę w jednym miejscu i pyta, jak to poukładać, żeby z czasem rosło, a nie zamieniło się w bałagan. Pokazuję architekturę, którą bym zaproponował: jak siedemnaście obszarów z briefu sprowadza się do ośmiu powiązanych baz, dlaczego właśnie tak i jak z tego wychodzi pulpit, na którym rano od razu widać, co wymaga uwagi.</p>
 
         <div class="meta">
           <span class="chip"><b data-en="Role:">Rola:</b> <span data-en="information architecture">architektura informacji</span></span>
@@ -247,9 +247,9 @@ footer .copy{width:100%; font-size:12.5px; color:#8a90a6; font-family:var(--mono
         </div>
 
         <div class="glance">
-          <div class="gstat"><div class="big">17 <i>→ 8</i></div><div class="lab" data-en="areas to track → core databases">działów do ułożenia → baz</div></div>
+          <div class="gstat"><div class="big">17 <i>→ 8</i></div><div class="lab" data-en="areas to track → core databases">obszarów do ułożenia → baz danych</div></div>
           <div class="gstat"><div class="big">1</div><div class="lab" data-en="source of truth per entity">źródło prawdy na encję</div></div>
-          <div class="gstat"><div class="big">0</div><div class="lab" data-en="retyped fields (relations, not copies)">przepisywanych pól (relacje, nie kopie)</div></div>
+          <div class="gstat"><div class="big">0</div><div class="lab" data-en="retyped fields (relations, not copies)">przepisywanych pól (relacje zamiast kopii)</div></div>
         </div>
       </div>
 
@@ -257,19 +257,19 @@ footer .copy{width:100%; font-size:12.5px; color:#8a90a6; font-family:var(--mono
         <section>
           <span class="kicker" data-en="The brief">Brief</span>
           <h2 data-en="What an early brand actually needs at 9am">Czego młoda marka naprawdę potrzebuje rano</h2>
-          <p data-en="An early-stage brand is holding a dozen areas at once: strategy, a product in development, suppliers, research, contracts, finance. The question in the brief isn't &quot;where do I put this&quot;, it's &quot;how do I connect it so that at 9am I see what needs attention and what stage every project is at&quot;. That is an architecture question, not a pretty-template question, and the client said as much: they want to understand the system, not just receive a workspace.">Młoda marka trzyma w głowie kilkanaście działów naraz: strategię, produkt w rozwoju, dostawców, badania, umowy, finanse. Pytanie z briefu nie brzmi „gdzie to wrzucić", tylko „jak to połączyć, żeby rano było od razu widać, co wymaga uwagi i na jakim etapie stoi każdy projekt". To pytanie o architekturę, nie o ładny szablon, i klient sam to napisał: chce rozumieć system, a nie tylko dostać gotowy workspace.</p>
+          <p data-en="An early-stage brand is holding a dozen areas at once: strategy, a product in development, suppliers, research, contracts, finance. The question in the brief isn't &quot;where do I put this&quot;, it's &quot;how do I connect it so that at 9am I see what needs attention and what stage every project is at&quot;. That is an architecture question, not a pretty-template question, and the client said as much: they want to understand the system, not just receive a workspace.">Młoda marka ogarnia kilkanaście spraw naraz: strategię, produkt w rozwoju, dostawców, badania, umowy, finanse. W briefie nie chodzi o to, „gdzie to wrzucić", tylko „jak to spiąć, żeby rano od razu było widać, co wymaga uwagi i na jakim etapie jest każdy projekt". To pytanie o architekturę, nie o ładny szablon, i klient sam to napisał: woli zrozumieć system, a nie tylko dostać gotowy workspace.</p>
         </section>
 
         <section>
           <span class="kicker" data-en="The one decision that matters">Decyzja fundamentalna</span>
           <h2 data-en="Databases, not nested pages">Bazy danych, nie zagnieżdżone strony</h2>
-          <p data-en="The most common mistake, and the hardest to undo later, is building the system out of nested pages. A page inside a page inside a page. It looks tidy at twenty entries and falls apart at two hundred: you can't filter it, sort it or count it, and the same fact ends up in three places. The foundation is a small set of databases. Every &quot;page&quot; is then a row you can query, not a folder you have to dig through.">Najczęstszy błąd, który później trudno cofnąć, to budowa systemu z zagnieżdżonych stron. Strona w stronie, a w niej kolejna. Wygląda porządnie przy dwudziestu wpisach i rozpada się przy dwustu: nie da się tego filtrować, sortować ani policzyć, a ta sama informacja ląduje w trzech miejscach. Fundament to mały zestaw baz danych. Każda „strona" jest wtedy wierszem, który można odpytać, a nie folderem, w którym trzeba szukać.</p>
+          <p data-en="The most common mistake, and the hardest to undo later, is building the system out of nested pages. A page inside a page inside a page. It looks tidy at twenty entries and falls apart at two hundred: you can't filter it, sort it or count it, and the same fact ends up in three places. The foundation is a small set of databases. Every &quot;page&quot; is then a row you can query, not a folder you have to dig through.">Najczęstszy błąd, który potem trudno odkręcić, to zbudowanie wszystkiego na zagnieżdżonych stronach. Strona w stronie, a w niej kolejna. Przy dwudziestu wpisach wygląda to porządnie, przy dwustu się sypie: nie da się tego przefiltrować, posortować ani policzyć, a ta sama informacja siedzi w trzech miejscach naraz. Podstawa to kilka powiązanych baz. Wtedy każda „strona" jest wierszem, który da się odpytać, a nie folderem, po którym trzeba się przeklikiwać.</p>
         </section>
 
         <section>
           <span class="kicker" data-en="The model">Model</span>
           <h2 data-en="Eight databases, one source of truth">Osiem baz, jedno źródło prawdy</h2>
-          <p data-en="Seventeen things on the list collapse into eight databases. The rest is not separate databases, it is a &quot;Type&quot; property and relations. Suppliers, Manufacturers and Contractors are not three databases, they are one Partners database with a Type field. Strategy, research, brand docs, processes and contracts are not five sections, they are one Documents database with a Type and a relation to whatever they describe.">Siedemnaście rzeczy z listy schodzi do ośmiu baz. Reszta to nie osobne bazy, tylko właściwość „Typ" i relacje. Suppliers, Manufacturers i Contractors to nie trzy bazy, to jedna baza Partners z polem Typ. Strategia, badania, dokumentacja marki, procesy i umowy to nie pięć działów, tylko jedna baza Documents z Typem i relacją do tego, czego dotyczą.</p>
+          <p data-en="Seventeen things on the list collapse into eight databases. The rest is not separate databases, it is a &quot;Type&quot; property and relations. Suppliers, Manufacturers and Contractors are not three databases, they are one Partners database with a Type field. Strategy, research, brand docs, processes and contracts are not five sections, they are one Documents database with a Type and a relation to whatever they describe.">Siedemnaście pozycji z listy sprowadza się do ośmiu baz. Reszta to nie osobne bazy, tylko pole „Typ" i relacje. Suppliers, Manufacturers i Contractors nie potrzebują trzech baz, wystarczy jedna baza Partners z polem Typ. Strategia, badania, dokumentacja marki, procesy i umowy to nie pięć osobnych działów, tylko jedna baza Documents z Typem i relacją do tego, czego dotyczą.</p>
 
           <div class="diagram">
             <svg viewBox="0 0 820 500" role="img" aria-labelledby="dgtitle dgdesc">
@@ -307,7 +307,7 @@ footer .copy{width:100%; font-size:12.5px; color:#8a90a6; font-family:var(--mono
               <span class="sec" data-en="Direct relation between databases">Relacja bezpośrednia między bazami</span>
             </div>
           </div>
-          <p class="caption" data-en="Projects is the operational spine the dashboard reads. Partners, Contacts, Products, Finance and Documents also link to each other directly, so the workspace is a graph, not a star. Each card below lists the key properties and what it relates to.">Projects to kręgosłup operacyjny, z którego czyta pulpit. Partners, Contacts, Products, Finance i Documents łączą się też bezpośrednio, więc workspace jest grafem, nie gwiazdą. Każda karta poniżej podaje kluczowe właściwości i to, z czym się łączy.</p>
+          <p class="caption" data-en="Projects is the operational spine the dashboard reads. Partners, Contacts, Products, Finance and Documents also link to each other directly, so the workspace is a graph, not a star. Each card below lists the key properties and what it relates to.">Projects to kręgosłup operacyjny, z którego czyta pulpit. Partners, Contacts, Products, Finance i Documents łączą się też bezpośrednio, więc workspace jest grafem, a nie gwiazdą. Każda karta niżej pokazuje najważniejsze właściwości i to, z czym dana baza się łączy.</p>
 
           <div class="schema">
             <div class="dbcard">
@@ -320,7 +320,7 @@ footer .copy{width:100%; font-size:12.5px; color:#8a90a6; font-family:var(--mono
             </div>
             <div class="dbcard">
               <h3>Tasks</h3>
-              <p class="role" data-en="Atomic to-dos. Everything actionable lives here, nowhere else.">Atomowe zadania. Wszystko do zrobienia siedzi tu, nigdzie indziej.</p>
+              <p class="role" data-en="Atomic to-dos. Everything actionable lives here, nowhere else.">Pojedyncze zadania. Wszystko do zrobienia jest tutaj i nigdzie indziej.</p>
               <div class="field" data-en="Key properties">Kluczowe właściwości</div>
               <div class="tags"><span>Status</span><span>Assignee</span><span>Due</span><span>Priority</span></div>
               <div class="field" data-en="Relates to">Łączy się z</div>
@@ -336,7 +336,7 @@ footer .copy{width:100%; font-size:12.5px; color:#8a90a6; font-family:var(--mono
             </div>
             <div class="dbcard">
               <h3>Partners</h3>
-              <p class="role" data-en="Every external company in one place. Type separates supplier, manufacturer, contractor.">Każda firma z zewnątrz w jednym miejscu. Typ rozdziela dostawcę, producenta, wykonawcę.</p>
+              <p class="role" data-en="Every external company in one place. Type separates supplier, manufacturer, contractor.">Wszystkie firmy z zewnątrz w jednym miejscu. Pole Typ rozdziela dostawcę, producenta i wykonawcę.</p>
               <div class="field" data-en="Key properties">Kluczowe właściwości</div>
               <div class="tags"><span>Type</span><span>Status</span><span>Country</span></div>
               <div class="field" data-en="Relates to">Łączy się z</div>
@@ -344,7 +344,7 @@ footer .copy{width:100%; font-size:12.5px; color:#8a90a6; font-family:var(--mono
             </div>
             <div class="dbcard">
               <h3>Contacts (CRM)</h3>
-              <p class="role" data-en="People. A person belongs to a company, so you never retype the company on the person.">Ludzie. Osoba należy do firmy, więc nazwy firmy nie wpisujesz drugi raz przy osobie.</p>
+              <p class="role" data-en="People. A person belongs to a company, so you never retype the company on the person.">Ludzie. Osobę przypisujesz do firmy, więc jej nazwy nie wpisujesz drugi raz przy każdym kontakcie.</p>
               <div class="field" data-en="Key properties">Kluczowe właściwości</div>
               <div class="tags"><span>Role</span><span>Email</span><span>Phone</span></div>
               <div class="field" data-en="Relates to">Łączy się z</div>
@@ -352,7 +352,7 @@ footer .copy{width:100%; font-size:12.5px; color:#8a90a6; font-family:var(--mono
             </div>
             <div class="dbcard">
               <h3>Documents</h3>
-              <p class="role" data-en="The knowledge layer: strategy, research, brand, processes, legal. One Type field sorts them.">Warstwa wiedzy: strategia, badania, marka, procesy, legal. Rozdziela je pole Typ.</p>
+              <p class="role" data-en="The knowledge layer: strategy, research, brand, processes, legal. One Type field sorts them.">Warstwa wiedzy: strategia, badania, marka, procesy, umowy. Rozdziela je pole Typ.</p>
               <div class="field" data-en="Key properties">Kluczowe właściwości</div>
               <div class="tags"><span>Type</span><span>Owner</span><span>Status</span></div>
               <div class="field" data-en="Relates to">Łączy się z</div>
@@ -360,7 +360,7 @@ footer .copy{width:100%; font-size:12.5px; color:#8a90a6; font-family:var(--mono
             </div>
             <div class="dbcard">
               <h3>Meetings</h3>
-              <p class="role" data-en="Meeting notes, chronological and linked to the people and project they belong to.">Notatki ze spotkań, chronologicznie i podpięte do ludzi oraz projektu, którego dotyczą.</p>
+              <p class="role" data-en="Meeting notes, chronological and linked to the people and project they belong to.">Notatki ze spotkań, ułożone chronologicznie i podpięte do osób oraz projektu, którego dotyczą.</p>
               <div class="field" data-en="Key properties">Kluczowe właściwości</div>
               <div class="tags"><span>Date</span><span>Attendees</span><span>Decisions</span></div>
               <div class="field" data-en="Relates to">Łączy się z</div>
@@ -368,7 +368,7 @@ footer .copy{width:100%; font-size:12.5px; color:#8a90a6; font-family:var(--mono
             </div>
             <div class="dbcard">
               <h3>Finance</h3>
-              <p class="role" data-en="Budget and transactions, tied to who you pay and which project it costs.">Budżet i transakcje, podpięte do tego, komu płacisz, i do projektu, który finansują.</p>
+              <p class="role" data-en="Budget and transactions, tied to who you pay and which project it costs.">Budżet i transakcje, powiązane z tym, komu płacisz, i z projektem, który finansują.</p>
               <div class="field" data-en="Key properties">Kluczowe właściwości</div>
               <div class="tags"><span>Amount</span><span>Type</span><span>Date</span></div>
               <div class="field" data-en="Relates to">Łączy się z</div>
@@ -380,52 +380,52 @@ footer .copy{width:100%; font-size:12.5px; color:#8a90a6; font-family:var(--mono
         <section>
           <span class="kicker" data-en="No duplication">Bez duplikacji</span>
           <h2 data-en="Relations instead of copying">Relacje zamiast kopiowania</h2>
-          <p data-en="A product points to its manufacturer through a relation, not through a copied address. Change the manufacturer's details once and every product is instantly correct. This is the exact answer to &quot;avoid duplicate information&quot;: a fact has one owner, and everywhere else is just a pointer to it. The same holds for people and companies, projects and their costs, meetings and the decisions they produced.">Produkt wskazuje na swojego producenta przez relację, nie przez skopiowany adres. Zmieniasz dane producenta raz i każdy produkt jest od razu aktualny. To dokładna odpowiedź na „unikać duplikacji": informacja ma jednego właściciela, a wszędzie indziej jest tylko odwołaniem do niego. Tak samo z ludźmi i firmami, projektami i ich kosztem, spotkaniami i decyzjami, które zapadły.</p>
+          <p data-en="A product points to its manufacturer through a relation, not through a copied address. Change the manufacturer's details once and every product is instantly correct. This is the exact answer to &quot;avoid duplicate information&quot;: a fact has one owner, and everywhere else is just a pointer to it. The same holds for people and companies, projects and their costs, meetings and the decisions they produced.">Produkt jest powiązany z producentem relacją, a nie skopiowanym adresem. Poprawiasz dane producenta raz i wszystkie produkty są od razu aktualne. To wprost odpowiedź na „unikać duplikacji": informacja żyje w jednym miejscu, a wszędzie indziej jest tylko odwołanie do niej. Tak samo z ludźmi i firmami, z projektami i ich kosztami, ze spotkaniami i zapadłymi na nich decyzjami.</p>
           <div class="callout">
             <span class="kicker" data-en="The mistake this prevents">Błąd, którego to unika</span>
-            <p data-en="Copy a supplier's address onto three product pages and you now have three versions the day they move. With a relation there is one supplier record; the products read from it. This is the difference the client will feel in month six, not week one, which is exactly why it has to be right at the start.">Skopiuj adres dostawcy na trzy strony produktów, a w dniu jego przeprowadzki masz trzy różne wersje. Przy relacji jest jeden rekord dostawcy, a produkty czytają z niego. Tę różnicę klient poczuje w szóstym miesiącu, nie w pierwszym tygodniu, i właśnie dlatego musi być dobrze od początku.</p>
+            <p data-en="Copy a supplier's address onto three product pages and you now have three versions the day they move. With a relation there is one supplier record; the products read from it. This is the difference the client will feel in month six, not week one, which is exactly why it has to be right at the start.">Skopiuj adres dostawcy na trzy strony produktów, a w dniu jego przeprowadzki masz trzy różne wersje. Przy relacji jest jeden rekord dostawcy i to z niego produkty biorą dane. Tę różnicę widać nie w pierwszym tygodniu, tylko w szóstym miesiącu, i dlatego trzeba to dobrze ustawić na starcie.</p>
           </div>
         </section>
 
         <section>
           <span class="kicker" data-en="The morning view">Widok poranny</span>
           <h2 data-en="Rollups build the dashboard">Rollupy budują pulpit</h2>
-          <p data-en="The home dashboard stores nothing. It reads. Projects rolls up its tasks: how many are open, the next due date, percent done. Finance rolls up cost per project. You open Notion at nine and the dashboard already answers &quot;what needs my attention&quot;: tasks due today and overdue, projects laid out on a board by stage, recent meetings. You don't click into each project one by one, the view is assembled from filtered databases, not from new data.">Poranny pulpit nie przechowuje niczego. Tylko czyta. Projects zbiera przez rollup swoje zadania: ile jest otwartych, najbliższy termin, procent ukończenia. Finance zbiera koszt na projekt. Otwierasz Notion o dziewiątej i pulpit już odpowiada na „co wymaga mojej uwagi": zadania na dziś i po terminie, projekty ułożone w tablicy według etapu, ostatnie spotkania. Nie klikasz w każdy projekt po kolei, widok jest złożony z przefiltrowanych baz, nie z nowych danych.</p>
+          <p data-en="The home dashboard stores nothing. It reads. Projects rolls up its tasks: how many are open, the next due date, percent done. Finance rolls up cost per project. You open Notion at nine and the dashboard already answers &quot;what needs my attention&quot;: tasks due today and overdue, projects laid out on a board by stage, recent meetings. You don't click into each project one by one, the view is assembled from filtered databases, not from new data.">Poranny pulpit nic nie przechowuje. Tylko czyta. Projects zbiera rollupem swoje zadania: ile jest otwartych, najbliższy termin, procent ukończenia. Finance sumuje koszty na projekt. Rano otwierasz Notion i pulpit od razu pokazuje, co wymaga uwagi: zadania na dziś i po terminie, projekty ułożone w tablicy według etapu, ostatnie spotkania. Nie musisz wchodzić w każdy projekt po kolei, ten widok jest poskładany z przefiltrowanych baz, a nie z nowych danych.</p>
           <ul class="ul">
-            <li data-en="&quot;My tasks today&quot; — a Tasks view filtered to due ≤ today and assigned to me.">„Moje zadania na dziś" to widok Tasks przefiltrowany po terminie ≤ dziś i przypisany do mnie.</li>
-            <li data-en="&quot;Projects by stage&quot; — a board of Projects grouped by Stage, so status is one glance.">„Projekty według etapu" to tablica Projects pogrupowana po Stage, więc status widać jednym spojrzeniem.</li>
-            <li data-en="&quot;Budget vs actual&quot; — Finance rolled up per project, next to the work it pays for.">„Budżet a wykonanie" to Finance zsumowane rollupem na projekt, obok pracy, którą finansuje.</li>
+            <li data-en="&quot;My tasks today&quot; — a Tasks view filtered to due ≤ today and assigned to me.">„Moje zadania na dziś" to widok bazy Tasks z filtrem: termin do dziś i przypisane do mnie.</li>
+            <li data-en="&quot;Projects by stage&quot; — a board of Projects grouped by Stage, so status is one glance.">„Projekty według etapu" to tablica z bazy Projects pogrupowana po polu Stage, więc status widać na jeden rzut oka.</li>
+            <li data-en="&quot;Budget vs actual&quot; — Finance rolled up per project, next to the work it pays for.">„Budżet a wykonanie" to koszty z bazy Finance zsumowane rollupem na projekt, tuż obok pracy, którą finansują.</li>
           </ul>
         </section>
 
         <section>
           <span class="kicker" data-en="Scale">Skala</span>
           <h2 data-en="It grows with the company, not against it">Rośnie z firmą, nie przeciw niej</h2>
-          <p data-en="The system grows by adding properties, not databases. A new product attribute is one column, not a new section. When people join the team you share top-level sections with permissions, and because the data isn't duplicated, access control stays clean: one database, one place to set who sees what. That is the difference between a system that grows with the company and one you have to rewrite after a year.">System rośnie przez dodawanie właściwości, nie baz. Nowy atrybut produktu to jedna kolumna, a nie nowy dział. Kiedy dojdą ludzie do zespołu, udostępniasz sekcje najwyższego poziomu z uprawnieniami, a że dane nie są zduplikowane, kontrola dostępu jest prosta: jedna baza, jedno miejsce, żeby ustawić, kto co widzi. To różnica między systemem, który rośnie z firmą, a takim, który po roku trzeba przepisać.</p>
+          <p data-en="The system grows by adding properties, not databases. A new product attribute is one column, not a new section. When people join the team you share top-level sections with permissions, and because the data isn't duplicated, access control stays clean: one database, one place to set who sees what. That is the difference between a system that grows with the company and one you have to rewrite after a year.">System rozbudowujesz, dodając właściwości, a nie kolejne bazy. Nowa cecha produktu to jedna kolumna, a nie nowy dział. Kiedy powiększy się zespół, udostępniasz sekcje najwyższego poziomu z uprawnieniami, a że dane nie są zduplikowane, dostęp ustawia się prosto: jedna baza, jedno miejsce, w którym decydujesz, kto co widzi. To różnica między systemem, który rośnie razem z firmą, a takim, który po roku trzeba pisać od nowa.</p>
         </section>
 
         <section>
           <span class="kicker" data-en="What you get">Co dostajesz</span>
           <h2 data-en="Architecture first, clicking second">Najpierw architektura, potem klikanie</h2>
-          <p data-en="I would start by designing the architecture, not by clicking. First the model: eight databases, their properties, the relations and rollups, and the reason behind each decision, so you understand the system instead of just receiving it. That can be billed as one closed phase. Then, if we fit, we build the workspace and I teach the decisions along the way.">Zaczynałbym od zaprojektowania architektury, nie od klikania. Najpierw model: osiem baz, ich właściwości, relacje i rollupy, i uzasadnienie każdej decyzji, żebyście rozumieli system, a nie tylko go dostali. To można rozliczyć jako jeden zamknięty etap. Potem, jeśli pasujemy do siebie, budujemy workspace i tłumaczę decyzje po drodze.</p>
+          <p data-en="I would start by designing the architecture, not by clicking. First the model: eight databases, their properties, the relations and rollups, and the reason behind each decision, so you understand the system instead of just receiving it. That can be billed as one closed phase. Then, if we fit, we build the workspace and I teach the decisions along the way.">Zacząłbym od zaprojektowania architektury, a nie od klikania. Najpierw model: osiem baz, ich właściwości, relacje i rollupy, plus uzasadnienie każdej decyzji, żebyście rozumieli system, a nie tylko go dostali. To zamykam w jednym, rozliczalnym etapie. Jeśli będzie nam po drodze, w drugim etapie buduję workspace i tłumaczę decyzje na bieżąco.</p>
           <div class="paths">
             <div class="path">
               <span class="num" data-en="Phase 1">Faza 1</span>
               <h3 data-en="Architecture blueprint">Architektura</h3>
-              <p data-en="I map your areas onto the database model and hand you the schema, the relations and the &quot;why&quot;. You build it, or I do.">Mapuję Wasze działy na model baz i oddaję schemat, relacje i „dlaczego". Wy budujecie albo ja buduję.</p>
+              <p data-en="I map your areas onto the database model and hand you the schema, the relations and the &quot;why&quot;. You build it, or I do.">Przekładam Wasze obszary na model baz i oddaję schemat, relacje i „dlaczego". Budujecie sami albo buduję ja.</p>
             </div>
             <div class="path">
               <span class="num" data-en="Phase 2">Faza 2</span>
               <h3 data-en="Built with you">Budowa z Wami</h3>
-              <p data-en="I set the workspace up in Notion and explain each decision live. It stays yours and you extend it yourselves.">Stawiam workspace w Notionie i tłumaczę każdą decyzję na żywo. Zostaje Wasz i sami go rozwijacie.</p>
+              <p data-en="I set the workspace up in Notion and explain each decision live. It stays yours and you extend it yourselves.">Stawiam workspace w Notionie i tłumaczę każdą decyzję na bieżąco. Zostaje u Was i sami go rozwijacie.</p>
             </div>
           </div>
         </section>
 
         <div class="wrap" style="padding:0">
           <div class="cta">
-            <h2 data-en="I'll map the model to your areas">Dopasuję model do Waszych działów</h2>
-            <p data-en="Tell me which areas you want in one place and I'll send back a first architecture sketch, before we talk price.">Napisz, jakie działy chcecie trzymać w jednym miejscu, a odeślę wstępny szkic architektury, zanim padnie słowo o cenie.</p>
+            <h2 data-en="I'll map the model to your areas">Dopasuję model do Waszych obszarów</h2>
+            <p data-en="Tell me which areas you want in one place and I'll send back a first architecture sketch, before we talk price.">Napisz, co chcecie trzymać w jednym miejscu, a odeślę wstępny szkic architektury, jeszcze zanim padnie słowo o cenie.</p>
             <a class="btn" href="/#contact" data-en="Get in touch">Napisz do mnie</a>
           </div>
 
@@ -447,7 +447,7 @@ footer .copy{width:100%; font-size:12.5px; color:#8a90a6; font-family:var(--mono
         <a href="/#contact" data-en="Contact">Kontakt</a>
         <a href="https://github.com/Helban" target="_blank" rel="noopener">GitHub</a>
       </nav>
-      <p class="copy"><span data-en="Architecture designed to grow, not to be rewritten.">Architektura zaprojektowana, żeby rosła, a nie żeby ją przepisywać.</span> · © 2026 helban.dev</p>
+      <p class="copy"><span data-en="Architecture designed to grow, not to be rewritten.">Architektura zaprojektowana tak, żeby rosła, a nie żeby ją potem pisać od nowa.</span> · © 2026 helban.dev</p>
     </div>
   </footer>
 
