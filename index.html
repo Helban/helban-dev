@@ -191,7 +191,7 @@ section{position:relative; padding:84px 0}
   text-transform:uppercase; color:var(--violet-l)}
 
 /* ---------- proof strip ---------- */
-.proof-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:18px}
+.proof-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:18px}
 .proof{display:flex; flex-direction:column}
 .proof .shot{aspect-ratio:16/10; border-radius:var(--radius-sm); overflow:hidden;
   border:1px solid var(--line); margin-bottom:15px; position:relative;
@@ -370,9 +370,14 @@ footer .copy{width:100%; font-size:12.5px; color:#8a90a6; font-family:var(--mono
 .js-reveal .proof.in-view .twinkle.t2{animation-delay:.9s}
 .js-reveal .proof.in-view .twinkle.t3{animation-delay:1.6s}
 
+@keyframes spin360{to{transform:rotate(360deg)}}
+.js-reveal .proof .spin360{transform-box:fill-box; transform-origin:center; opacity:0}
+.js-reveal .proof.in-view .spin360{opacity:1; animation:spin360 7s linear infinite; transition:opacity .6s ease}
+
 @media (prefers-reduced-motion:reduce){
   .proof{transition:none}
   .proof:hover{transform:none}
+  .js-reveal .proof.in-view .spin360{animation:none; opacity:1}
 }
   </style>
 </head>
@@ -427,7 +432,7 @@ footer .copy{width:100%; font-size:12.5px; color:#8a90a6; font-family:var(--mono
         <div class="sec-head">
           <span class="eyebrow" data-en="Live work">Realizacje</span>
           <h2 id="work-h" data-en="Click the proof, don't take my word">Dowód, który klikniesz. Nie obietnice.</h2>
-          <p data-en="Three hand-coded sites, no WordPress, no page builder. Real PageSpeed scores on mobile, measured not promised.">Trzy ręcznie napisane strony, bez WordPressa, bez page buildera. Realne wyniki PageSpeed na mobile, zmierzone, a nie obiecane.</p>
+          <p data-en="Four hand-coded sites, no WordPress, no page builder. Real PageSpeed scores on mobile, measured not promised.">Cztery ręcznie napisane strony, bez WordPressa, bez page buildera. Realne wyniki PageSpeed na mobile, zmierzone, a nie obiecane.</p>
         </div>
         <div class="proof-grid">
 
@@ -459,6 +464,16 @@ footer .copy{width:100%; font-size:12.5px; color:#8a90a6; font-family:var(--mono
             <p data-en="English SaaS / product landing, PageSpeed 100 on mobile and desktop, no React.">Angielski landing SaaS / produktowy, PageSpeed 100 na mobile i desktop, bez Reacta.</p>
             <div class="psi"><b>100<small>PERF</small></b><b>100<small>A11Y</small></b><b>100<small>BP</small></b><b>100<small>SEO</small></b></div>
             <a class="live" href="https://dropwatch.helban.dev" target="_blank" rel="noopener">dropwatch.helban.dev <span class="arrow">→</span></a>
+          </article>
+
+          <article class="card proof">
+            <div class="shot" aria-hidden="true">
+              <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice"><rect width="320" height="200" fill="#0e1206"/><rect x="24" y="28" width="132" height="12" rx="6" fill="#b9f73e"/><rect x="24" y="52" width="168" height="7" rx="3" fill="#48591f"/><ellipse cx="208" cy="156" rx="92" ry="18" fill="#182310"/><ellipse cx="208" cy="150" rx="62" ry="11" fill="none" stroke="#b9f73e" stroke-width="2" opacity=".6"/><g fill="none" stroke="#cfd3bd" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="176" cy="126" r="19"/><circle cx="246" cy="126" r="19"/><path d="M176 126 200 104 232 104 246 126"/><path d="M200 104 212 126"/><path d="M232 104 226 90 246 90"/></g><g class="spin360"><path d="M120 128a40 40 0 1 1 14 27" fill="none" stroke="#b9f73e" stroke-width="3.5" stroke-linecap="round"/><path d="M132 150 135 137 146 144z" fill="#b9f73e"/></g><text x="96" y="100" font-family="monospace" font-weight="700" font-size="16" fill="#eef7d8" text-anchor="middle">360°</text></svg>
+            </div>
+            <h3>voltera.helban.dev</h3>
+            <p data-en="Interactive motorcycle showroom: garage, drag-to-spin 360°, hotspots that jump to each component. Bilingual, PageSpeed 100.">Interaktywny showroom motocykli: garaż, obrót 360° palcem, hotspoty prowadzące do podzespołów. Dwujęzyczny, PageSpeed 100.</p>
+            <div class="psi"><b>100<small>PERF</small></b><b>100<small>A11Y</small></b><b>100<small>BP</small></b><b>100<small>SEO</small></b></div>
+            <a class="live" href="https://voltera.helban.dev" target="_blank" rel="noopener">voltera.helban.dev <span class="arrow">→</span></a>
           </article>
 
         </div>
