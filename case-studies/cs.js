@@ -1,5 +1,5 @@
-// Case-study pages: PL/EN language toggle + mobile nav. No order form here,
-// so this is a slim cousin of the hub's main.js. Polish is the markup default,
+// Subpages (case studies, privacy policy): PL/EN language toggle + mobile nav.
+// No order form here, so this is a slim cousin of the hub's main.js. Polish is the markup default,
 // English lives in data-en, and the choice is shared with the hub via localStorage.
 "use strict";
 

@@ -4,16 +4,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Case studies · helban.dev</title>
-  <meta name="description" content="Studia przypadku helban.dev: konkretne projekty rozpisane na liczby, metodę i wnioski. Pierwszy wpis: przyspieszenie WordPress z 63 do 99 w PageSpeed.">
+  <title>Polityka prywatności · helban.dev</title>
+  <meta name="description" content="Polityka prywatności helban.dev: bez cookies i bez śledzenia. Dane z formularza służą wyłącznie do odpowiedzi na zapytanie.">
   <meta name="theme-color" content="#0b0817">
-  <link rel="canonical" href="https://helban.dev/case-studies/">
+  <link rel="canonical" href="https://helban.dev/privacy/">
 
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="helban.dev">
-  <meta property="og:title" content="Case studies · helban.dev">
-  <meta property="og:description" content="Projekty rozpisane na liczby, metodę i wnioski. Pierwszy: przyspieszenie WordPress 63 → 99.">
-  <meta property="og:url" content="https://helban.dev/case-studies/">
+  <meta property="og:title" content="Polityka prywatności · helban.dev">
+  <meta property="og:description" content="Bez cookies i bez śledzenia. Dane z formularza służą wyłącznie do odpowiedzi na zapytanie.">
+  <meta property="og:url" content="https://helban.dev/privacy/">
   <meta property="og:image" content="https://helban.dev/assets/og-image.svg">
 
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
@@ -73,27 +73,20 @@ a{color:inherit; text-decoration:none}
 .nav-toggle{display:none; margin-left:auto; background:rgba(255,255,255,.06); border:1px solid var(--line); border-radius:10px; width:42px; height:38px; cursor:pointer; color:#fff}
 .nav-toggle svg{width:22px; height:22px; margin:auto; stroke:#fff}
 
-.head{padding:60px 0 20px}
+.head{padding:60px 0 10px}
 .eyebrow{font-family:var(--mono); font-size:12px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--violet-l)}
 .head h1{font-size:clamp(30px,5vw,44px); font-weight:800; letter-spacing:-1px; line-height:1.08; margin:12px 0 12px}
-.head p{color:#c6c9d8; font-size:17px; max-width:62ch}
+.head .lead{color:#c6c9d8; font-size:17px; max-width:62ch}
+.updated{font-family:var(--mono); font-size:12.5px; color:var(--muted); margin-top:14px}
 
-.cases{padding:14px 0 70px; display:grid; gap:18px}
-.case{position:relative; overflow:hidden; display:block;
-  background:linear-gradient(180deg, var(--glass-1), var(--glass-2)); border:1px solid var(--line);
-  border-radius:var(--radius); padding:26px; box-shadow:var(--shadow-card); transition:border-color .15s ease, transform .12s ease}
-.case::before{content:""; position:absolute; left:26px; right:26px; top:0; height:1px; background:linear-gradient(90deg, transparent, rgba(167,139,250,.7), transparent)}
-.case:hover{border-color:var(--line-strong); transform:translateY(-2px)}
-.case .tag{font-family:var(--mono); font-size:11px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--violet-l)}
-.case h2{font-size:clamp(19px,2.6vw,25px); font-weight:800; letter-spacing:-.5px; color:#fff; margin:9px 0 8px; line-height:1.15}
-.case p{color:#c6c9d8; font-size:15.5px; max-width:64ch}
-.stats{display:flex; flex-wrap:wrap; gap:10px; margin:18px 0 6px}
-.stats span{font-family:var(--mono); font-size:13px; color:#e9e7f5; background:rgba(255,255,255,.05); border:1px solid var(--line); border-radius:9px; padding:8px 12px}
-.stats span i{font-style:normal; color:var(--green); font-weight:700}
-.more{font-family:var(--mono); font-size:13.5px; font-weight:600; color:var(--violet-ll); display:inline-flex; align-items:center; gap:8px; margin-top:12px}
-.case:hover .more{color:#fff}
-.more .arrow{transition:transform .15s ease}
-.case:hover .more .arrow{transform:translateX(3px)}
+.policy{padding:28px 0 70px; display:grid; gap:16px}
+.policy section{background:linear-gradient(180deg, var(--glass-1), var(--glass-2)); border:1px solid var(--line);
+  border-radius:var(--radius); padding:24px 26px; box-shadow:var(--shadow-card)}
+.policy h2{font-size:19px; font-weight:700; letter-spacing:-.3px; color:#fff; margin-bottom:10px}
+.policy p{color:#c6c9d8; font-size:15.5px; max-width:70ch}
+.policy p + p{margin-top:10px}
+.policy a{color:var(--violet-ll); text-decoration:underline; text-underline-offset:3px}
+.policy a:hover{color:#fff}
 
 footer{border-top:1px solid var(--line); padding:30px 0 44px}
 footer .wrap{display:flex; align-items:center; gap:16px; flex-wrap:wrap}
@@ -114,7 +107,7 @@ footer .copy{width:100%; font-size:12.5px; color:#8a90a6; font-family:var(--mono
 </head>
 <body>
   <div class="bg" aria-hidden="true"></div>
-  <a class="skip" href="#cases" data-en="Skip to case studies">Przejdź do listy</a>
+  <a class="skip" href="#policy" data-en="Skip to content">Przejdź do treści</a>
 
   <header class="topbar">
     <div class="wrap">
@@ -137,38 +130,55 @@ footer .copy{width:100%; font-size:12.5px; color:#8a90a6; font-family:var(--mono
   <main>
     <section class="head">
       <div class="wrap">
-        <span class="eyebrow" data-en="Case studies">Case studies</span>
-        <h1 data-en="Projects written up like real studies">Projekty rozpisane jak prawdziwe badania</h1>
-        <p data-en="Not screenshots and adjectives. Each one is the setup, the method, the numbers, and the honest finding, so you can judge the work before we ever talk price.">Bez zrzutów ekranu i przymiotników. Każde to punkt wyjścia, metoda, liczby i uczciwy wniosek, żebyś mógł ocenić robotę, zanim w ogóle pogadamy o cenie.</p>
+        <span class="eyebrow">helban.dev</span>
+        <h1 data-en="Privacy policy">Polityka prywatności</h1>
+        <p class="lead" data-en="The short version: this site does not track you. No cookies, no analytics, no ad pixels. The only personal data you leave here is what you type into the contact form yourself.">Krótka wersja: ta strona Cię nie śledzi. Nie ma cookies, analityki ani pikseli reklamowych. Jedyne dane osobowe, jakie tu zostawiasz, to te, które sam wpiszesz w formularzu kontaktowym.</p>
+        <p class="updated" data-en="Last updated: July 5, 2026">Ostatnia aktualizacja: 5 lipca 2026</p>
       </div>
     </section>
 
-    <section id="cases">
-      <div class="wrap cases">
-        <a class="case" href="/case-studies/notion-operating-system/">
-          <span class="tag" data-en="Notion architecture">Architektura Notion</span>
-          <h2 data-en="A company operating system in Notion: 17 areas into 8 databases">Firmowy system operacyjny w Notionie: 17 działów w 8 bazach</h2>
-          <p data-en="How seventeen company areas collapse into eight connected databases with relations and rollups, no duplicated data, and a dashboard that shows what needs attention first thing in the morning.">Jak siedemnaście działów firmy schodzi do ośmiu połączonych baz z relacjami i rollupami, bez duplikacji danych, z pulpitem, który rano od razu pokazuje, co wymaga uwagi.</p>
-          <div class="stats">
-            <span data-en="17 → 8 databases">17 → 8 baz</span>
-            <span data-en="1 source of truth">1 źródło prawdy</span>
-            <span data-en="0 retyped fields">0 przepisywanych pól</span>
-          </div>
-          <span class="more" data-en="Read the case study →">Czytaj case study <span class="arrow">→</span></span>
-        </a>
-        <a class="case" href="/case-studies/wordpress-speed/">
-          <span class="tag" data-en="WordPress speed">Przyspieszenie WordPress</span>
-          <h2 data-en="One WordPress page, built three ways: 63 → 99">Ta sama strona WordPress, zbudowana trzy razy: 63 → 99</h2>
-          <p data-en="The same landing page as a bloated Elementor build, optimized in place, and rebuilt lean by hand. Where the page-builder ceiling sits and how much is really recoverable.">Ta sama strona jako rozdmuchany Elementor, zoptymalizowana w miejscu i zbudowana od nowa ręcznie. Gdzie siedzi sufit page buildera i ile realnie da się odzyskać.</p>
-          <div class="stats">
-            <span>Perf <i>63 → 99</i></span>
-            <span>LCP <i>26,5s → 2,0s</i></span>
-            <span data-en="weight −91%">waga <i>−91%</i></span>
-          </div>
-          <span class="more" data-en="Read the case study →">Czytaj case study <span class="arrow">→</span></span>
-        </a>
-      </div>
-    </section>
+    <div class="wrap policy" id="policy">
+      <section aria-labelledby="p-admin">
+        <h2 id="p-admin" data-en="Who is responsible for your data">Kto odpowiada za Twoje dane</h2>
+        <p><span data-en="The data controller is Adam Kramarczyk. For anything related to your data, write to ">Administratorem danych osobowych jest Adam Kramarczyk. W każdej sprawie dotyczącej danych napisz na </span><a href="mailto:contact@helban.dev">contact@helban.dev</a>.</p>
+      </section>
+
+      <section aria-labelledby="p-what">
+        <h2 id="p-what" data-en="What I collect and why">Co zbieram i po co</h2>
+        <p data-en="The contact form gives me your name, email address and the message itself. If you click “Order” next to a service, the message also carries that service's name, the package price and the language you were browsing in.">Z formularza kontaktowego dostaję imię, adres email i treść wiadomości. Jeśli klikniesz „Zamów” przy którejś usłudze, w wiadomości znajdzie się też jej nazwa, cena pakietu i język, w którym przeglądasz stronę.</p>
+        <p data-en="I use this data for one thing: to reply to your inquiry and prepare an offer or a contract. The legal basis is steps taken at your request before entering into a contract (Article 6(1)(b) GDPR), and my legitimate interest in keeping the correspondence itself (Article 6(1)(f)).">Używam ich w jednym celu: żeby odpowiedzieć na zapytanie i przygotować ofertę albo umowę. Podstawą prawną są działania podejmowane na Twoje żądanie przed zawarciem umowy (art. 6 ust. 1 lit. b RODO), a dla przechowywania samej korespondencji mój prawnie uzasadniony interes (lit. f).</p>
+        <p data-en="Providing your data is voluntary. Without an email address I simply have no way to reply.">Podanie danych jest dobrowolne. Bez adresu email po prostu nie mam jak odpowiedzieć.</p>
+      </section>
+
+      <section aria-labelledby="p-where">
+        <h2 id="p-where" data-en="Where your message goes">Dokąd trafia wiadomość</h2>
+        <p data-en="The form delivers its content through Web3Forms (a form-delivery service) to my Gmail inbox (Google). Email sent to contact@helban.dev is forwarded there by Cloudflare, which also hosts the site itself.">Treść formularza trafia przez Web3Forms (usługę obsługi formularzy) na moją skrzynkę Gmail (Google). Maile wysłane na contact@helban.dev przekierowuje tam Cloudflare, który hostuje też samą stronę.</p>
+        <p data-en="These providers process data on my behalf and may do so on servers outside the European Economic Area, mainly in the US. Google and Cloudflare are certified under the EU-US Data Privacy Framework. I do not pass your data to anyone else and I do not sell it.">Ci dostawcy przetwarzają dane w moim imieniu i mogą to robić na serwerach poza Europejskim Obszarem Gospodarczym, głównie w USA. Google i Cloudflare mają certyfikację w programie EU-US Data Privacy Framework. Nikomu innemu danych nie przekazuję i ich nie sprzedaję.</p>
+      </section>
+
+      <section aria-labelledby="p-retention">
+        <h2 id="p-retention" data-en="How long I keep it">Jak długo trzymam dane</h2>
+        <p data-en="Inquiries that never turn into work are deleted no later than a year after the last message. Correspondence tied to a signed contract is kept as long as tax law and claim limitation periods require.">Zapytania, z których nic nie wyszło, usuwam najpóźniej rok po ostatniej wiadomości. Korespondencję dotyczącą zawartej umowy trzymam tak długo, jak wymagają przepisy podatkowe, i do czasu przedawnienia ewentualnych roszczeń.</p>
+      </section>
+
+      <section aria-labelledby="p-rights">
+        <h2 id="p-rights" data-en="Your rights">Twoje prawa</h2>
+        <p><span data-en="You can access your data, correct it, have it deleted, restrict its processing, take it with you or object to it. An email to ">Masz prawo dostępu do swoich danych, ich sprostowania, usunięcia, ograniczenia przetwarzania, przeniesienia i sprzeciwu. Wystarczy mail na </span><a href="mailto:contact@helban.dev">contact@helban.dev</a><span data-en=" is enough, no forms needed.">, bez żadnych formalności.</span></p>
+        <p><span data-en="If you believe I process your data unlawfully, you can lodge a complaint with the President of the Polish Data Protection Office at ">Jeśli uznasz, że przetwarzam dane niezgodnie z prawem, możesz złożyć skargę do Prezesa Urzędu Ochrony Danych Osobowych: </span><a href="https://uodo.gov.pl" target="_blank" rel="noopener">uodo.gov.pl</a>.</p>
+      </section>
+
+      <section aria-labelledby="p-cookies">
+        <h2 id="p-cookies" data-en="Cookies, localStorage and the demos">Cookies, localStorage i dema</h2>
+        <p data-en="This site sets no cookies and loads no analytics or ad scripts. The only thing it stores in your browser is your language choice (the helbanLang key in localStorage). It is a technical setting: it does not identify you and never leaves your browser.">Strona nie ustawia cookies i nie ładuje analityki ani skryptów reklamowych. Jedyne, co zapisuje w Twojej przeglądarce, to wybrany język (klucz helbanLang w localStorage). To ustawienie techniczne: nie identyfikuje Cię i nigdzie nie jest wysyłane.</p>
+        <p data-en="The demo sites on the subdomains (salon.helban.dev, kalkulator.helban.dev and the rest) carry no trackers either. If you submit a sample form in one of the demos, the message lands in the same inbox under the same rules.">Strony demonstracyjne na subdomenach (salon.helban.dev, kalkulator.helban.dev i pozostałe) też nie mają żadnych trackerów. Jeśli w którymś demie wyślesz przykładowy formularz, wiadomość trafia na tę samą skrzynkę, na tych samych zasadach.</p>
+        <p data-en="One exception: the payment demo at pay.helban.dev runs on Stripe in test mode, and Stripe sets its own cookies used for payment fraud prevention. All payments there are fictional and no real money moves.">Jeden wyjątek: demo płatności pay.helban.dev działa na Stripe w trybie testowym, a Stripe ustawia własne cookies służące wykrywaniu nadużyć płatniczych. Płatności są tam fikcyjne, żadnych prawdziwych pieniędzy w tym nie ma.</p>
+      </section>
+
+      <section aria-labelledby="p-none">
+        <h2 id="p-none" data-en="What you won't find here">Czego tu nie ma</h2>
+        <p data-en="I do not profile visitors, I make no automated decisions about anyone and I send no newsletter. Any change to this policy will be published on this page with a new date at the top.">Nie profiluję odwiedzających, nie podejmuję wobec nikogo zautomatyzowanych decyzji i nie wysyłam newslettera. Każdą zmianę tej polityki opublikuję tutaj, z nową datą u góry.</p>
+      </section>
+    </div>
   </main>
 
   <footer>
@@ -177,6 +187,7 @@ footer .copy{width:100%; font-size:12.5px; color:#8a90a6; font-family:var(--mono
       <nav class="f-links" aria-label="Footer">
         <a href="/#services" data-en="Services">Usługi</a>
         <a href="/#work" data-en="Live work">Realizacje</a>
+        <a href="/case-studies/" data-en="Case studies">Case studies</a>
         <a href="/#contact" data-en="Contact">Kontakt</a>
         <a href="/privacy/" data-en="Privacy policy">Polityka prywatności</a>
         <a href="https://github.com/Helban" target="_blank" rel="noopener">GitHub</a>
@@ -185,6 +196,6 @@ footer .copy{width:100%; font-size:12.5px; color:#8a90a6; font-family:var(--mono
     </div>
   </footer>
 
-  <script src="cs.js" defer></script>
+  <script src="/case-studies/cs.js" defer></script>
 </body>
 </html>
