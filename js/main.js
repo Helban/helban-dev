@@ -85,9 +85,26 @@
     orderReadout.classList.add("show");
   };
 
-  const applyLanguage = (language) => {
+  // The non-text side of a language switch: active state, ARIA, hidden fields and
+  // storage. Split out so the initial Polish load can sync state without the
+  // full-document textContent rewrite, which forced a layout pass on every boot.
+  const syncLanguageState = (language) => {
     const useEnglish = language === "en";
     activeLanguage = useEnglish ? "en" : "pl";
+    document.documentElement.lang = activeLanguage;
+    languageButtons.pl.setAttribute("aria-pressed", String(!useEnglish));
+    languageButtons.en.setAttribute("aria-pressed", String(useEnglish));
+    hiddenLanguageField.value = activeLanguage;
+    hiddenPlatformField.value = PLATFORM_BY_LANGUAGE[activeLanguage];
+    try {
+      localStorage.setItem("helbanLang", activeLanguage);
+    } catch (storageError) {
+      if (DEBUG) console.warn("localStorage unavailable:", storageError);
+    }
+  };
+
+  const applyLanguage = (language) => {
+    const useEnglish = language === "en";
 
     document.querySelectorAll("[data-en]").forEach((node) => {
       node.textContent = useEnglish ? node.dataset.en : polishDefaults.polishText.get(node);
@@ -104,19 +121,8 @@
       node.textContent = useEnglish ? node.dataset.priceEn : node.dataset.pricePl;
     });
 
-    document.documentElement.lang = activeLanguage;
-    languageButtons.pl.setAttribute("aria-pressed", String(!useEnglish));
-    languageButtons.en.setAttribute("aria-pressed", String(useEnglish));
-    hiddenLanguageField.value = activeLanguage;
-    hiddenPlatformField.value = PLATFORM_BY_LANGUAGE[activeLanguage];
-
+    syncLanguageState(language);
     refreshOrderReadout();
-
-    try {
-      localStorage.setItem("helbanLang", activeLanguage);
-    } catch (storageError) {
-      if (DEBUG) console.warn("localStorage unavailable:", storageError);
-    }
   };
 
   const pickInitialLanguage = () => {
@@ -264,6 +270,14 @@
   };
 
   // ---------- boot ----------
-  applyLanguage(pickInitialLanguage());
+  // Polish is the markup default, so a Polish visitor needs only the state sync on
+  // load, not a full-document text rewrite. English (query or stored) does the pass.
+  const initialLanguage = pickInitialLanguage();
+  if (initialLanguage === "en") {
+    applyLanguage("en");
+  } else {
+    syncLanguageState("pl");
+    refreshOrderReadout();
+  }
   setUpProofReveals();
 })();
