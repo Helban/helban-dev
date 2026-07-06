@@ -243,6 +243,25 @@ section{position:relative; padding:84px 0}
 .svc-metrics b i{font-style:normal; color:var(--green)}
 .svc-metrics small{display:block; font-family:var(--mono); font-size:8.5px; font-weight:600; color:var(--muted); letter-spacing:.5px; text-transform:uppercase; margin-top:3px}
 
+/* ---------- case studies ---------- */
+.cs-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(258px,1fr)); gap:18px}
+.cs-card{display:flex; flex-direction:column; padding:22px; transition:border-color .15s ease, transform .12s ease}
+.cs-card:hover{border-color:var(--line-strong); transform:translateY(-2px)}
+.cs-card .tag{font-family:var(--mono); font-size:11px; font-weight:700; letter-spacing:1.4px; text-transform:uppercase; color:var(--violet-l)}
+.cs-card h3{font-size:18px; font-weight:800; letter-spacing:-.4px; color:#fff; margin:10px 0 8px; line-height:1.2}
+.cs-card p{font-size:14.5px; color:#c3c6d6; flex:1}
+.cs-stats{display:flex; flex-wrap:wrap; gap:8px; margin:16px 0 4px}
+.cs-stats span{font-family:var(--mono); font-size:12px; color:#e9e7f5; background:rgba(255,255,255,.05); border:1px solid var(--line); border-radius:8px; padding:6px 9px}
+.cs-stats span i{font-style:normal; color:var(--green); font-weight:700}
+.cs-more{font-family:var(--mono); font-size:13px; font-weight:600; color:var(--violet-ll); display:inline-flex; align-items:center; gap:7px; margin-top:14px}
+.cs-card:hover .cs-more{color:#fff}
+.cs-more .arrow{transition:transform .15s ease}
+.cs-card:hover .cs-more .arrow{transform:translateX(3px)}
+.cs-all{display:inline-flex; align-items:center; gap:8px; margin-top:26px; font-family:var(--mono); font-size:14px; font-weight:600; color:var(--violet-ll)}
+.cs-all:hover{color:#fff}
+.cs-all .arrow{transition:transform .15s ease}
+.cs-all:hover .arrow{transform:translateX(3px)}
+
 /* ---------- steps ---------- */
 .steps{display:grid; grid-template-columns:repeat(3,1fr); gap:18px}
 .step{display:flex; flex-direction:column; gap:10px}
@@ -399,7 +418,7 @@ footer .copy{width:100%; display:flex; justify-content:space-between; gap:8px 18
       <nav class="nav" id="nav">
         <a href="#services" data-en="Services">Usługi</a>
         <a href="#work" data-en="Live work">Realizacje</a>
-        <a href="/case-studies/" data-en="Case studies">Case studies</a>
+        <a href="#case-studies" data-en="Case studies">Case studies</a>
         <a href="#how" data-en="How it works">Jak to działa</a>
         <a href="#about" data-en="About">O mnie</a>
         <a href="#contact" class="nav-cta" data-en="Get in touch">Napisz</a>
@@ -741,6 +760,57 @@ footer .copy{width:100%; display:flex; justify-content:space-between; gap:8px 18
       </div>
     </section>
 
+    <!-- ================= CASE STUDIES ================= -->
+    <section id="case-studies" aria-labelledby="cs-h">
+      <div class="wrap">
+        <div class="sec-head">
+          <span class="eyebrow" data-en="Case studies">Case studies</span>
+          <h2 id="cs-h" data-en="Projects written up as numbers, not adjectives">Projekty rozpisane na liczby, nie na przymiotniki</h2>
+          <p data-en="Three projects taken apart: the starting point, the method, the numbers, and the honest finding. Read one before we ever talk price.">Trzy projekty rozłożone na części: punkt wyjścia, metoda, liczby i uczciwy wniosek. Przeczytaj jeden, zanim pogadamy o cenie.</p>
+        </div>
+
+        <div class="cs-grid">
+          <a class="card cs-card" href="/case-studies/wordpress-speed/">
+            <span class="tag" data-en="WordPress speed">Przyspieszenie WordPress</span>
+            <h3 data-en="One page, built three ways: 63 → 99">Ta sama strona, zbudowana trzy razy: 63 → 99</h3>
+            <p data-en="Where the page-builder ceiling sits and how much speed is really recoverable.">Gdzie siedzi sufit page buildera i ile prędkości realnie da się odzyskać.</p>
+            <div class="cs-stats">
+              <span>Perf <i>63 → 99</i></span>
+              <span>LCP <i>26,5s → 2,0s</i></span>
+              <span data-en="weight −91%">waga <i>−91%</i></span>
+            </div>
+            <span class="cs-more" data-en="Read the case study →">Czytaj case study <span class="arrow">→</span></span>
+          </a>
+
+          <a class="card cs-card" href="/case-studies/ksef-woocommerce/">
+            <span class="tag">KSeF + WooCommerce</span>
+            <h3 data-en="KSeF for WooCommerce: what you actually implement">KSeF w WooCommerce: co naprawdę musisz wdrożyć</h3>
+            <p data-en="Who issues invoices in KSeF and from when, and what a free plugin will not handle.">Kto wystawia faktury w KSeF i od kiedy, a czego darmowa wtyczka nie załatwia.</p>
+            <div class="cs-stats">
+              <span>1 kwi <i>2026</i></span>
+              <span data-en="B2C outside">B2C <i>poza</i></span>
+              <span data-en="3 paths">3 <i>ścieżki</i></span>
+            </div>
+            <span class="cs-more" data-en="Read the guide →">Czytaj przewodnik <span class="arrow">→</span></span>
+          </a>
+
+          <a class="card cs-card" href="/case-studies/notion-operating-system/">
+            <span class="tag" data-en="Notion architecture">Architektura Notion</span>
+            <h3 data-en="A company OS in Notion: 17 areas into 8 databases">Firmowy system operacyjny w Notionie: 17 działów w 8 bazach</h3>
+            <p data-en="Seventeen company areas collapsed into eight linked databases, with no retyped data.">Siedemnaście działów firmy w ośmiu połączonych bazach, bez przepisywania danych.</p>
+            <div class="cs-stats">
+              <span data-en="17 → 8 databases">17 → 8 baz</span>
+              <span data-en="1 source of truth">1 źródło prawdy</span>
+              <span data-en="0 retyped fields">0 przepisywanych pól</span>
+            </div>
+            <span class="cs-more" data-en="Read the case study →">Czytaj case study <span class="arrow">→</span></span>
+          </a>
+        </div>
+
+        <a class="cs-all" href="/case-studies/" data-en="All case studies →">Wszystkie case studies <span class="arrow">→</span></a>
+      </div>
+    </section>
+
     <!-- ================= HOW IT WORKS ================= -->
     <section id="how" aria-labelledby="how-h">
       <div class="wrap">
@@ -866,7 +936,7 @@ footer .copy{width:100%; display:flex; justify-content:space-between; gap:8px 18
       <nav class="f-links" aria-label="Footer">
         <a href="#services" data-en="Services">Usługi</a>
         <a href="#work" data-en="Live work">Realizacje</a>
-        <a href="/case-studies/" data-en="Case studies">Case studies</a>
+        <a href="#case-studies" data-en="Case studies">Case studies</a>
         <a href="#contact" data-en="Contact">Kontakt</a>
         <a href="/privacy/" data-en="Privacy policy">Polityka prywatności</a>
         <a href="https://github.com/Helban" target="_blank" rel="noopener">GitHub</a>
