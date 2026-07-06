@@ -8,10 +8,14 @@
   const DEBUG = false;
 
   // Web3Forms public access key (safe in client-side code). Delivers leads to the
-  // email the key is tied to. If it ever reverts to the placeholder, the form shows
-  // a failure notice instead of failing silently.
+  // email the key is tied to. If it ever reverts to the placeholder, the form falls
+  // back to pointing at the contact address instead of failing silently.
   const WEB3FORMS_ACCESS_KEY = "52aa9b5b-27a0-4842-9dbf-0e384294bd0f";
   const WEB3FORMS_ENDPOINT = "https://api.web3forms.com/submit";
+
+  // Written into the contact link at runtime so it is never a raw pattern in the
+  // served HTML, which would make Cloudflare inject its render-blocking decode script.
+  const CONTACT_EMAIL = "contact@helban.dev";
 
   // Smooth-scroll lands first, then focus, so the field is in view when focused.
   const FOCUS_AFTER_SCROLL_MS = 420;
@@ -27,8 +31,8 @@
       en: "Thanks, your message is in. I'll get back to you soon.",
     },
     failed: {
-      pl: "Nie udało się wysłać. Spróbuj ponownie za chwilę.",
-      en: "Sending failed. Please try again in a moment.",
+      pl: `Nie udało się wysłać. Napisz bezpośrednio na ${CONTACT_EMAIL}.`,
+      en: `Sending failed. Please email me directly at ${CONTACT_EMAIL}.`,
     },
     incomplete: {
       pl: "Uzupełnij imię, email i wiadomość.",
@@ -277,5 +281,15 @@
     syncLanguageState("pl");
     refreshOrderReadout();
   }
+
+  // Assemble the contact address at runtime (see CONTACT_EMAIL); the static markup
+  // carries no email pattern, so Cloudflare adds no render-blocking decode script.
+  const contactEmailLink = document.getElementById("contactEmail");
+  const contactEmailText = document.getElementById("contactEmailText");
+  if (contactEmailLink && contactEmailText) {
+    contactEmailLink.href = `mailto:${CONTACT_EMAIL}`;
+    contactEmailText.textContent = CONTACT_EMAIL;
+  }
+
   setUpProofReveals();
 })();
