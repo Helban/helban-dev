@@ -1,17 +1,17 @@
 """Build the six served web fonts from the Google-hosted Inter / JetBrains Mono
 subsets in build/fonts-src/.
 
-For each weight we merge its latin + latin-ext source into one face, then subset
-that to the glyphs the site actually uses. Two wins over shipping Google's files
-directly:
+The Google sources are variable fonts. For each weight we pin the variable
+source to that weight (a real static instance, not the default master), merge
+its latin + latin-ext pair into one face, then subset to the glyphs the site
+uses. Wins over shipping Google's files directly:
 
   - one file per weight instead of two (latin + latin-ext), so a Polish visitor
     makes 6 font requests, not 12. Twelve parallel requests made Lighthouse log
     ERR_TIMED_OUT on whichever were still in flight when it ended the run, which
     cost the Best Practices score.
-  - the merge drops the GSUB/GPOS/GDEF layout tables (no live ligatures, kerning
-    is cosmetic at these sizes) and we subset to ~140 codepoints, so the six
-    files total ~41 KB instead of ~605 KB.
+  - subset to ~140 codepoints, so the six files stay small (~100 KB total vs
+    ~605 KB) while keeping kerning (GPOS) and the correct per-weight outlines.
 
 Run after adding copy that introduces a new glyph:
     python -m venv .venv && .venv/bin/pip install fonttools brotli
@@ -22,6 +22,7 @@ import glob
 import os
 
 from fontTools.merge import Merger
+from fontTools.varLib import instancer
 from fontTools.subset import Options, Subsetter
 from fontTools.ttLib import TTFont
 
@@ -38,11 +39,6 @@ FONT_WEIGHTS = [
     ("jetbrains-mono", 500),
     ("jetbrains-mono", 700),
 ]
-
-# Layout / variation tables the merger cannot combine and a static marketing site
-# does not need (no live ligatures; kerning is cosmetic at display sizes).
-DROP_TABLES = ("GSUB", "GPOS", "GDEF", "STAT", "fvar", "gvar", "avar",
-               "HVAR", "MVAR", "VVAR")
 
 POLISH = "ąćęłńóśźżĄĆĘŁŃÓŚŹŻ"
 PUNCTUATION = "–—‘’“”„…•·→←↑↓©®°×÷−±§€£¥$%&@#*/\\|~^`+=<>[](){}"
@@ -61,12 +57,15 @@ def collect_target_codepoints() -> set[int]:
     return {cp for cp in codepoints if cp >= 0x20 and cp != 0x7F}
 
 
-def _strip_layout_tables(src_path: str, temp_path: str) -> None:
-    """Save a copy of one subset with the tables the merger cannot combine removed."""
+def _instance_to_temp(src_path: str, weight: int, temp_path: str) -> None:
+    """Pin the variable source to its target weight and save a static copy.
+
+    The Google sources are variable fonts (a wght axis). Deleting fvar/gvar
+    outright would leave the default master (Regular), which is why an earlier
+    build rendered every weight too thin. instantiateVariableFont bakes the
+    real weight and removes the variation tables cleanly so the merge can run."""
     font = TTFont(src_path)
-    for table_tag in DROP_TABLES:
-        if table_tag in font:
-            del font[table_tag]
+    instancer.instantiateVariableFont(font, {"wght": weight}, inplace=True)
     font.flavor = None
     font.save(temp_path)
 
@@ -74,8 +73,8 @@ def _strip_layout_tables(src_path: str, temp_path: str) -> None:
 def build_weight(family: str, weight: int, target_codepoints: set[int]) -> int:
     latin_temp = os.path.join(FONTS_DIR, f"_{family}-{weight}-latin.ttf")
     latin_ext_temp = os.path.join(FONTS_DIR, f"_{family}-{weight}-latin-ext.ttf")
-    _strip_layout_tables(os.path.join(SRC_DIR, f"{family}-{weight}-latin.woff2"), latin_temp)
-    _strip_layout_tables(os.path.join(SRC_DIR, f"{family}-{weight}-latin-ext.woff2"), latin_ext_temp)
+    _instance_to_temp(os.path.join(SRC_DIR, f"{family}-{weight}-latin.woff2"), weight, latin_temp)
+    _instance_to_temp(os.path.join(SRC_DIR, f"{family}-{weight}-latin-ext.woff2"), weight, latin_ext_temp)
 
     merged_font = Merger().merge([latin_temp, latin_ext_temp])
 
