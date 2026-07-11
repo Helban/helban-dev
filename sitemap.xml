@@ -11,6 +11,11 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://helban.dev/case-studies/generateblocks-pro-traps/</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://helban.dev/case-studies/wordpress-speed/</loc>
     <changefreq>yearly</changefreq>
     <priority>0.8</priority>

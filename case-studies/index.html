@@ -84,8 +84,8 @@ a{color:inherit; text-decoration:none}
 .case h2{font-size:clamp(19px,2.6vw,25px); font-weight:800; letter-spacing:-.5px; color:#fff; margin:9px 0 8px; line-height:1.15}
 .case p{color:#c6c9d8; font-size:15.5px; max-width:64ch}
 .stats{display:flex; flex-wrap:wrap; gap:10px; margin:18px 0 6px}
-.stats span{font-family:var(--mono); font-size:13px; color:#e9e7f5; background:rgba(255,255,255,.05); border:1px solid var(--line); border-radius:9px; padding:8px 12px}
-.stats span i{font-style:normal; color:var(--green); font-weight:700}
+.stats > span{font-family:var(--mono); font-size:13px; color:#e9e7f5; background:rgba(255,255,255,.05); border:1px solid var(--line); border-radius:9px; padding:8px 12px}
+.stats i{font-style:normal; color:var(--green); font-weight:700}
 .more{font-family:var(--mono); font-size:13.5px; font-weight:600; color:var(--violet-ll); display:inline-flex; align-items:center; gap:8px; margin-top:12px}
 .case:hover .more{color:#fff}
 .more .arrow{transition:transform .15s ease}
@@ -147,8 +147,8 @@ footer .copy{width:100%; font-size:12.5px; color:#8a90a6; font-family:var(--mono
           <p data-en="Polish VAT e-invoicing for WooCommerce stores: who issues invoices in KSeF and from when, why B2C sales stay outside the system, and what a free plugin will not handle. The guide itself is in Polish.">Kto wystawia faktury w KSeF i od kiedy, dlaczego sprzedaż do osób prywatnych jest poza systemem i czego darmowa wtyczka nie załatwia. Przewodnik dla sklepów, które chcą to poukładać przed terminem.</p>
           <div class="stats">
             <span>1 kwi <i>2026</i></span>
-            <span data-en="B2C outside">B2C <i>poza</i></span>
-            <span data-en="3 paths">3 <i>ścieżki</i></span>
+            <span>B2C <i data-en="outside">poza</i></span>
+            <span>3 <i data-en="paths">ścieżki</i></span>
           </div>
           <span class="more" data-en="Read the guide →">Czytaj przewodnik <span class="arrow">→</span></span>
         </a>
@@ -163,6 +163,17 @@ footer .copy{width:100%; font-size:12.5px; color:#8a90a6; font-family:var(--mono
           </div>
           <span class="more" data-en="Read the case study →">Czytaj case study <span class="arrow">→</span></span>
         </a>
+        <a class="case" href="/case-studies/generateblocks-pro-traps/">
+          <span class="tag">GenerateBlocks Pro</span>
+          <h2 data-en="GenerateBlocks Pro and GP Premium: eight traps the docs never mention">GenerateBlocks Pro i GP Premium: osiem pułapek, których nie ma w dokumentacji</h2>
+          <p data-en="Read out of the plugin source and verified by running it: the licence key unlocks nothing, modules ship off, sticky headers live in the wrong plugin, and a string address passes every validator while winning no rich results. Not one of them is a bug.">Wyczytane ze źródeł wtyczek i sprawdzone na żywo: klucz licencyjny niczego nie odblokowuje, moduły przychodzą wyłączone, sticky menu siedzi w innej wtyczce, a adres jako zwykły tekst przechodzi każdy walidator i nie daje rich resultów. Żadna z tych rzeczy nie jest bugiem.</p>
+          <div class="stats">
+            <span>8 <i data-en="traps">pułapek</i></span>
+            <span>0 <i data-en="licence keys">kluczy</i></span>
+            <span>0 <i data-en="plugin bugs">bugów wtyczki</i></span>
+          </div>
+          <span class="more" data-en="Read the deep dive →">Czytaj analizę <span class="arrow">→</span></span>
+        </a>
         <a class="case" href="/case-studies/wordpress-speed/">
           <span class="tag" data-en="WordPress speed">Przyspieszenie WordPress</span>
           <h2 data-en="One WordPress page, built three ways: 63 → 99">Ta sama strona WordPress, zbudowana trzy razy: 63 → 99</h2>
@@ -170,7 +181,7 @@ footer .copy{width:100%; font-size:12.5px; color:#8a90a6; font-family:var(--mono
           <div class="stats">
             <span>Perf <i>63 → 99</i></span>
             <span>LCP <i>26,5s → 2,0s</i></span>
-            <span data-en="weight −91%">waga <i>−91%</i></span>
+            <span><span data-en="weight">waga</span> <i>−91%</i></span>
           </div>
           <span class="more" data-en="Read the case study →">Czytaj case study <span class="arrow">→</span></span>
         </a>
