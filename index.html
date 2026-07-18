@@ -235,15 +235,23 @@ h1,h2,h3{text-wrap:balance}
 
 /* ---------- services ---------- */
 /* three intent doors: the buyer picks their problem, the grid narrows.
-   Pure enhancement — without JS every package stays visible. */
-.doors{display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:26px}
-.door{text-align:left; cursor:pointer; padding:14px 16px; border-radius:var(--radius-sm);
-  background:rgba(255,255,255,.04); border:1px solid var(--line); color:var(--text);
+   Pure enhancement — without JS every package stays visible. Tinted violet and
+   arrowed so they read as a choice, not as another row of package cards. */
+.doors-label{font-size:16px; font-weight:700; color:#fff; margin-bottom:12px}
+.doors{display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:30px}
+.door{display:flex; align-items:center; justify-content:space-between; gap:12px;
+  text-align:left; cursor:pointer; padding:16px 18px; border-radius:var(--radius-sm);
+  background:rgba(124,58,237,.09); border:1px solid var(--line-strong); color:var(--text);
   transition:border-color .15s ease, background .15s ease}
-.door:hover{border-color:var(--line-strong); background:rgba(255,255,255,.07)}
-.door[aria-pressed="true"]{border-color:var(--violet-l); background:rgba(124,58,237,.16)}
-.door b{display:block; font-size:15.5px; font-weight:700; color:#fff; margin-bottom:3px}
-.door span{font-size:12.5px; color:var(--muted)}
+.door:hover{border-color:var(--violet-l); background:rgba(124,58,237,.16)}
+.door[aria-pressed="true"]{border-color:var(--violet-l); background:rgba(124,58,237,.24);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.09)}
+.door b{display:block; font-size:16px; font-weight:700; color:#fff; margin-bottom:3px}
+.door .door-sub{font-size:12.5px; color:var(--muted)}
+.door .arrow{font-family:var(--mono); font-size:16px; color:var(--violet-ll); flex:none;
+  transition:transform .15s ease}
+.door:hover .arrow{transform:translateX(3px)}
+.door[aria-pressed="true"] .arrow{transform:rotate(90deg)}
 @media (max-width:700px){.doors{grid-template-columns:1fr}}
 
 .svc-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(310px,1fr)); gap:18px}
@@ -594,18 +602,28 @@ footer .copy{width:100%; display:flex; justify-content:space-between; gap:8px 18
           <p data-en="Fixed scope, a starting price, and a link to live code or a live demo on every package. Pick what brings you here, or browse everything.">Stały zakres, cena wyjściowa i link do działającego kodu albo demo przy każdym pakiecie. Wybierz, z czym przychodzisz, albo przeglądaj wszystko.</p>
         </div>
 
+        <p class="doors-label" data-en="What brings you here?">Z czym przychodzisz?</p>
         <div class="doors" id="svcDoors">
           <button type="button" class="door" data-door="web" aria-pressed="false">
-            <b data-en="I need a website">Potrzebuję strony</b>
-            <span data-en="company site or a landing page">strona firmowa albo landing</span>
+            <span class="door-txt">
+              <b data-en="I need a website">Potrzebuję strony</b>
+              <span class="door-sub" data-en="company site or a landing page">strona firmowa albo landing</span>
+            </span>
+            <span class="arrow" aria-hidden="true">→</span>
           </button>
           <button type="button" class="door" data-door="data" aria-pressed="false">
-            <b data-en="I need data or automation">Potrzebuję danych albo automatyzacji</b>
-            <span data-en="scraper, Chrome plugin, AI chatbot">scraper, wtyczka Chrome, chatbot AI</span>
+            <span class="door-txt">
+              <b data-en="I need data or automation">Potrzebuję danych albo automatyzacji</b>
+              <span class="door-sub" data-en="scraper, Chrome plugin, AI chatbot">scraper, wtyczka Chrome, chatbot AI</span>
+            </span>
+            <span class="arrow" aria-hidden="true">→</span>
           </button>
           <button type="button" class="door" data-door="fix" aria-pressed="false">
-            <b data-en="Something is broken or slow">Coś działa źle albo wolno</b>
-            <span data-en="slow WordPress, someone else's code">wolny WordPress, cudzy kod</span>
+            <span class="door-txt">
+              <b data-en="Something is broken or slow">Coś działa źle albo wolno</b>
+              <span class="door-sub" data-en="slow WordPress, someone else's code">wolny WordPress, cudzy kod</span>
+            </span>
+            <span class="arrow" aria-hidden="true">→</span>
           </button>
         </div>
 
