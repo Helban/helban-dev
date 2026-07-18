@@ -12,8 +12,9 @@
   // served HTML, which would make Cloudflare inject its render-blocking decode script.
   const CONTACT_EMAIL = "contact@helban.dev";
 
-  // Smooth-scroll lands first, then focus, so the field is in view when focused.
-  const FOCUS_AFTER_SCROLL_MS = 420;
+  // Focus fires on scrollend where supported; this timer is the fallback for
+  // browsers without the event and for the no-scroll case (already at the form).
+  const FOCUS_FALLBACK_MS = 900;
 
   // UI language maps to the platform that will issue the contract, written into
   // a hidden form field so the lead email already says where to bill.
@@ -32,6 +33,10 @@
     incomplete: {
       pl: "Uzupełnij imię, email i wiadomość.",
       en: "Please fill in your name, email and message.",
+    },
+    invalidEmail: {
+      pl: "Popraw adres email.",
+      en: "Please correct your email address.",
     },
   };
 
@@ -143,6 +148,7 @@
 
     syncLanguageState(language);
     refreshOrderReadout();
+    refreshFieldErrors();
     renderTerminal({ instant: true });
   };
 
@@ -196,12 +202,13 @@
   });
 
   // ---------- nav scrollspy ----------
-  // Highlights the nav link of the section in view. The contact CTA is skipped:
-  // it is styled as a button and an "active" background would fight the gradient.
+  // Highlights the nav link of the section in view. The contact CTA takes part
+  // (so "O mnie" unlights at #contact and aria-current lands correctly) but its
+  // .active background is suppressed in CSS to not fight the gradient.
   const setUpScrollspy = () => {
     if (!("IntersectionObserver" in window)) return;
     const spiedLinks = new Map();
-    navMenu.querySelectorAll("a[href^='#']:not(.nav-cta)").forEach((link) => {
+    navMenu.querySelectorAll("a[href^='#']").forEach((link) => {
       const section = document.getElementById(link.getAttribute("href").slice(1));
       if (section) spiedLinks.set(section, link);
     });
@@ -231,6 +238,21 @@
   const orderClearButton = document.getElementById("orderClear");
   const nameInput = document.getElementById("name");
 
+  // A fixed timer used to fire mid-scroll, popping the mobile keyboard while the
+  // page was still moving. scrollend is exact; the timer covers the rest.
+  const focusWhenScrollSettles = (targetField) => {
+    let alreadyFocused = false;
+    const focusOnce = () => {
+      if (alreadyFocused) return;
+      alreadyFocused = true;
+      targetField.focus({ preventScroll: true });
+    };
+    if ("onscrollend" in window) {
+      window.addEventListener("scrollend", focusOnce, { once: true });
+    }
+    window.setTimeout(focusOnce, FOCUS_FALLBACK_MS);
+  };
+
   document.querySelectorAll(".order-btn").forEach((button) => {
     button.addEventListener("click", () => {
       selectedOrder = {
@@ -242,7 +264,7 @@
       persistOrder();
       refreshOrderReadout();
       document.getElementById("contact").scrollIntoView({ behavior: "smooth", block: "start" });
-      window.setTimeout(() => nameInput.focus({ preventScroll: true }), FOCUS_AFTER_SCROLL_MS);
+      focusWhenScrollSettles(nameInput);
     });
   });
 
@@ -270,21 +292,50 @@
     formStatus.className = `form-status ${kind}`;
   };
 
+  const fieldErrorElement = (field) => document.getElementById(`${field.id}Err`);
+
+  // Empty field and wrong format are different mistakes; say which one it is,
+  // in the page language (data-err-* attributes on the .field-err element).
+  const fieldErrorText = (field) => {
+    const errorData = fieldErrorElement(field).dataset;
+    const useEnglish = activeLanguage === "en";
+    if (field.validity.valueMissing) {
+      return useEnglish ? errorData.errEn : errorData.errPl;
+    }
+    const invalidText = useEnglish ? errorData.errInvalidEn : errorData.errInvalidPl;
+    return invalidText || (useEnglish ? errorData.errEn : errorData.errPl);
+  };
+
   const markInvalidFields = () => {
     requiredFields.forEach((field) => {
       const fieldValid = field.checkValidity();
       field.classList.toggle("invalid", !fieldValid);
       field.setAttribute("aria-invalid", String(!fieldValid));
+      const errorElement = fieldErrorElement(field);
+      errorElement.textContent = fieldValid ? "" : fieldErrorText(field);
+      errorElement.classList.toggle("show", !fieldValid);
     });
   };
 
   const findFirstInvalidField = () => requiredFields.find((field) => !field.checkValidity());
+
+  // Re-word visible errors after a language switch.
+  const refreshFieldErrors = () => {
+    requiredFields.forEach((field) => {
+      if (field.classList.contains("invalid")) {
+        fieldErrorElement(field).textContent = fieldErrorText(field);
+      }
+    });
+  };
 
   requiredFields.forEach((field) => {
     field.addEventListener("input", () => {
       if (field.checkValidity()) {
         field.classList.remove("invalid");
         field.setAttribute("aria-invalid", "false");
+        const errorElement = fieldErrorElement(field);
+        errorElement.textContent = "";
+        errorElement.classList.remove("show");
       }
     });
   });
@@ -296,7 +347,8 @@
     if (orderForm.elements.botcheck.value) return;
 
     if (!orderForm.checkValidity()) {
-      showStatus("incomplete", "err");
+      const anyFieldEmpty = requiredFields.some((field) => field.validity.valueMissing);
+      showStatus(anyFieldEmpty ? "incomplete" : "invalidEmail", "err");
       markInvalidFields();
       const firstInvalidField = findFirstInvalidField();
       if (firstInvalidField) firstInvalidField.focus();

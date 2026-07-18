@@ -103,6 +103,10 @@ img,svg{display:block}
 
 .wrap{width:100%; max-width:var(--maxw); margin:0 auto; padding:0 22px}
 .mono{font-family:var(--mono)}
+/* invisible hit-area extension: small controls keep their look but meet the
+   44px touch floor */
+.hit44{position:relative}
+.hit44::after{content:""; position:absolute; inset:-10px -6px}
 
 /* ---------- skip link ---------- */
 .skip{position:absolute; left:-9999px; top:0; z-index:100;
@@ -138,7 +142,7 @@ img,svg{display:block}
 /* ---------- shared section ---------- */
 section{position:relative; padding:84px 0}
 h1,h2,h3{text-wrap:balance}
-.sec-head{max-width:680px; margin-bottom:40px}
+.sec-head{max-width:620px; margin-bottom:40px}
 .sec-head h2{font-size:clamp(26px,4vw,38px); font-weight:800; letter-spacing:-1px; line-height:1.08; margin:0 0 10px}
 .sec-head p{color:#c3c6d6; font-size:16.5px; text-wrap:pretty}
 
@@ -210,8 +214,13 @@ h1,h2,h3{text-wrap:balance}
 .psi b{flex:1; text-align:center; font-family:var(--mono); font-weight:700; font-size:12px; letter-spacing:-.3px; white-space:nowrap; color:#04301b;
   border-radius:8px; padding:6px 0; background:linear-gradient(180deg,#26d366,#1fb457);
   box-shadow:inset 0 1px 0 rgba(255,255,255,.45)}
-.psi b small{display:block; font-size:10px; font-weight:700; letter-spacing:.4px; margin-top:2px; color:#0a4527}
-.psi-legend{font-family:var(--mono); font-size:12px; color:var(--muted); margin-top:10px}
+.psi b small{display:block; font-size:10px; font-weight:700; letter-spacing:.4px; margin-top:2px; color:#04301b}
+/* .sec-head p would win on specificity and blow this up to 16.5px */
+.sec-head .psi-legend{font-family:var(--mono); font-size:12.5px; color:var(--muted); margin-top:10px}
+/* the whole badge row deep-links to a fresh PageSpeed run of that site;
+   z-index lifts it above the card's stretched-link overlay */
+.psi-link{position:relative; z-index:1; display:block; border-radius:8px}
+.psi-link:hover .psi b{filter:brightness(1.07)}
 .live{font-family:var(--mono); font-size:13px; font-weight:600; color:var(--violet-ll);
   display:inline-flex; align-items:center; gap:7px; align-self:flex-start}
 .live:hover{color:#fff}
@@ -236,7 +245,6 @@ h1,h2,h3{text-wrap:balance}
 .svc .scope{font-size:14px; color:#b6b9c9; line-height:1.55}
 .svc .meta{display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:auto; padding-top:8px}
 .price{font-family:var(--mono); font-weight:700; font-size:16px; color:#fff}
-.price small{font-family:var(--mono); font-weight:500; font-size:11px; color:var(--muted); display:block; letter-spacing:.4px}
 .svc-proof{font-family:var(--mono); font-size:12px; font-weight:500; color:var(--violet-ll);
   display:inline-flex; align-items:center; gap:6px}
 .svc-proof:hover{color:#fff}
@@ -308,6 +316,8 @@ input,textarea{width:100%; font-family:var(--sans); font-size:15px; color:#fff;
 input::placeholder,textarea::placeholder{color:#868ca2}
 input:focus,textarea:focus{outline:none; border-color:var(--violet-l); background:rgba(255,255,255,.07)}
 input.invalid,textarea.invalid{border-color:var(--coral)}
+.field-err{display:none; font-size:12.5px; font-weight:600; color:var(--coral); margin-top:6px}
+.field-err.show{display:block}
 textarea{resize:vertical; min-height:120px}
 .hp{position:absolute; left:-9999px}
 .form-note{font-size:13px; color:var(--muted); margin-top:12px}
@@ -335,10 +345,20 @@ footer{border-top:1px solid var(--line); padding:34px 0 46px; margin-top:20px}
 footer .wrap{display:flex; align-items:center; gap:18px; flex-wrap:wrap}
 footer .brand{font-size:16px}
 footer .f-links{display:flex; gap:16px; margin-left:auto; flex-wrap:wrap}
-footer .f-links a{font-size:13.5px; color:var(--muted)}
+footer .f-links a{font-size:13.5px; color:var(--muted); position:relative}
+footer .f-links a::after{content:""; position:absolute; inset:-11px -6px}
 footer .f-links a:hover{color:#fff}
 footer .copy{width:100%; display:flex; justify-content:space-between; gap:8px 18px; flex-wrap:wrap;
   font-size:12.5px; color:#8a90a6; font-family:var(--mono); padding-top:6px}
+
+/* wide desktop: the flagship cards span two columns, so 7 proof cards fill
+   a 4-column grid (8 cells) and 8 service cards fill three rows of three */
+@media (min-width:1100px){
+  .proof-flag{grid-column:span 2}
+}
+@media (min-width:1000px){
+  .svc-flag{grid-column:span 2}
+}
 
 /* ---------- responsive ---------- */
 @media (max-width:880px){
@@ -433,19 +453,19 @@ footer .copy{width:100%; display:flex; justify-content:space-between; gap:8px 18
         <a href="#about" data-en="About">O mnie</a>
         <a href="#contact" class="nav-cta" data-en="Get in touch">Napisz</a>
         <div class="lang" role="group" aria-label="Language / Język">
-          <button id="langPl" aria-pressed="true">PL</button>
-          <button id="langEn" aria-pressed="false">EN</button>
+          <button id="langPl" class="hit44" aria-pressed="true">PL</button>
+          <button id="langEn" class="hit44" aria-pressed="false">EN</button>
         </div>
       </nav>
     </div>
   </header>
 
-  <main id="top">
+  <main id="top" tabindex="-1">
     <!-- ================= HERO ================= -->
     <section class="hero" aria-labelledby="hero-h">
       <div class="wrap">
         <h1 id="hero-h"><span data-en="Fast websites and tools. The code stays yours">Szybkie strony i&nbsp;narzędzia. Kod zostaje u&nbsp;Ciebie</span><span class="tld-dot">.</span></h1>
-        <p class="lede" data-en="I build fast websites (PageSpeed 97-100), Python web scrapers, Chrome MV3 extensions and automations. Every service comes with a live demo you can click.">Buduję szybkie strony (PageSpeed 97-100), web scrapery w&nbsp;Pythonie, rozszerzenia Chrome MV3 i&nbsp;automatyzacje. Każda usługa ma działające demo, które możesz kliknąć.</p>
+        <p class="lede" data-en="I build websites that load instantly (Google PageSpeed 97-100), Python web scrapers, Chrome MV3 extensions and automations. Every service comes with a live demo you can click.">Buduję strony, które wczytują się od razu (Google PageSpeed 97-100), web scrapery w&nbsp;Pythonie, rozszerzenia Chrome MV3 i&nbsp;automatyzacje. Każda usługa ma działające demo, które możesz kliknąć.</p>
         <div class="hero-term" id="heroTerm">
           <noscript><span class="ln"><span class="pr">&gt;</span> ta strona: ręcznie pisany HTML, ~60 KB z fontami. Zmierz sam: PageSpeed Insights.</span></noscript>
         </div>
@@ -468,17 +488,17 @@ footer .copy{width:100%; display:flex; justify-content:space-between; gap:8px 18
         <div class="sec-head">
           <h2 id="work-h" data-en="Click the proof, don't take my word">Dowód, który klikniesz. Nie obietnice.</h2>
           <p data-en="Seven hand-coded projects, no WordPress, no page builder. Real PageSpeed scores on mobile, measured not promised. Performance swings 1-2 points between PSI runs (mobile, July 2026); accessibility, best practices and SEO stay at 100.">Siedem ręcznie napisanych projektów, bez WordPressa, bez page buildera. Realne wyniki PageSpeed na mobile, zmierzone, a nie obiecane. Wydajność waha się o 1-2 pkt między pomiarami PSI (mobile, lipiec 2026); dostępność, best practices i SEO stabilnie 100.</p>
-          <p class="psi-legend" data-en="Badges = Google PageSpeed results (mobile), 0-100: PERF performance, A11Y accessibility, BP best practices, SEO visibility in Google.">Plakietki = wyniki Google PageSpeed (mobile), skala 0-100: PERF wydajność, A11Y dostępność, BP dobre praktyki, SEO widoczność w Google.</p>
+          <p class="psi-legend" data-en="Badges = Google PageSpeed results (mobile), 0-100: PERF performance, A11Y accessibility, BP best practices, SEO visibility in Google. Click a badge row to run the measurement yourself.">Plakietki = wyniki Google PageSpeed (mobile), skala 0-100: PERF wydajność, A11Y dostępność, BP dobre praktyki, SEO widoczność w Google. Kliknij pasek plakietek, żeby zmierzyć samemu.</p>
         </div>
         <div class="proof-grid">
 
-          <article class="card proof">
+          <article class="card proof proof-flag">
             <div class="shot" aria-hidden="true">
               <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f6c8d6"/><stop offset="1" stop-color="#c9a8ff"/></linearGradient></defs><rect width="320" height="200" fill="#1a1230"/><rect x="24" y="28" width="150" height="14" rx="7" fill="url(#g1)"/><rect x="24" y="52" width="110" height="8" rx="4" fill="#6d5a9c"/><rect x="24" y="72" width="84" height="26" rx="13" fill="#8b5cf6"/><rect x="196" y="28" width="100" height="120" rx="12" fill="#2a1f4d"/><circle cx="246" cy="78" r="26" fill="url(#g1)"/><g class="sparkles"><g transform="translate(277,54)"><polygon class="twinkle t1" points="0,-6 1.5,-1.5 6,0 1.5,1.5 0,6 -1.5,1.5 -6,0 -1.5,-1.5" fill="#fff0f6"/></g><g transform="translate(222,98)"><polygon class="twinkle t2" points="0,-5 1.3,-1.3 5,0 1.3,1.3 0,5 -1.3,1.3 -5,0 -1.3,-1.3" fill="#fff0f6"/></g><g transform="translate(266,114)"><polygon class="twinkle t3" points="0,-7 1.7,-1.7 7,0 1.7,1.7 0,7 -1.7,1.7 -7,0 -1.7,-1.7" fill="#fff0f6"/></g></g></svg>
             </div>
             <h3>salon.helban.dev</h3>
             <p data-en="Premium salon site, multi-page, JSON-LD schema and a validated contact form.">Wielostronicowa strona salonu premium, schema JSON-LD i formularz kontaktowy z walidacją.</p>
-            <div class="psi"><b>97-99<small>PERF</small></b><b>100<small>A11Y</small></b><b>100<small>BP</small></b><b>100<small>SEO</small></b></div>
+            <a class="psi-link" href="https://pagespeed.web.dev/analysis?url=https%3A%2F%2Fsalon.helban.dev%2F" target="_blank" rel="noopener" aria-label="PageSpeed Insights: salon.helban.dev"><div class="psi"><b>97-99<small>PERF</small></b><b>100<small>A11Y</small></b><b>100<small>BP</small></b><b>100<small>SEO</small></b></div></a>
             <a class="live" href="https://salon.helban.dev" target="_blank" rel="noopener">salon.helban.dev <span class="arrow">→</span></a>
           </article>
 
@@ -488,7 +508,7 @@ footer .copy{width:100%; display:flex; justify-content:space-between; gap:8px 18
             </div>
             <h3>kalkulator.helban.dev</h3>
             <p data-en="Service landing with an interactive price calculator and lead capture, no backend.">Landing usługowy z interaktywnym kalkulatorem ceny i formularzem, który zbiera zapytania, bez backendu.</p>
-            <div class="psi"><b>98-99<small>PERF</small></b><b>100<small>A11Y</small></b><b>100<small>BP</small></b><b>100<small>SEO</small></b></div>
+            <a class="psi-link" href="https://pagespeed.web.dev/analysis?url=https%3A%2F%2Fkalkulator.helban.dev%2F" target="_blank" rel="noopener" aria-label="PageSpeed Insights: kalkulator.helban.dev"><div class="psi"><b>98-99<small>PERF</small></b><b>100<small>A11Y</small></b><b>100<small>BP</small></b><b>100<small>SEO</small></b></div></a>
             <a class="live" href="https://kalkulator.helban.dev" target="_blank" rel="noopener">kalkulator.helban.dev <span class="arrow">→</span></a>
           </article>
 
@@ -498,7 +518,7 @@ footer .copy{width:100%; display:flex; justify-content:space-between; gap:8px 18
             </div>
             <h3>dropwatch.helban.dev</h3>
             <p data-en="English SaaS / product landing, PageSpeed 100 on mobile and desktop, no React.">Angielski landing SaaS / produktowy, PageSpeed 100 na mobile i desktop, bez Reacta.</p>
-            <div class="psi"><b>100<small>PERF</small></b><b>100<small>A11Y</small></b><b>100<small>BP</small></b><b>100<small>SEO</small></b></div>
+            <a class="psi-link" href="https://pagespeed.web.dev/analysis?url=https%3A%2F%2Fdropwatch.helban.dev%2F" target="_blank" rel="noopener" aria-label="PageSpeed Insights: dropwatch.helban.dev"><div class="psi"><b>100<small>PERF</small></b><b>100<small>A11Y</small></b><b>100<small>BP</small></b><b>100<small>SEO</small></b></div></a>
             <a class="live" href="https://dropwatch.helban.dev" target="_blank" rel="noopener">dropwatch.helban.dev <span class="arrow">→</span></a>
           </article>
 
@@ -508,7 +528,7 @@ footer .copy{width:100%; display:flex; justify-content:space-between; gap:8px 18
             </div>
             <h3>voltera.helban.dev</h3>
             <p data-en="Interactive motorcycle showroom: garage, drag-to-spin 360°, hotspots that jump to each component. Bilingual, PageSpeed 99-100.">Interaktywny showroom motocykli: garaż, obrót 360° palcem, hotspoty prowadzące do podzespołów. Dwujęzyczny, PageSpeed 99-100.</p>
-            <div class="psi"><b>99-100<small>PERF</small></b><b>100<small>A11Y</small></b><b>100<small>BP</small></b><b>100<small>SEO</small></b></div>
+            <a class="psi-link" href="https://pagespeed.web.dev/analysis?url=https%3A%2F%2Fvoltera.helban.dev%2F" target="_blank" rel="noopener" aria-label="PageSpeed Insights: voltera.helban.dev"><div class="psi"><b>99-100<small>PERF</small></b><b>100<small>A11Y</small></b><b>100<small>BP</small></b><b>100<small>SEO</small></b></div></a>
             <a class="live" href="https://voltera.helban.dev" target="_blank" rel="noopener">voltera.helban.dev <span class="arrow">→</span></a>
           </article>
 
@@ -518,7 +538,7 @@ footer .copy{width:100%; display:flex; justify-content:space-between; gap:8px 18
             </div>
             <h3>aurum-casino.helban.dev</h3>
             <p data-en="Playable slot and a dual-currency wallet in a landscape PWA. Every graphic is drawn in code as SVG, no raster files, and the fonts weigh 40 KB.">Grywalny slot i portfel na dwie waluty w aplikacji PWA działającej w poziomie. Cała grafika narysowana w kodzie jako SVG, bez plików rastrowych, a fonty ważą 40 KB.</p>
-            <div class="psi"><b>99-100<small>PERF</small></b><b>100<small>A11Y</small></b><b>100<small>BP</small></b><b>100<small>SEO</small></b></div>
+            <a class="psi-link" href="https://pagespeed.web.dev/analysis?url=https%3A%2F%2Faurum-casino.helban.dev%2F" target="_blank" rel="noopener" aria-label="PageSpeed Insights: aurum-casino.helban.dev"><div class="psi"><b>99-100<small>PERF</small></b><b>100<small>A11Y</small></b><b>100<small>BP</small></b><b>100<small>SEO</small></b></div></a>
             <a class="live" href="https://aurum-casino.helban.dev" target="_blank" rel="noopener">aurum-casino.helban.dev <span class="arrow">→</span></a>
           </article>
 
@@ -528,7 +548,7 @@ footer .copy{width:100%; display:flex; justify-content:space-between; gap:8px 18
             </div>
             <h3>aethos.helban.dev</h3>
             <p data-en="Concept site for a futuristic branding studio. No traditional sections, spatial navigation and a cursor-reactive particle field on canvas. Hand-coded, PageSpeed 98-100.">Koncepcyjna strona futurystycznej agencji brandingowej. Układ bez tradycyjnych sekcji, nawigacja przestrzenna i pole cząstek reagujące na kursor. Ręcznie kodowane, PageSpeed 98-100.</p>
-            <div class="psi"><b>98-100<small>PERF</small></b><b>100<small>A11Y</small></b><b>100<small>BP</small></b><b>100<small>SEO</small></b></div>
+            <a class="psi-link" href="https://pagespeed.web.dev/analysis?url=https%3A%2F%2Faethos.helban.dev%2F" target="_blank" rel="noopener" aria-label="PageSpeed Insights: aethos.helban.dev"><div class="psi"><b>98-100<small>PERF</small></b><b>100<small>A11Y</small></b><b>100<small>BP</small></b><b>100<small>SEO</small></b></div></a>
             <a class="live" href="https://aethos.helban.dev" target="_blank" rel="noopener">aethos.helban.dev <span class="arrow">→</span></a>
           </article>
 
@@ -538,7 +558,7 @@ footer .copy{width:100%; display:flex; justify-content:space-between; gap:8px 18
             </div>
             <h3>orqa.helban.dev</h3>
             <p data-en="Node-based editor for AI workflows: wire nodes, run the graph through the Claude API. A cinema mode turns it into a control room, where a light carries each result down the wire and a telemetry console prints every retry and its HTTP code.">Edytor węzłowy do przepływów AI: łączysz węzły i puszczasz graf przez API Claude. Tryb kinowy zamienia go w centrum dowodzenia, w którym po kablu leci światło z wynikiem, a konsola telemetrii wypisuje każde ponowienie i jego kod HTTP.</p>
-            <div class="psi"><b>98-100<small>PERF</small></b><b>100<small>A11Y</small></b><b>100<small>BP</small></b><b>100<small>SEO</small></b></div>
+            <a class="psi-link" href="https://pagespeed.web.dev/analysis?url=https%3A%2F%2Forqa.helban.dev%2F" target="_blank" rel="noopener" aria-label="PageSpeed Insights: orqa.helban.dev"><div class="psi"><b>98-100<small>PERF</small></b><b>100<small>A11Y</small></b><b>100<small>BP</small></b><b>100<small>SEO</small></b></div></a>
             <a class="live" href="https://orqa.helban.dev" target="_blank" rel="noopener">orqa.helban.dev <span class="arrow">→</span></a>
           </article>
 
@@ -556,11 +576,11 @@ footer .copy{width:100%; display:flex; justify-content:space-between; gap:8px 18
 
         <div class="svc-grid">
 
-            <article class="card svc">
+            <article class="card svc svc-flag">
               <span class="flag-pill" data-en="most ordered">najczęściej zamawiane</span>
               <h3 data-en="Company website / business card">Strona firmowa / wizytówka</h3>
               <p class="scope" data-en="Lean hand-coded site, PageSpeed 97-99, real technical SEO: per-page titles, structured data for Google, a sitemap. Not a page builder.">Lekka, ręcznie pisana strona, PageSpeed 97-99, realne techniczne SEO: osobne tytuły podstron, dane strukturalne dla Google, sitemap. Bez page buildera.</p>
-              <a class="svc-proof" href="https://salon.helban.dev" target="_blank" rel="noopener"><span class="dot"></span>salon.helban.dev</a>
+              <a class="svc-proof hit44" href="https://salon.helban.dev" target="_blank" rel="noopener"><span class="dot"></span>salon.helban.dev</a>
               <div class="meta"><span class="price" data-price-pl="od 2500 zł" data-price-en="from $600">od 2500 zł</span></div>
               <button class="btn btn-primary btn-block order-btn" data-en="Order" data-service="Strona firmowa / wizytówka" data-service-en="Company website" data-price-pl="od 2500 zł" data-price-en="from $600">Zamów</button>
             </article>
@@ -568,7 +588,7 @@ footer .copy{width:100%; display:flex; justify-content:space-between; gap:8px 18
             <article class="card svc">
               <h3 data-en="Landing with a price calculator + lead form">Landing z kalkulatorem wyceny i formularzem</h3>
               <p class="scope" data-en="One-page landing with an interactive cost calculator and a working lead form. Price shows instantly, the lead lands in your inbox.">Jednostronicowy landing z interaktywnym kalkulatorem kosztów i działającym formularzem. Cena pokazuje się od razu, a zapytanie trafia na twoją skrzynkę.</p>
-              <a class="svc-proof" href="https://kalkulator.helban.dev" target="_blank" rel="noopener"><span class="dot"></span>kalkulator.helban.dev</a>
+              <a class="svc-proof hit44" href="https://kalkulator.helban.dev" target="_blank" rel="noopener"><span class="dot"></span>kalkulator.helban.dev</a>
               <div class="meta"><span class="price" data-price-pl="od 1900 zł" data-price-en="from $450">od 1900 zł</span></div>
               <button class="btn btn-ghost btn-block order-btn" data-en="Order" data-service="Landing z kalkulatorem wyceny" data-service-en="Calculator landing" data-price-pl="od 1900 zł" data-price-en="from $450">Zamów</button>
             </article>
@@ -581,7 +601,7 @@ footer .copy{width:100%; display:flex; justify-content:space-between; gap:8px 18
                 <span><b><i>−91%</i></b><small data-en="weight">waga</small></span>
                 <span><b>26.5s <i>→ 2.0s</i></b><small>LCP</small></span>
               </div>
-              <a class="svc-proof" href="https://wp-speed.helban.dev" target="_blank" rel="noopener"><span class="dot"></span><span data-en="wp-speed.helban.dev · full study">wp-speed.helban.dev · pełne badanie</span></a>
+              <a class="svc-proof hit44" href="https://wp-speed.helban.dev" target="_blank" rel="noopener"><span class="dot"></span><span data-en="wp-speed.helban.dev · full study">wp-speed.helban.dev · pełne badanie</span></a>
               <div class="meta"><span class="price" data-price-pl="od 900 zł" data-price-en="from $250">od 900 zł</span></div>
               <button class="btn btn-ghost btn-block order-btn" data-en="Order" data-service="Przyspieszenie WordPressa" data-service-en="WordPress speed-up" data-price-pl="od 900 zł" data-price-en="from $250">Zamów</button>
             </article>
@@ -589,7 +609,7 @@ footer .copy{width:100%; display:flex; justify-content:space-between; gap:8px 18
             <article class="card svc">
               <h3 data-en="Web scraper → Excel / CSV / SQL">Web scraper → Excel / CSV / SQL</h3>
               <p class="scope" data-en="Data pulled from a chosen site into a clean Excel, CSV or database: deduped, normalized. The script stays with you, run it whenever you want. Handles JavaScript-heavy pages too.">Dane z wybranej strony w czystym Excelu, CSV albo bazie: bez duplikatów, ujednolicone. Skrypt zostaje u ciebie, uruchamiasz go, kiedy chcesz. Radzi sobie też ze stronami na JavaScripcie.</p>
-              <a class="svc-proof" href="https://github.com/Helban/fmcsa-carrier-lead-scraper" target="_blank" rel="noopener"><span class="dot"></span>github.com/Helban/fmcsa-carrier-lead-scraper</a>
+              <a class="svc-proof hit44" href="https://github.com/Helban/fmcsa-carrier-lead-scraper" target="_blank" rel="noopener"><span class="dot"></span>github.com/Helban/fmcsa-carrier-lead-scraper</a>
               <div class="meta"><span class="price" data-price-pl="od 400 zł" data-price-en="from $60">od 400 zł</span></div>
               <button class="btn btn-ghost btn-block order-btn" data-en="Order" data-service="Web scraper → Excel / CSV / SQL" data-service-en="Web scraper → Excel / CSV / SQL" data-price-pl="od 400 zł" data-price-en="from $60">Zamów</button>
             </article>
@@ -597,7 +617,7 @@ footer .copy{width:100%; display:flex; justify-content:space-between; gap:8px 18
             <article class="card svc">
               <h3 data-en="Chrome extension (MV3)">Rozszerzenie Chrome (MV3)</h3>
               <p class="scope" data-en="A Chrome plugin that adds new features to the pages you work on: a side panel, buttons, Gmail or API integrations, secure login. One delivered contract behind these.">Wtyczka do Chrome'a, która dokłada nowe funkcje do stron, na których pracujesz: panel boczny, przyciski, integracje z Gmailem albo API, bezpieczne logowanie. Stoi za tym zrealizowany kontrakt.</p>
-              <a class="svc-proof" href="https://github.com/Helban/keeptouch" target="_blank" rel="noopener"><span class="dot"></span>github.com/Helban/keeptouch</a>
+              <a class="svc-proof hit44" href="https://github.com/Helban/keeptouch" target="_blank" rel="noopener"><span class="dot"></span>github.com/Helban/keeptouch</a>
               <div class="meta"><span class="price" data-price-pl="od 700 zł" data-price-en="from $150">od 700 zł</span></div>
               <button class="btn btn-ghost btn-block order-btn" data-en="Order" data-service="Rozszerzenie Chrome (MV3)" data-service-en="Chrome extension (MV3)" data-price-pl="od 700 zł" data-price-en="from $150">Zamów</button>
             </article>
@@ -605,7 +625,7 @@ footer .copy{width:100%; display:flex; justify-content:space-between; gap:8px 18
             <article class="card svc">
               <h3 data-en="AI chatbot (WhatsApp / web) with memory">AI chatbot (WhatsApp / web) z pamięcią</h3>
               <p class="scope" data-en="Answers your customers' messages and remembers each conversation. Resilient by design: duplicate messages filtered out, failed sends retried automatically.">Odpowiada na wiadomości twoich klientów i pamięta każdą rozmowę. Odporny na potknięcia: powtórzone wiadomości odsiewa, nieudane wysyłki ponawia sam.</p>
-              <a class="svc-proof" href="https://github.com/Helban/whatsapp-ai-bot" target="_blank" rel="noopener"><span class="dot"></span>github.com/Helban/whatsapp-ai-bot</a>
+              <a class="svc-proof hit44" href="https://github.com/Helban/whatsapp-ai-bot" target="_blank" rel="noopener"><span class="dot"></span>github.com/Helban/whatsapp-ai-bot</a>
               <div class="meta"><span class="price" data-price-pl="od 1500 zł" data-price-en="from $350">od 1500 zł</span></div>
               <button class="btn btn-ghost btn-block order-btn" data-en="Order" data-service="AI chatbot (WhatsApp / web)" data-service-en="AI chatbot (WhatsApp / web)" data-price-pl="od 1500 zł" data-price-en="from $350">Zamów</button>
             </article>
@@ -613,14 +633,21 @@ footer .copy{width:100%; display:flex; justify-content:space-between; gap:8px 18
             <article class="card svc">
               <h3 data-en="Debug someone else's code (WP / PHP / Python / scraper)">Debug cudzego kodu (WP / PHP / Python / scraper)</h3>
               <p class="scope" data-en="Diagnostic first: written cause and fix plan as milestone 1, the fix and test as milestone 2. No blind quoting on legacy code.">Najpierw diagnoza: opisana przyczyna i plan naprawy jako etap 1, naprawa i test jako etap 2. Bez wyceny w ciemno na cudzym, starym kodzie.</p>
-              <a class="svc-proof" href="https://wp-speed.helban.dev" target="_blank" rel="noopener"><span class="dot"></span>wp-speed.helban.dev</a>
+              <a class="svc-proof hit44" href="https://wp-speed.helban.dev" target="_blank" rel="noopener"><span class="dot"></span>wp-speed.helban.dev</a>
               <div class="meta"><span class="price" data-price-pl="od 300 zł" data-price-en="from $60">od 300 zł</span></div>
               <button class="btn btn-ghost btn-block order-btn" data-en="Order" data-service="Debug cudzego kodu" data-service-en="Debug someone else's code" data-price-pl="od 300 zł" data-price-en="from $60">Zamów</button>
             </article>
 
+            <article class="card svc">
+              <h3 data-en="Something else?">Inny temat?</h3>
+              <p class="scope" data-en="Scrapers of any kind, n8n automations, Airtable, Stripe, KSeF for WooCommerce, WordPress builds. Describe what you need, I quote individually.">Scrapery każdego rodzaju, automatyzacje n8n, Airtable, Stripe, KSeF w WooCommerce, budowa stron WordPress. Opisz, czego potrzebujesz, wycenię indywidualnie.</p>
+              <div class="meta"><span class="price" data-en="individual quote">wycena indywidualna</span></div>
+              <a class="btn btn-ghost btn-block" href="#contact" data-en="Write to me">Napisz</a>
+            </article>
+
         </div>
 
-        <p class="svc-note"><span data-en="An order here buys nothing yet: it prefills the contact form, and the contract with payment comes later, on Useme or Upwork. Need something else? Scrapers of any kind, n8n automations, Airtable, Stripe, KSeF, WordPress builds: ">Kliknięcie „Zamów” niczego jeszcze nie kupuje: wypełnia formularz kontaktowy, a umowa i płatność są później, na Useme albo Upworku. Potrzebujesz czegoś innego? Scrapery każdego rodzaju, automatyzacje n8n, Airtable, Stripe, KSeF, budowa stron WordPress: </span><a href="#contact" data-en="write to me, I quote individually.">napisz, wycenię indywidualnie.</a></p>
+        <p class="svc-note" data-en="An order here buys nothing yet: it prefills the contact form, and the contract with payment comes later, on Useme or Upwork.">Kliknięcie „Zamów” niczego jeszcze nie kupuje: wypełnia formularz kontaktowy, a umowa i płatność są później, na Useme albo Upworku.</p>
 
       </div>
     </section>
@@ -737,7 +764,7 @@ footer .copy{width:100%; display:flex; justify-content:space-between; gap:8px 18
 
             <div class="order-readout" id="orderReadout">
               <span><span data-en="You're ordering:">Zamawiasz:</span> <b id="orderName"></b> <span id="orderPrice" class="mono"></span></span>
-              <button type="button" class="clear" id="orderClear" data-en="clear">wyczyść</button>
+              <button type="button" class="clear hit44" id="orderClear" data-en="clear">wyczyść</button>
             </div>
 
             <!-- Native action/method keep the form working with JavaScript off;
@@ -745,15 +772,18 @@ footer .copy{width:100%; display:flex; justify-content:space-between; gap:8px 18
             <form id="orderForm" action="https://api.web3forms.com/submit" method="POST">
               <div class="field">
                 <label for="name" data-en="Your name">Imię</label>
-                <input id="name" name="name" type="text" autocomplete="name" required data-en-placeholder="Jan Kowalski" placeholder="Jan Kowalski">
+                <input id="name" name="name" type="text" autocomplete="name" required aria-describedby="nameErr" data-en-placeholder="Jan Kowalski" placeholder="Jan Kowalski">
+                <p class="field-err" id="nameErr" data-err-pl="Podaj imię." data-err-en="Please enter your name."></p>
               </div>
               <div class="field">
                 <label for="email" data-en="Email">Email</label>
-                <input id="email" name="email" type="email" autocomplete="email" required placeholder="jan@firma.pl">
+                <input id="email" name="email" type="email" autocomplete="email" required aria-describedby="emailErr" placeholder="jan@firma.pl">
+                <p class="field-err" id="emailErr" data-err-pl="Podaj adres email." data-err-en="Please enter your email." data-err-invalid-pl="Ten adres wygląda na niepełny, sprawdź literówkę." data-err-invalid-en="This address looks incomplete, check for a typo."></p>
               </div>
               <div class="field">
                 <label for="message" data-en="What do you need?">Czego potrzebujesz?</label>
-                <textarea id="message" name="message" required data-en-placeholder="A few sentences about the project, deadline and budget." placeholder="Kilka zdań o projekcie, terminie i budżecie."></textarea>
+                <textarea id="message" name="message" required aria-describedby="messageErr" data-en-placeholder="A few sentences about the project, deadline and budget." placeholder="Kilka zdań o projekcie, terminie i budżecie."></textarea>
+                <p class="field-err" id="messageErr" data-err-pl="Napisz kilka słów o projekcie." data-err-en="Write a few words about the project."></p>
               </div>
               <input class="hp" type="text" name="botcheck" tabindex="-1" autocomplete="off" aria-hidden="true">
               <input type="hidden" name="access_key" value="52aa9b5b-27a0-4842-9dbf-0e384294bd0f">
@@ -764,9 +794,9 @@ footer .copy{width:100%; display:flex; justify-content:space-between; gap:8px 18
               <input type="hidden" name="ui_language" id="fLang" value="pl">
               <input type="hidden" name="platform" id="fPlatform" value="Useme">
               <button class="btn btn-primary btn-block" type="submit" id="submitBtn" data-en="Send the request">Wyślij zapytanie</button>
+              <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
               <p class="form-note" id="formNote" data-en="I'll reply with a Useme or Upwork contract for the agreed scope. No payment happens on this site.">Odpowiem umową na Useme lub Upwork z ustalonym zakresem. Na tej stronie nie ma żadnej płatności.</p>
               <p class="form-note"><span data-en="Your details go straight to my inbox and are used only to reply. Details: ">Dane z formularza trafiają prosto na moją skrzynkę i służą tylko do odpowiedzi. Szczegóły: </span><a href="/privacy/" data-en="privacy policy">polityka prywatności</a>.</p>
-              <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
             </form>
           </div>
 
@@ -812,10 +842,10 @@ footer .copy{width:100%; display:flex; justify-content:space-between; gap:8px 18
         <a href="#case-studies" data-en="Case studies">Case studies</a>
         <a href="#how" data-en="How it works">Jak to działa</a>
         <a href="#about" data-en="About">O mnie</a>
-        <a href="#contact" data-en="Contact">Kontakt</a>
+        <a href="#contact" data-en="Get in touch">Napisz</a>
         <a href="/privacy/" data-en="Privacy policy">Polityka prywatności</a>
         <a href="https://github.com/Helban" target="_blank" rel="noopener">GitHub</a>
-        <a href="https://zleca.pl/wykonawca/strony-internetowe-i-automatyzacje-adam-helban-dev-1783195880" target="_blank" rel="noopener">Zleca.pl</a>
+        <a href="https://zleca.pl/wykonawca/strony-internetowe-i-automatyzacje-adam-helban-dev-1783195880" target="_blank" rel="noopener" data-en="Zleca.pl profile">Profil na Zleca.pl</a>
       </nav>
       <p class="copy"><span data-en="Built by hand, no framework. Hosted on Cloudflare Pages.">Napisane ręcznie, bez frameworka. Hostowane na Cloudflare Pages.</span><span class="copy-credit">© 2026 helban.dev</span></p>
     </div>
