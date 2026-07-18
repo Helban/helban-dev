@@ -13,27 +13,22 @@
       <stop offset="0" stop-color="#f43f5e" stop-opacity="0.32"/>
       <stop offset="1" stop-color="#f43f5e" stop-opacity="0"/>
     </radialGradient>
-    <linearGradient id="word" x1="0" y1="0" x2="1" y2="0.3">
-      <stop offset="0" stop-color="#ffffff"/>
-      <stop offset="0.5" stop-color="#d7c9ff"/>
-      <stop offset="1" stop-color="#f4b9c6"/>
-    </linearGradient>
   </defs>
 
   <rect width="1200" height="630" fill="url(#bg)"/>
   <rect width="1200" height="630" fill="url(#blobV)"/>
   <rect width="1200" height="630" fill="url(#blobC)"/>
 
-  <text x="80" y="250" font-family="'JetBrains Mono',monospace" font-size="26" font-weight="700" letter-spacing="3" fill="#a78bfa">10 LAT C++ EMBEDDED · FREELANCING</text>
-  <text x="76" y="350" font-family="Inter,Arial,sans-serif" font-size="92" font-weight="800" letter-spacing="-3" fill="url(#word)">helban.dev</text>
+  <text x="80" y="250" font-family="'JetBrains Mono',monospace" font-size="24" font-weight="700" fill="#22c55e">&gt; 10 lat C++ embedded · zmierzone, nie obiecane</text>
+  <text x="76" y="350" font-family="Inter,Arial,sans-serif" font-size="92" font-weight="800" letter-spacing="-2" fill="#ffffff">helban<tspan fill="#f43f5e">.dev</tspan></text>
   <text x="80" y="420" font-family="Inter,Arial,sans-serif" font-size="34" font-weight="600" fill="#cdd0e0">Lekki kod bez bloatu. Na własność, z testami.</text>
 
   <g font-family="'JetBrains Mono',monospace" font-size="22" font-weight="600" fill="#d3d9e4">
     <rect x="80" y="478" width="280" height="56" rx="14" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.12)"/>
     <text x="108" y="514">Strony · PSI 100</text>
-    <rect x="376" y="478" width="250" height="56" rx="14" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.12)"/>
+    <rect x="376" y="478" width="300" height="56" rx="14" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.12)"/>
     <text x="404" y="514">Scrapery w Pythonie</text>
-    <rect x="642" y="478" width="300" height="56" rx="14" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.12)"/>
-    <text x="670" y="514">Rozszerzenia Chrome MV3</text>
+    <rect x="692" y="478" width="356" height="56" rx="14" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.12)"/>
+    <text x="720" y="514">Rozszerzenia Chrome MV3</text>
   </g>
 </svg>
