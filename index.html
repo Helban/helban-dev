@@ -234,7 +234,22 @@ h1,h2,h3{text-wrap:balance}
   box-shadow:0 0 0 2px rgba(167,139,250,.55), var(--shadow-card)}
 
 /* ---------- services ---------- */
+/* three intent doors: the buyer picks their problem, the grid narrows.
+   Pure enhancement — without JS every package stays visible. */
+.doors{display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:26px}
+.door{text-align:left; cursor:pointer; padding:14px 16px; border-radius:var(--radius-sm);
+  background:rgba(255,255,255,.04); border:1px solid var(--line); color:var(--text);
+  transition:border-color .15s ease, background .15s ease}
+.door:hover{border-color:var(--line-strong); background:rgba(255,255,255,.07)}
+.door[aria-pressed="true"]{border-color:var(--violet-l); background:rgba(124,58,237,.16)}
+.door b{display:block; font-size:15.5px; font-weight:700; color:#fff; margin-bottom:3px}
+.door span{font-size:12.5px; color:var(--muted)}
+@media (max-width:700px){.doors{grid-template-columns:1fr}}
+
 .svc-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(310px,1fr)); gap:18px}
+.svc[hidden]{display:none}
+/* in a narrowed view the flagship span would wreck the small row */
+.svc-grid.filtered .svc-flag{grid-column:auto}
 .svc{display:flex; flex-direction:column; gap:11px}
 .svc h3{font-size:18px; font-weight:800; letter-spacing:-.3px; line-height:1.25; color:#fff}
 .flag-pill{align-self:flex-start; font-family:var(--mono); font-size:11.5px; font-weight:700;
@@ -303,6 +318,11 @@ h1,h2,h3{text-wrap:balance}
 /* ---------- contact / order ---------- */
 .contact{display:grid; grid-template-columns:1fr 1.1fr; gap:34px; align-items:start}
 .contact .sec-head{margin-bottom:24px}
+.contact-author{display:flex; align-items:center; gap:13px; margin-bottom:16px}
+.contact-author img{width:52px; height:52px; border-radius:50%; object-fit:cover;
+  border:2px solid rgba(167,139,250,.5)}
+.contact-author b{display:block; font-size:14.5px; color:#fff}
+.contact-author span{font-size:12.5px; color:var(--muted)}
 .order-readout{display:none; align-items:center; gap:10px; padding:12px 15px; margin-bottom:18px;
   border-radius:12px; background:rgba(124,58,237,.16); border:1px solid var(--line-strong); font-size:14px}
 .order-readout.show{display:flex}
@@ -571,12 +591,27 @@ footer .copy{width:100%; display:flex; justify-content:space-between; gap:8px 18
       <div class="wrap">
         <div class="sec-head">
           <h2 id="svc-h" data-en="Seven packages, each with proof">Siedem pakietów, każdy z dowodem</h2>
-          <p data-en="Fixed scope, a starting price, and a link to live code or a live demo on every package.">Stały zakres, cena wyjściowa i link do działającego kodu albo demo przy każdym pakiecie.</p>
+          <p data-en="Fixed scope, a starting price, and a link to live code or a live demo on every package. Pick what brings you here, or browse everything.">Stały zakres, cena wyjściowa i link do działającego kodu albo demo przy każdym pakiecie. Wybierz, z czym przychodzisz, albo przeglądaj wszystko.</p>
+        </div>
+
+        <div class="doors" id="svcDoors">
+          <button type="button" class="door" data-door="web" aria-pressed="false">
+            <b data-en="I need a website">Potrzebuję strony</b>
+            <span data-en="company site or a landing page">strona firmowa albo landing</span>
+          </button>
+          <button type="button" class="door" data-door="data" aria-pressed="false">
+            <b data-en="I need data or automation">Potrzebuję danych albo automatyzacji</b>
+            <span data-en="scraper, Chrome plugin, AI chatbot">scraper, wtyczka Chrome, chatbot AI</span>
+          </button>
+          <button type="button" class="door" data-door="fix" aria-pressed="false">
+            <b data-en="Something is broken or slow">Coś działa źle albo wolno</b>
+            <span data-en="slow WordPress, someone else's code">wolny WordPress, cudzy kod</span>
+          </button>
         </div>
 
         <div class="svc-grid">
 
-            <article class="card svc svc-flag">
+            <article class="card svc svc-flag" data-door="web">
               <span class="flag-pill" data-en="most ordered">najczęściej zamawiane</span>
               <h3 data-en="Company website / business card">Strona firmowa / wizytówka</h3>
               <p class="scope" data-en="Lean hand-coded site, PageSpeed 97-99, real technical SEO: per-page titles, structured data for Google, a sitemap. Not a page builder.">Lekka, ręcznie pisana strona, PageSpeed 97-99, realne techniczne SEO: osobne tytuły podstron, dane strukturalne dla Google, sitemap. Bez page buildera.</p>
@@ -585,7 +620,7 @@ footer .copy{width:100%; display:flex; justify-content:space-between; gap:8px 18
               <button class="btn btn-primary btn-block order-btn" data-en="Order" data-service="Strona firmowa / wizytówka" data-service-en="Company website" data-price-pl="od 2500 zł" data-price-en="from $600">Zamów</button>
             </article>
 
-            <article class="card svc">
+            <article class="card svc" data-door="web">
               <h3 data-en="Landing with a price calculator + lead form">Landing z kalkulatorem wyceny i formularzem</h3>
               <p class="scope" data-en="One-page landing with an interactive cost calculator and a working lead form. Price shows instantly, the lead lands in your inbox.">Jednostronicowy landing z interaktywnym kalkulatorem kosztów i działającym formularzem. Cena pokazuje się od razu, a zapytanie trafia na twoją skrzynkę.</p>
               <a class="svc-proof hit44" href="https://kalkulator.helban.dev" target="_blank" rel="noopener"><span class="dot"></span>kalkulator.helban.dev</a>
@@ -593,7 +628,7 @@ footer .copy{width:100%; display:flex; justify-content:space-between; gap:8px 18
               <button class="btn btn-ghost btn-block order-btn" data-en="Order" data-service="Landing z kalkulatorem wyceny" data-service-en="Calculator landing" data-price-pl="od 1900 zł" data-price-en="from $450">Zamów</button>
             </article>
 
-            <article class="card svc">
+            <article class="card svc" data-door="fix">
               <h3 data-en="WordPress speed-up">Przyspieszenie WordPressa</h3>
               <p class="scope" data-en="Lighthouse audit, render-blocking and image fixes, measured before and after on the same landing page.">Audyt Lighthouse, usunięcie zasobów blokujących renderowanie, optymalizacja obrazów, pomiar przed i po na tej samej stronie.</p>
               <div class="svc-metrics">
@@ -606,7 +641,7 @@ footer .copy{width:100%; display:flex; justify-content:space-between; gap:8px 18
               <button class="btn btn-ghost btn-block order-btn" data-en="Order" data-service="Przyspieszenie WordPressa" data-service-en="WordPress speed-up" data-price-pl="od 900 zł" data-price-en="from $250">Zamów</button>
             </article>
 
-            <article class="card svc">
+            <article class="card svc" data-door="data">
               <h3 data-en="Web scraper → Excel / CSV / SQL">Web scraper → Excel / CSV / SQL</h3>
               <p class="scope" data-en="Data pulled from a chosen site into a clean Excel, CSV or database: deduped, normalized. The script stays with you, run it whenever you want. Handles JavaScript-heavy pages too.">Dane z wybranej strony w czystym Excelu, CSV albo bazie: bez duplikatów, ujednolicone. Skrypt zostaje u ciebie, uruchamiasz go, kiedy chcesz. Radzi sobie też ze stronami na JavaScripcie.</p>
               <a class="svc-proof hit44" href="https://github.com/Helban/fmcsa-carrier-lead-scraper" target="_blank" rel="noopener"><span class="dot"></span>github.com/Helban/fmcsa-carrier-lead-scraper</a>
@@ -614,7 +649,7 @@ footer .copy{width:100%; display:flex; justify-content:space-between; gap:8px 18
               <button class="btn btn-ghost btn-block order-btn" data-en="Order" data-service="Web scraper → Excel / CSV / SQL" data-service-en="Web scraper → Excel / CSV / SQL" data-price-pl="od 400 zł" data-price-en="from $60">Zamów</button>
             </article>
 
-            <article class="card svc">
+            <article class="card svc" data-door="data">
               <h3 data-en="Chrome extension (MV3)">Rozszerzenie Chrome (MV3)</h3>
               <p class="scope" data-en="A Chrome plugin that adds new features to the pages you work on: a side panel, buttons, Gmail or API integrations, secure login. One delivered contract behind these.">Wtyczka do Chrome'a, która dokłada nowe funkcje do stron, na których pracujesz: panel boczny, przyciski, integracje z Gmailem albo API, bezpieczne logowanie. Stoi za tym zrealizowany kontrakt.</p>
               <a class="svc-proof hit44" href="https://github.com/Helban/keeptouch" target="_blank" rel="noopener"><span class="dot"></span>github.com/Helban/keeptouch</a>
@@ -622,7 +657,7 @@ footer .copy{width:100%; display:flex; justify-content:space-between; gap:8px 18
               <button class="btn btn-ghost btn-block order-btn" data-en="Order" data-service="Rozszerzenie Chrome (MV3)" data-service-en="Chrome extension (MV3)" data-price-pl="od 700 zł" data-price-en="from $150">Zamów</button>
             </article>
 
-            <article class="card svc">
+            <article class="card svc" data-door="data">
               <h3 data-en="AI chatbot (WhatsApp / web) with memory">AI chatbot (WhatsApp / web) z pamięcią</h3>
               <p class="scope" data-en="Answers your customers' messages and remembers each conversation. Resilient by design: duplicate messages filtered out, failed sends retried automatically.">Odpowiada na wiadomości twoich klientów i pamięta każdą rozmowę. Odporny na potknięcia: powtórzone wiadomości odsiewa, nieudane wysyłki ponawia sam.</p>
               <a class="svc-proof hit44" href="https://github.com/Helban/whatsapp-ai-bot" target="_blank" rel="noopener"><span class="dot"></span>github.com/Helban/whatsapp-ai-bot</a>
@@ -630,7 +665,7 @@ footer .copy{width:100%; display:flex; justify-content:space-between; gap:8px 18
               <button class="btn btn-ghost btn-block order-btn" data-en="Order" data-service="AI chatbot (WhatsApp / web)" data-service-en="AI chatbot (WhatsApp / web)" data-price-pl="od 1500 zł" data-price-en="from $350">Zamów</button>
             </article>
 
-            <article class="card svc">
+            <article class="card svc" data-door="fix">
               <h3 data-en="Debug someone else's code (WP / PHP / Python / scraper)">Debug cudzego kodu (WP / PHP / Python / scraper)</h3>
               <p class="scope" data-en="Diagnostic first: written cause and fix plan as milestone 1, the fix and test as milestone 2. No blind quoting on legacy code.">Najpierw diagnoza: opisana przyczyna i plan naprawy jako etap 1, naprawa i test jako etap 2. Bez wyceny w ciemno na cudzym, starym kodzie.</p>
               <a class="svc-proof hit44" href="https://wp-speed.helban.dev" target="_blank" rel="noopener"><span class="dot"></span>wp-speed.helban.dev</a>
@@ -638,7 +673,7 @@ footer .copy{width:100%; display:flex; justify-content:space-between; gap:8px 18
               <button class="btn btn-ghost btn-block order-btn" data-en="Order" data-service="Debug cudzego kodu" data-service-en="Debug someone else's code" data-price-pl="od 300 zł" data-price-en="from $60">Zamów</button>
             </article>
 
-            <article class="card svc">
+            <article class="card svc" data-door="any">
               <h3 data-en="Something else?">Inny temat?</h3>
               <p class="scope" data-en="Scrapers of any kind, n8n automations, Airtable, Stripe, KSeF for WooCommerce, WordPress builds. Describe what you need, I quote individually.">Scrapery każdego rodzaju, automatyzacje n8n, Airtable, Stripe, KSeF w WooCommerce, budowa stron WordPress. Opisz, czego potrzebujesz, wycenię indywidualnie.</p>
               <div class="meta"><span class="price" data-en="individual quote">wycena indywidualna</span></div>
@@ -758,8 +793,15 @@ footer .copy{width:100%; display:flex; justify-content:space-between; gap:8px 18
         <div class="contact">
           <div class="contact-main">
             <div class="sec-head">
+              <div class="contact-author">
+                <img src="assets/avatar.webp" width="52" height="52" alt="Adam K" loading="lazy" decoding="async">
+                <div>
+                  <b>Adam K</b>
+                  <span data-en="I reply personally, usually within a day">odpowiadam osobiście, zwykle w ciągu doby</span>
+                </div>
+              </div>
               <h2 id="contact-h" data-en="Tell me what you need">Napisz, czego potrzebujesz</h2>
-              <p data-en="A short message is enough. I reply in Polish or English, async, usually within a day.">Wystarczy krótka wiadomość. Odpowiadam po polsku lub angielsku, asynchronicznie, zwykle w ciągu doby.</p>
+              <p data-en="A short message is enough. I reply in Polish or English, async.">Wystarczy krótka wiadomość. Odpowiadam po polsku lub angielsku, asynchronicznie.</p>
             </div>
 
             <div class="order-readout" id="orderReadout">

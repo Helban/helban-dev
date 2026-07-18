@@ -234,6 +234,44 @@
     spiedLinks.forEach((_link, section) => sectionObserver.observe(section));
   };
 
+  // ---------- service intent doors ----------
+  // The buyer picks their problem and the package grid narrows to it; clicking
+  // the active door again brings every package back. Without JS the doors are
+  // inert and all packages stay visible.
+  const doorButtons = Array.from(document.querySelectorAll("#svcDoors .door"));
+  const packageGrid = document.querySelector(".svc-grid");
+  const packageCards = packageGrid ? Array.from(packageGrid.querySelectorAll(".svc")) : [];
+
+  const showAllPackages = () => {
+    doorButtons.forEach((doorButton) => doorButton.setAttribute("aria-pressed", "false"));
+    packageCards.forEach((packageCard) => {
+      packageCard.hidden = false;
+    });
+    packageGrid.classList.remove("filtered");
+  };
+
+  const narrowToDoor = (activeDoor) => {
+    doorButtons.forEach((doorButton) => {
+      doorButton.setAttribute("aria-pressed", String(doorButton.dataset.door === activeDoor));
+    });
+    packageCards.forEach((packageCard) => {
+      const cardDoor = packageCard.dataset.door;
+      packageCard.hidden = cardDoor !== activeDoor && cardDoor !== "any";
+    });
+    packageGrid.classList.add("filtered");
+  };
+
+  doorButtons.forEach((doorButton) => {
+    doorButton.addEventListener("click", () => {
+      const wasActive = doorButton.getAttribute("aria-pressed") === "true";
+      if (wasActive) {
+        showAllPackages();
+      } else {
+        narrowToDoor(doorButton.dataset.door);
+      }
+    });
+  });
+
   // ---------- order prefill ----------
   const orderClearButton = document.getElementById("orderClear");
   const nameInput = document.getElementById("name");
