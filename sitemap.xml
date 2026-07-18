@@ -6,17 +6,37 @@
     <priority>1.0</priority>
   </url>
   <url>
+    <loc>https://helban.dev/en/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://helban.dev/privacy/</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://helban.dev/en/privacy/</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
     <loc>https://helban.dev/case-studies/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://helban.dev/case-studies/generateblocks-pro-traps/</loc>
+    <loc>https://helban.dev/en/case-studies/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://helban.dev/case-studies/wordpress-speed/</loc>
     <changefreq>yearly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://helban.dev/case-studies/wordpress-speed/</loc>
+    <loc>https://helban.dev/en/case-studies/wordpress-speed/</loc>
     <changefreq>yearly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -26,13 +46,23 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://helban.dev/case-studies/ksef-woocommerce/</loc>
-    <changefreq>monthly</changefreq>
+    <loc>https://helban.dev/en/case-studies/notion-operating-system/</loc>
+    <changefreq>yearly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://helban.dev/privacy/</loc>
+    <loc>https://helban.dev/case-studies/generateblocks-pro-traps/</loc>
     <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://helban.dev/en/case-studies/generateblocks-pro-traps/</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://helban.dev/case-studies/ksef-woocommerce/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
   </url>
 </urlset>

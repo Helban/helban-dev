@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="pl">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Przyspieszenie WordPress: 63 → 99 w PageSpeed · helban.dev</title>
-  <meta name="description" content="Studium przypadku: ta sama strona WordPress zbudowana trzy razy (rozdmuchany Elementor, optymalizacja w miejscu, lekki rebuild). Zmierzone w Lighthouse na mobile: Performance 63 → 99, LCP 26,5 s → 2,0 s, waga strony −91%.">
+  <title>Speeding up WordPress: 63 to 99 on PageSpeed · helban.dev</title>
+  <meta name="description" content="The same page built three ways: an Elementor build at 63, the same build tuned in place at 71, and a lean rebuild at 99. Where the page-builder ceiling actually sits.">
   <meta name="theme-color" content="#0b0817">
-  <link rel="canonical" href="https://helban.dev/case-studies/wordpress-speed/">
+  <link rel="canonical" href="https://helban.dev/en/case-studies/wordpress-speed/">
 
   <!-- Both members of a language pair carry the identical block, so the return link
        Google requires falls out of copying this file into the English build. -->
@@ -17,14 +17,14 @@
 
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="helban.dev">
-  <meta property="og:title" content="Przyspieszenie WordPress: 63 → 99 w PageSpeed">
-  <meta property="og:description" content="Ta sama strona zbudowana trzy razy, zmierzona w Lighthouse na mobile. Gdzie siedzi sufit page buildera i ile realnie da się odzyskać.">
-  <meta property="og:url" content="https://helban.dev/case-studies/wordpress-speed/">
+  <meta property="og:title" content="Speeding up WordPress: 63 to 99 on PageSpeed">
+  <meta property="og:description" content="One page, three builds, measured. How much speed is really recoverable from a page builder, and where the ceiling is.">
+  <meta property="og:url" content="https://helban.dev/en/case-studies/wordpress-speed/">
   <meta property="og:image" content="https://helban.dev/assets/og-image.svg">
 
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
-  <link rel="preload" href="../../fonts/inter-800.woff2?v=3" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="../../fonts/inter-400.woff2?v=3" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/inter-800.woff2?v=3" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/inter-400.woff2?v=3" as="font" type="font/woff2" crossorigin>
 
   <script type="application/ld+json">
   {
@@ -42,12 +42,12 @@
   </script>
 
   <style>
-@font-face{font-family:'Inter';font-style:normal;font-weight:400;font-display:swap;src:url(../../fonts/inter-400.woff2?v=3) format('woff2');}
-@font-face{font-family:'Inter';font-style:normal;font-weight:600;font-display:swap;src:url(../../fonts/inter-600.woff2?v=3) format('woff2');}
-@font-face{font-family:'Inter';font-style:normal;font-weight:700;font-display:swap;src:url(../../fonts/inter-700.woff2?v=3) format('woff2');}
-@font-face{font-family:'Inter';font-style:normal;font-weight:800;font-display:swap;src:url(../../fonts/inter-800.woff2?v=3) format('woff2');}
-@font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:500;font-display:swap;src:url(../../fonts/jetbrains-mono-500.woff2?v=3) format('woff2');}
-@font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:700;font-display:swap;src:url(../../fonts/jetbrains-mono-700.woff2?v=3) format('woff2');}
+@font-face{font-family:'Inter';font-style:normal;font-weight:400;font-display:swap;src:url(/fonts/inter-400.woff2?v=3) format('woff2');}
+@font-face{font-family:'Inter';font-style:normal;font-weight:600;font-display:swap;src:url(/fonts/inter-600.woff2?v=3) format('woff2');}
+@font-face{font-family:'Inter';font-style:normal;font-weight:700;font-display:swap;src:url(/fonts/inter-700.woff2?v=3) format('woff2');}
+@font-face{font-family:'Inter';font-style:normal;font-weight:800;font-display:swap;src:url(/fonts/inter-800.woff2?v=3) format('woff2');}
+@font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:500;font-display:swap;src:url(/fonts/jetbrains-mono-500.woff2?v=3) format('woff2');}
+@font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:700;font-display:swap;src:url(/fonts/jetbrains-mono-700.woff2?v=3) format('woff2');}
 
 :root{
   --sans:'Inter',-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
@@ -201,22 +201,22 @@ footer .copy{width:100%; font-size:12.5px; color:#8a90a6; font-family:var(--mono
 </head>
 <body>
   <div class="bg" aria-hidden="true"></div>
-  <a class="skip" href="#article" data-en="Skip to article">Przejdź do treści</a>
+  <a class="skip" href="#article" data-en="Skip to article">Skip to article</a>
 
   <header class="topbar">
     <div class="wrap">
-      <a class="brand" href="/">helban<span class="tld">.dev</span></a>
+      <a class="brand" href="/en/">helban<span class="tld">.dev</span></a>
       <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false" aria-controls="nav">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
       </button>
       <nav class="nav" id="nav">
-        <a href="/#services" data-en="Services">Usługi</a>
-        <a href="/#work" data-en="Live work">Realizacje</a>
-        <a href="/case-studies/" data-en="Case studies">Case studies</a>
-        <a href="/#contact" data-en="Contact">Kontakt</a>
+        <a href="/en/#services" data-en="Services">Services</a>
+        <a href="/en/#work" data-en="Live work">Live work</a>
+        <a href="/en/case-studies/" data-en="Case studies">Case studies</a>
+        <a href="/en/#contact" data-en="Contact">Contact</a>
         <div class="lang" role="group" aria-label="Language / Język">
-          <a id="langPl" class="hit44" href="/case-studies/wordpress-speed/" aria-current="page" data-lang-link="pl">PL</a>
-          <a id="langEn" class="hit44" href="/en/case-studies/wordpress-speed/" data-lang-link="en">EN</a>
+          <a id="langPl" class="hit44" href="/case-studies/wordpress-speed/" data-lang-link="pl">PL</a>
+          <a id="langEn" class="hit44" href="/en/case-studies/wordpress-speed/" aria-current="page" data-lang-link="en">EN</a>
         </div>
       </nav>
     </div>
@@ -225,130 +225,130 @@ footer .copy{width:100%; font-size:12.5px; color:#8a90a6; font-family:var(--mono
   <main id="article">
     <article class="doc">
       <div class="wrap">
-        <div class="crumb"><a href="/case-studies/" data-en="← Case studies">← Case studies</a></div>
-        <span class="eyebrow" data-en="Case study · WordPress speed">Case study · Przyspieszenie WordPress</span>
-        <h1 class="title" data-en="One WordPress page, built three ways: 63 → 99 on PageSpeed">Ta sama strona WordPress, zbudowana trzy razy: 63 → 99 w PageSpeed</h1>
-        <p class="lead" data-en="I took one landscaping-company homepage and built it three ways: a bloated Elementor build, the same Elementor optimized in place, and a lean hand-coded rebuild. Each one measured on Lighthouse mobile. Below is exactly what changed, by how much, and why.">Wziąłem jedną stronę główną firmy ogrodniczej i zbudowałem ją trzy razy: rozdmuchany Elementor, ten sam Elementor po optymalizacji w miejscu i lekki rebuild napisany ręcznie. Każdą zmierzyłem w Lighthouse na mobile. Poniżej dokładnie: co się zmieniło, o ile i dlaczego.</p>
+        <div class="crumb"><a href="/en/case-studies/" data-en="← Case studies">← Case studies</a></div>
+        <span class="eyebrow" data-en="Case study · WordPress speed">Case study · WordPress speed</span>
+        <h1 class="title" data-en="One WordPress page, built three ways: 63 → 99 on PageSpeed">One WordPress page, built three ways: 63 → 99 on PageSpeed</h1>
+        <p class="lead" data-en="I took one landscaping-company homepage and built it three ways: a bloated Elementor build, the same Elementor optimized in place, and a lean hand-coded rebuild. Each one measured on Lighthouse mobile. Below is exactly what changed, by how much, and why.">I took one landscaping-company homepage and built it three ways: a bloated Elementor build, the same Elementor optimized in place, and a lean hand-coded rebuild. Each one measured on Lighthouse mobile. Below is exactly what changed, by how much, and why.</p>
 
         <div class="meta">
-          <span class="chip"><b data-en="Role:">Rola:</b> <span data-en="optimization + rebuild">optymalizacja + rebuild</span></span>
+          <span class="chip"><b data-en="Role:">Role:</b> <span data-en="optimization + rebuild">optimization + rebuild</span></span>
           <span class="chip"><b data-en="Stack:">Stack:</b> WordPress · Elementor · OceanWP · Python (Pillow) · HTML/CSS</span>
-          <span class="chip"><b data-en="Measured:">Pomiar:</b> Lighthouse mobile</span>
+          <span class="chip"><b data-en="Measured:">Measured:</b> Lighthouse mobile</span>
         </div>
 
         <div class="glance">
           <div class="gstat"><div class="big">63 <i>→ 99</i></div><div class="lab" data-en="Performance (mobile)">Performance (mobile)</div></div>
           <div class="gstat"><div class="big">26,5s <i>→ 2,0s</i></div><div class="lab">LCP</div></div>
-          <div class="gstat"><div class="big"><i>−91%</i></div><div class="lab" data-en="page weight (5,111 → 461 KiB)">waga strony (5111 → 461 KiB)</div></div>
+          <div class="gstat"><div class="big"><i>−91%</i></div><div class="lab" data-en="page weight (5,111 → 461 KiB)">page weight (5,111 → 461 KiB)</div></div>
         </div>
       </div>
 
       <div class="wrap">
         <section>
-          <span class="kicker" data-en="The numbers">Liczby</span>
-          <h2 data-en="Three states, one page">Trzy stany, jedna strona</h2>
+          <span class="kicker" data-en="The numbers">The numbers</span>
+          <h2 data-en="Three states, one page">Three states, one page</h2>
           <div class="tablewrap">
             <table class="results">
               <thead>
                 <tr>
-                  <th data-en="Build">Wariant</th>
+                  <th data-en="Build">Build</th>
                   <th>Perf</th><th>A11y</th><th>BP</th><th>SEO</th><th>LCP</th>
-                  <th data-en="Weight">Waga</th>
+                  <th data-en="Weight">Weight</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td><span class="state" data-en="Before">Przed</span><small data-en="bloated Elementor">rozdmuchany Elementor</small></td>
+                  <td><span class="state" data-en="Before">Before</span><small data-en="bloated Elementor">bloated Elementor</small></td>
                   <td class="s-avg">63</td><td class="s-good">96</td><td class="s-good">100</td><td class="s-avg">85</td><td>26,5&nbsp;s</td><td>5111&nbsp;KiB</td>
                 </tr>
                 <tr>
-                  <td><span class="state" data-en="In place">W miejscu</span><small data-en="Elementor kept">Elementor zostaje</small></td>
+                  <td><span class="state" data-en="In place">In place</span><small data-en="Elementor kept">Elementor kept</small></td>
                   <td class="s-avg">71</td><td class="s-good">96</td><td class="s-good">100</td><td class="s-avg">85</td><td>5,9&nbsp;s</td><td>1183&nbsp;KiB</td>
                 </tr>
                 <tr class="win">
-                  <td><span class="state" data-en="Lean rebuild">Rebuild</span><small data-en="hand-coded, no builder">ręczny, bez buildera</small></td>
+                  <td><span class="state" data-en="Lean rebuild">Lean rebuild</span><small data-en="hand-coded, no builder">hand-coded, no builder</small></td>
                   <td class="s-good">99</td><td class="s-good">100</td><td class="s-good">100</td><td class="s-good">100</td><td>2,0&nbsp;s</td><td>461&nbsp;KiB</td>
                 </tr>
               </tbody>
             </table>
           </div>
-          <p class="caption" data-en="All three render the same full-width landing (hero, about, gallery, contact form). Only the build and the speed differ. Desktop scored high from the start; the problem lives on mobile.">Wszystkie trzy renderują tę samą pełnoszerokościową stronę (hero, o nas, galeria, formularz). Różni się tylko sposób budowy i szybkość. Na desktopie wyniki były wysokie od początku, problem siedzi na mobile.</p>
+          <p class="caption" data-en="All three render the same full-width landing (hero, about, gallery, contact form). Only the build and the speed differ. Desktop scored high from the start; the problem lives on mobile.">All three render the same full-width landing (hero, about, gallery, contact form). Only the build and the speed differ. Desktop scored high from the start; the problem lives on mobile.</p>
         </section>
 
         <section>
-          <span class="kicker" data-en="The setup">Punkt wyjścia</span>
-          <h2 data-en="One landscaping homepage, built on a page builder">Jedna strona ogrodnicza na page builderze</h2>
-          <p data-en="Fictional brand Greenfield Landscaping, a single full-width homepage. Built on OceanWP + Elementor, the same stack as most of the sites people hand me to speed up. Every measurement is Lighthouse on the mobile preset with simulated throttling, so the numbers reflect a mid-range phone, not a desktop on fibre.">Fikcyjna firma Greenfield Landscaping ma jedną, pełnoszerokościową stronę główną, postawioną na OceanWP + Elementor, czyli tym samym zestawie co większość stron, które dostaję do przyspieszenia. Każdy pomiar to Lighthouse na presecie mobile z symulowanym throttlingiem, więc liczby odpowiadają telefonowi ze średniej półki, a nie desktopowi na światłowodzie.</p>
+          <span class="kicker" data-en="The setup">The setup</span>
+          <h2 data-en="One landscaping homepage, built on a page builder">One landscaping homepage, built on a page builder</h2>
+          <p data-en="Fictional brand Greenfield Landscaping, a single full-width homepage. Built on OceanWP + Elementor, the same stack as most of the sites people hand me to speed up. Every measurement is Lighthouse on the mobile preset with simulated throttling, so the numbers reflect a mid-range phone, not a desktop on fibre.">Fictional brand Greenfield Landscaping, a single full-width homepage. Built on OceanWP + Elementor, the same stack as most of the sites people hand me to speed up. Every measurement is Lighthouse on the mobile preset with simulated throttling, so the numbers reflect a mid-range phone, not a desktop on fibre.</p>
         </section>
 
         <section>
-          <span class="kicker" data-en="Before">Przed</span>
-          <h2 data-en="What was dragging it down">Co ją ciągnęło w dół</h2>
+          <span class="kicker" data-en="Before">Before</span>
+          <h2 data-en="What was dragging it down">What was dragging it down</h2>
           <ul class="ul">
-            <li data-en="Hero and gallery photos served as full-size 2400px JPEGs (~5 MB) into small slots on the page.">Zdjęcia hero i galerii w pełnym rozmiarze (JPEG 2400px, ~5 MB) wciśnięte w małe miejsca na stronie.</li>
-            <li data-en="The hero is a CSS background image, discovered late by the browser, so LCP waited behind everything else. That is the 26.5 s.">Hero to obraz tła w CSS, odkrywany przez przeglądarkę późno, więc LCP czekał na wszystko inne. Stąd te 26,5 s.</li>
-            <li data-en="OceanWP + Elementor + Happy Addons + Contact Form 7 + Font Awesome + AddToAny each enqueue CSS and JS site-wide. Three of them are not even used on this page.">OceanWP + Elementor + Happy Addons + Contact Form 7 + Font Awesome + AddToAny, każdy ładuje CSS i JS na całej stronie. Trzy z nich nie są nawet używane na tej podstronie.</li>
-            <li data-en="Render-blocking Google Fonts (Roboto + Roboto Slab, every weight), with no preload.">Render-blocking Google Fonts (Roboto + Roboto Slab, wszystkie grubości), bez preload.</li>
+            <li data-en="Hero and gallery photos served as full-size 2400px JPEGs (~5 MB) into small slots on the page.">Hero and gallery photos served as full-size 2400px JPEGs (~5 MB) into small slots on the page.</li>
+            <li data-en="The hero is a CSS background image, discovered late by the browser, so LCP waited behind everything else. That is the 26.5 s.">The hero is a CSS background image, discovered late by the browser, so LCP waited behind everything else. That is the 26.5 s.</li>
+            <li data-en="OceanWP + Elementor + Happy Addons + Contact Form 7 + Font Awesome + AddToAny each enqueue CSS and JS site-wide. Three of them are not even used on this page.">OceanWP + Elementor + Happy Addons + Contact Form 7 + Font Awesome + AddToAny each enqueue CSS and JS site-wide. Three of them are not even used on this page.</li>
+            <li data-en="Render-blocking Google Fonts (Roboto + Roboto Slab, every weight), with no preload.">Render-blocking Google Fonts (Roboto + Roboto Slab, every weight), with no preload.</li>
           </ul>
         </section>
 
         <section>
-          <span class="kicker" data-en="Path 1 · keep the editor">Ścieżka 1 · zostaje edytor</span>
-          <h2 data-en="In place: fix it without touching Elementor">W miejscu: naprawa bez ruszania Elementora</h2>
-          <p data-en="First the version for someone who does not want to change how they edit the site. Everything goes through one mu-plugin, no rebuild, the editor stays exactly as it was.">Najpierw wariant dla kogoś, kto nie chce zmieniać sposobu edycji strony. Wszystko idzie przez jeden mu-plugin, bez przebudowy, edytor zostaje dokładnie taki, jaki był.</p>
+          <span class="kicker" data-en="Path 1 · keep the editor">Path 1 · keep the editor</span>
+          <h2 data-en="In place: fix it without touching Elementor">In place: fix it without touching Elementor</h2>
+          <p data-en="First the version for someone who does not want to change how they edit the site. Everything goes through one mu-plugin, no rebuild, the editor stays exactly as it was.">First the version for someone who does not want to change how they edit the site. Everything goes through one mu-plugin, no rebuild, the editor stays exactly as it was.</p>
           <ul class="ul">
-            <li data-en="Images converted to display-sized WebP with a Python script (Pillow): ~5 MB down to ~0.8 MB.">Obrazy przekonwertowane do WebP w rozmiarze wyświetlania skryptem w Pythonie (Pillow): z ~5 MB do ~0,8 MB.</li>
-            <li data-en="Deactivated the three unused plugins, removed Google Fonts, fell back to system fonts.">Wyłączone trzy nieużywane wtyczki, usunięte Google Fonts, w zamian fonty systemowe.</li>
-            <li data-en="Lazy-loaded the below-the-fold images, preloaded the hero (the LCP element).">Lazy-load obrazów pod foldem, preload hero (elementu LCP).</li>
+            <li data-en="Images converted to display-sized WebP with a Python script (Pillow): ~5 MB down to ~0.8 MB.">Images converted to display-sized WebP with a Python script (Pillow): ~5 MB down to ~0.8 MB.</li>
+            <li data-en="Deactivated the three unused plugins, removed Google Fonts, fell back to system fonts.">Deactivated the three unused plugins, removed Google Fonts, fell back to system fonts.</li>
+            <li data-en="Lazy-loaded the below-the-fold images, preloaded the hero (the LCP element).">Lazy-loaded the below-the-fold images, preloaded the hero (the LCP element).</li>
           </ul>
-          <p data-en="Result: 63 → 71 Performance, LCP 26.5 s → 5.9 s, page weight down 77%. Big, real wins, and the editor is untouched.">Wynik: 63 → 71 Performance, LCP 26,5 s → 5,9 s, waga strony spadła o 77%. Duże, realne wygrane, a edytor nietknięty.</p>
+          <p data-en="Result: 63 → 71 Performance, LCP 26.5 s → 5.9 s, page weight down 77%. Big, real wins, and the editor is untouched.">Result: 63 → 71 Performance, LCP 26.5 s → 5.9 s, page weight down 77%. Big, real wins, and the editor is untouched.</p>
           <div class="callout">
-            <span class="kicker" data-en="The honest ceiling">Uczciwy sufit</span>
-            <p data-en="The remaining ceiling is the page builder's render-blocking CSS. Hand-rolling critical CSS made it worse (more HTML plus layout shift), so the honest in-place ceiling on free tooling is the low-to-mid 70s. Going higher needs a paid optimizer that does automatic critical CSS and JS delay.">To, co zostaje, to render-blocking CSS page buildera. Ręczne wydłubywanie critical CSS pogorszyło sprawę (więcej HTML plus skok layoutu), więc uczciwy pułap optymalizacji w miejscu na darmowych narzędziach to jakieś 72 punkty. Wyżej wymaga płatnego optymalizatora, który robi automatyczny critical CSS i opóźnianie JS.</p>
+            <span class="kicker" data-en="The honest ceiling">The honest ceiling</span>
+            <p data-en="The remaining ceiling is the page builder's render-blocking CSS. Hand-rolling critical CSS made it worse (more HTML plus layout shift), so the honest in-place ceiling on free tooling is the low-to-mid 70s. Going higher needs a paid optimizer that does automatic critical CSS and JS delay.">The remaining ceiling is the page builder's render-blocking CSS. Hand-rolling critical CSS made it worse (more HTML plus layout shift), so the honest in-place ceiling on free tooling is the low-to-mid 70s. Going higher needs a paid optimizer that does automatic critical CSS and JS delay.</p>
           </div>
         </section>
 
         <section>
-          <span class="kicker" data-en="Path 2 · rebuild">Ścieżka 2 · rebuild</span>
-          <h2 data-en="Lean rebuild: same page, no builder">Lekki rebuild: ta sama strona, bez buildera</h2>
-          <p data-en="Same content, same layout, no WordPress and no page builder. One HTML file with the CSS inlined, so nothing blocks the first render.">Ta sama treść, ten sam układ, bez WordPressa i bez page buildera. Jeden plik HTML z CSS w środku, więc nic nie blokuje pierwszego renderowania.</p>
+          <span class="kicker" data-en="Path 2 · rebuild">Path 2 · rebuild</span>
+          <h2 data-en="Lean rebuild: same page, no builder">Lean rebuild: same page, no builder</h2>
+          <p data-en="Same content, same layout, no WordPress and no page builder. One HTML file with the CSS inlined, so nothing blocks the first render.">Same content, same layout, no WordPress and no page builder. One HTML file with the CSS inlined, so nothing blocks the first render.</p>
           <ul class="ul">
-            <li data-en="One HTML file, CSS inlined (zero render-blocking stylesheets).">Jeden plik HTML, CSS w środku (zero blokujących arkuszy stylów).</li>
-            <li data-en="System fonts, so no font download on the critical path.">Fonty systemowe, więc żadnego pobierania fontów na ścieżce krytycznej.</li>
-            <li data-en="AVIF with a WebP fallback for the photos.">AVIF z fallbackiem WebP dla zdjęć.</li>
-            <li data-en="Responsive hero with preload; below-the-fold images lazy-loaded with width and height set, so CLS is 0.">Responsywne hero z preload; obrazy pod foldem lazy z ustawioną szerokością i wysokością, więc CLS wynosi 0.</li>
+            <li data-en="One HTML file, CSS inlined (zero render-blocking stylesheets).">One HTML file, CSS inlined (zero render-blocking stylesheets).</li>
+            <li data-en="System fonts, so no font download on the critical path.">System fonts, so no font download on the critical path.</li>
+            <li data-en="AVIF with a WebP fallback for the photos.">AVIF with a WebP fallback for the photos.</li>
+            <li data-en="Responsive hero with preload; below-the-fold images lazy-loaded with width and height set, so CLS is 0.">Responsive hero with preload; below-the-fold images lazy-loaded with width and height set, so CLS is 0.</li>
           </ul>
-          <p data-en="Result: 99 / 100 / 100 / 100, LCP 2.0 s, 461 KiB. The page weight is 91% lower than the bloated build, on the same content.">Wynik: 99 / 100 / 100 / 100, LCP 2,0 s, 461 KiB. Waga strony o 91% niższa niż w wersji rozdmuchanej, przy tej samej treści.</p>
+          <p data-en="Result: 99 / 100 / 100 / 100, LCP 2.0 s, 461 KiB. The page weight is 91% lower than the bloated build, on the same content.">Result: 99 / 100 / 100 / 100, LCP 2.0 s, 461 KiB. The page weight is 91% lower than the bloated build, on the same content.</p>
         </section>
 
         <section>
-          <span class="kicker" data-en="The finding">Wniosek</span>
-          <h2 data-en="A page builder has a ceiling, and it is honest to say so">Page builder ma swój sufit i trzeba to powiedzieć wprost</h2>
-          <p data-en="The page builder's render-blocking CSS costs a chunk of Performance that free tooling cannot claw back without a rebuild. In-place optimization still delivers large, real wins (weight down 77%, LCP 26.5 → 5.9 s) without changing how you work. The high 90s on mobile need either a paid optimizer or a lean rebuild. Anyone promising a page builder at 100 on free tooling is either measuring desktop or not measuring at all.">Render-blocking CSS page buildera kosztuje sporo punktów w Performance, których na darmowych narzędziach nie da się odzyskać bez rebuildu. Optymalizacja w miejscu i tak daje duże, realne wygrane (waga strony niższa o 77%, LCP 26,5 → 5,9 s) i nie zmienia sposobu, w jaki pracujesz. Wynik powyżej 90 na mobile wymaga albo płatnego optymalizatora, albo lekkiego rebuildu. Kto obiecuje page builder na 100 przy darmowych narzędziach, ten albo mierzy desktop, albo nie mierzy wcale.</p>
+          <span class="kicker" data-en="The finding">The finding</span>
+          <h2 data-en="A page builder has a ceiling, and it is honest to say so">A page builder has a ceiling, and it is honest to say so</h2>
+          <p data-en="The page builder's render-blocking CSS costs a chunk of Performance that free tooling cannot claw back without a rebuild. In-place optimization still delivers large, real wins (weight down 77%, LCP 26.5 → 5.9 s) without changing how you work. The high 90s on mobile need either a paid optimizer or a lean rebuild. Anyone promising a page builder at 100 on free tooling is either measuring desktop or not measuring at all.">The page builder's render-blocking CSS costs a chunk of Performance that free tooling cannot claw back without a rebuild. In-place optimization still delivers large, real wins (weight down 77%, LCP 26.5 → 5.9 s) without changing how you work. The high 90s on mobile need either a paid optimizer or a lean rebuild. Anyone promising a page builder at 100 on free tooling is either measuring desktop or not measuring at all.</p>
           <div class="paths">
             <div class="path">
               <span class="num">63 → 71</span>
-              <h3 data-en="&quot;Speed up my WordPress&quot;">„Przyspiesz mój WordPress"</h3>
-              <p data-en="You keep the editor. I optimize in place: images, fonts, unused plugins, lazy-load, preload. Large wins, honest about the ceiling.">Zostajesz przy edytorze. Optymalizuję w miejscu: obrazy, fonty, nieużywane wtyczki, lazy-load, preload. Duże wygrane, uczciwie o suficie.</p>
+              <h3 data-en="&quot;Speed up my WordPress&quot;">"Speed up my WordPress"</h3>
+              <p data-en="You keep the editor. I optimize in place: images, fonts, unused plugins, lazy-load, preload. Large wins, honest about the ceiling.">You keep the editor. I optimize in place: images, fonts, unused plugins, lazy-load, preload. Large wins, honest about the ceiling.</p>
             </div>
             <div class="path">
               <span class="num">→ 99</span>
-              <h3 data-en="&quot;Rebuild it properly&quot;">„Zbuduj porządnie"</h3>
-              <p data-en="Same page, hand-coded. I remove the builder's render-blocking CSS entirely and the page reaches 99/100 on mobile.">Ta sama strona, napisana ręcznie. Usuwam render-blocking CSS buildera w całości i strona dochodzi do 99/100 na mobile.</p>
+              <h3 data-en="&quot;Rebuild it properly&quot;">"Rebuild it properly"</h3>
+              <p data-en="Same page, hand-coded. I remove the builder's render-blocking CSS entirely and the page reaches 99/100 on mobile.">Same page, hand-coded. I remove the builder's render-blocking CSS entirely and the page reaches 99/100 on mobile.</p>
             </div>
           </div>
         </section>
 
         <div class="wrap" style="padding:0">
           <div class="cta">
-            <h2 data-en="Send me your site's URL">Podeślij URL swojej strony</h2>
-            <p data-en="I measure it on mobile and tell you which path is worth it, before any contract.">Zmierzę ją na mobile i powiem, która ścieżka się opłaca, jeszcze przed jakąkolwiek umową.</p>
-            <a class="btn" href="/#contact" data-en="Get a speed check">Zamów sprawdzenie szybkości</a>
+            <h2 data-en="Send me your site's URL">Send me your site's URL</h2>
+            <p data-en="I measure it on mobile and tell you which path is worth it, before any contract.">I measure it on mobile and tell you which path is worth it, before any contract.</p>
+            <a class="btn" href="/en/#contact" data-en="Get a speed check">Get a speed check</a>
           </div>
 
           <div class="refs">
-            <a href="https://wp-speed.helban.dev" target="_blank" rel="noopener"><span class="dot"></span><span data-en="Full interactive readout · wp-speed.helban.dev">Pełny, interaktywny raport · wp-speed.helban.dev</span></a>
-            <a href="https://github.com/Helban/wp-speed-optimization" target="_blank" rel="noopener"><span class="dot"></span><span data-en="Code and scripts · github.com/Helban/wp-speed-optimization">Kod i skrypty · github.com/Helban/wp-speed-optimization</span></a>
+            <a href="https://wp-speed.helban.dev" target="_blank" rel="noopener"><span class="dot"></span><span data-en="Full interactive readout · wp-speed.helban.dev">Full interactive readout · wp-speed.helban.dev</span></a>
+            <a href="https://github.com/Helban/wp-speed-optimization" target="_blank" rel="noopener"><span class="dot"></span><span data-en="Code and scripts · github.com/Helban/wp-speed-optimization">Code and scripts · github.com/Helban/wp-speed-optimization</span></a>
           </div>
         </div>
       </div>
@@ -359,16 +359,16 @@ footer .copy{width:100%; font-size:12.5px; color:#8a90a6; font-family:var(--mono
     <div class="wrap">
       <span class="brand">helban<span class="tld">.dev</span></span>
       <nav class="f-links" aria-label="Footer">
-        <a href="/#services" data-en="Services">Usługi</a>
-        <a href="/case-studies/" data-en="Case studies">Case studies</a>
-        <a href="/#contact" data-en="Contact">Kontakt</a>
-        <a href="/privacy/" data-en="Privacy policy">Polityka prywatności</a>
+        <a href="/en/#services" data-en="Services">Services</a>
+        <a href="/en/case-studies/" data-en="Case studies">Case studies</a>
+        <a href="/en/#contact" data-en="Contact">Contact</a>
+        <a href="/en/privacy/" data-en="Privacy policy">Privacy policy</a>
         <a href="https://github.com/Helban" target="_blank" rel="noopener">GitHub</a>
       </nav>
-      <p class="copy"><span data-en="Built by hand, no framework, no build step.">Napisane ręcznie, bez frameworka, bez etapu budowania.</span> · © 2026 helban.dev</p>
+      <p class="copy"><span data-en="Built by hand, no framework, no build step.">Built by hand, no framework, no build step.</span> · © 2026 helban.dev</p>
     </div>
   </footer>
 
-  <script src="../cs.js" defer></script>
+  <script src="/case-studies/cs.js" defer></script>
 </body>
 </html>

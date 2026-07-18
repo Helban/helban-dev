@@ -7,6 +7,11 @@ Thumbs.db
 # Font-build virtualenv (rebuild: build/.venv/bin/python build/build_fonts.py).
 build/.venv/
 
+# Throwaway screenshots taken while reviewing a change.
+.review/
+
+__pycache__/
+
 # impeccable-ignore-start
 # Ephemeral output, runtime state, and per-dev overrides of the impeccable
 # design-review tooling. Shared artifacts stay tracked: config.json,

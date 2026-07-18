@@ -9,6 +9,12 @@
   <meta name="theme-color" content="#0b0817">
   <link rel="canonical" href="https://helban.dev/case-studies/notion-operating-system/">
 
+  <!-- Both members of a language pair carry the identical block, so the return link
+       Google requires falls out of copying this file into the English build. -->
+  <link rel="alternate" hreflang="pl" href="https://helban.dev/case-studies/notion-operating-system/">
+  <link rel="alternate" hreflang="en" href="https://helban.dev/en/case-studies/notion-operating-system/">
+  <link rel="alternate" hreflang="x-default" href="https://helban.dev/case-studies/notion-operating-system/">
+
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="helban.dev">
   <meta property="og:title" content="Firmowy system operacyjny w Notionie: 17 działów, 8 baz">
@@ -87,8 +93,8 @@ a{color:inherit; text-decoration:none}
 .nav a{padding:8px 12px; border-radius:10px; font-size:14.5px; font-weight:500; color:#d2d4e3}
 .nav a:hover{background:rgba(255,255,255,.06); color:#fff}
 .lang{display:inline-flex; align-items:center; gap:2px; padding:3px; background:rgba(255,255,255,.06); border:1px solid var(--line); border-radius:999px}
-.lang button{font-family:var(--mono); font-size:12px; font-weight:700; letter-spacing:.5px; color:var(--muted); background:transparent; border:0; cursor:pointer; padding:5px 11px; border-radius:999px}
-.lang button[aria-pressed="true"]{color:#fff; background:linear-gradient(160deg,#8b5cf6,#6d28d9)}
+.lang a{font-family:var(--mono); font-size:12px; font-weight:700; letter-spacing:.5px; color:var(--muted); background:transparent; border:0; cursor:pointer; padding:5px 11px; border-radius:999px}
+.lang a[aria-current="page"]{color:#fff; background:linear-gradient(160deg,#8b5cf6,#6d28d9)}
 .nav-toggle{display:none; margin-left:auto; background:rgba(255,255,255,.06); border:1px solid var(--line); border-radius:10px; width:42px; height:38px; cursor:pointer; color:#fff}
 .nav-toggle svg{width:22px; height:22px; margin:auto; stroke:#fff}
 
@@ -219,8 +225,8 @@ footer .copy{width:100%; font-size:12.5px; color:#8a90a6; font-family:var(--mono
         <a href="/case-studies/" data-en="Case studies">Case studies</a>
         <a href="/#contact" data-en="Contact">Kontakt</a>
         <div class="lang" role="group" aria-label="Language / Język">
-          <button id="langPl" aria-pressed="true">PL</button>
-          <button id="langEn" aria-pressed="false">EN</button>
+          <a id="langPl" class="hit44" href="/case-studies/notion-operating-system/" aria-current="page" data-lang-link="pl">PL</a>
+          <a id="langEn" class="hit44" href="/en/case-studies/notion-operating-system/" data-lang-link="en">EN</a>
         </div>
       </nav>
     </div>

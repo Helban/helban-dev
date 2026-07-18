@@ -40,33 +40,13 @@
     },
   };
 
-  const languageButtons = {
-    pl: document.getElementById("langPl"),
-    en: document.getElementById("langEn"),
-  };
   const hiddenLanguageField = document.getElementById("fLang");
   const hiddenPlatformField = document.getElementById("fPlatform");
 
-  // Snapshot the Polish defaults once, so switching back from EN restores them.
-  const snapshotPolishDefaults = () => {
-    const polishText = new Map();
-    const polishPlaceholder = new Map();
-    document.querySelectorAll("[data-en]").forEach((node) => {
-      polishText.set(node, node.textContent);
-    });
-    document.querySelectorAll("[data-en-placeholder]").forEach((node) => {
-      polishPlaceholder.set(node, node.getAttribute("placeholder") || "");
-    });
-    const polishTitle = new Map();
-    document.querySelectorAll("[data-en-title]").forEach((node) => {
-      polishTitle.set(node, node.getAttribute("title") || "");
-    });
-    return { polishText, polishPlaceholder, polishTitle };
-  };
-
-  const polishDefaults = snapshotPolishDefaults();
-
-  let activeLanguage = "pl";
+  // The URL decides the language, not this script: / is Polish, /en/ is English,
+  // and build/build_en.py bakes the English text into the served HTML. Nothing here
+  // rewrites copy any more, so the language is fixed for the life of the page.
+  const activeLanguage = document.documentElement.lang === "en" ? "en" : "pl";
   // Holds the localized labels of the service the visitor clicked "order" on.
   let selectedOrder = null;
 
@@ -114,72 +94,10 @@
     orderReadout.classList.add("show");
   };
 
-  // The non-text side of a language switch: active state, ARIA, hidden fields and
-  // storage. Split out so the initial Polish load can sync state without the
-  // full-document textContent rewrite, which forced a layout pass on every boot.
-  const syncLanguageState = (language) => {
-    const useEnglish = language === "en";
-    activeLanguage = useEnglish ? "en" : "pl";
-    document.documentElement.lang = activeLanguage;
-    languageButtons.pl.setAttribute("aria-pressed", String(!useEnglish));
-    languageButtons.en.setAttribute("aria-pressed", String(useEnglish));
-    hiddenLanguageField.value = activeLanguage;
-    hiddenPlatformField.value = PLATFORM_BY_LANGUAGE[activeLanguage];
-    try {
-      localStorage.setItem("helbanLang", activeLanguage);
-    } catch (storageError) {
-      if (DEBUG) console.warn("localStorage unavailable:", storageError);
-    }
-  };
-
-  const applyLanguage = (language) => {
-    const useEnglish = language === "en";
-
-    document.querySelectorAll("[data-en]").forEach((node) => {
-      node.textContent = useEnglish ? node.dataset.en : polishDefaults.polishText.get(node);
-    });
-    document.querySelectorAll("[data-en-placeholder]").forEach((node) => {
-      node.setAttribute(
-        "placeholder",
-        useEnglish ? node.dataset.enPlaceholder : polishDefaults.polishPlaceholder.get(node),
-      );
-    });
-    // Surfaces as the hover tooltip, and as the native validation bubble with JS off.
-    document.querySelectorAll("[data-en-title]").forEach((node) => {
-      node.setAttribute(
-        "title",
-        useEnglish ? node.dataset.enTitle : polishDefaults.polishTitle.get(node),
-      );
-    });
-    // Only the visible .price spans display the amount; the order buttons carry the
-    // same data attributes for prefill and must keep their "Order"/"Zamów" label.
-    document.querySelectorAll(".price[data-price-pl]").forEach((node) => {
-      node.textContent = useEnglish ? node.dataset.priceEn : node.dataset.pricePl;
-    });
-
-    syncLanguageState(language);
-    refreshOrderReadout();
-    refreshFieldErrors();
-    renderTerminal({ instant: true });
-  };
-
-  const pickInitialLanguage = () => {
-    const fromQuery = new URLSearchParams(window.location.search).get("lang");
-    if (fromQuery === "en" || fromQuery === "pl") return fromQuery;
-    try {
-      const stored = localStorage.getItem("helbanLang");
-      if (stored === "en" || stored === "pl") return stored;
-    } catch (storageError) {
-      if (DEBUG) console.warn("localStorage unavailable:", storageError);
-    }
-    // First visit with no explicit choice: follow the browser language, so an
-    // English-speaking visitor is not stranded on an all-Polish page.
-    const browserLanguage = (navigator.language || "pl").toLowerCase();
-    return browserLanguage.startsWith("pl") ? "pl" : "en";
-  };
-
-  languageButtons.pl.addEventListener("click", () => applyLanguage("pl"));
-  languageButtons.en.addEventListener("click", () => applyLanguage("en"));
+  // The lead email should already say which platform will issue the contract, and
+  // that follows from the language of the page the visitor actually ordered from.
+  hiddenLanguageField.value = activeLanguage;
+  hiddenPlatformField.value = PLATFORM_BY_LANGUAGE[activeLanguage];
 
   // ---------- mobile navigation ----------
   const navToggle = document.getElementById("navToggle");
@@ -378,15 +296,6 @@
   };
 
   const findFirstInvalidField = () => requiredFields.find((field) => !field.checkValidity());
-
-  // Re-word visible errors after a language switch.
-  const refreshFieldErrors = () => {
-    requiredFields.forEach((field) => {
-      if (field.classList.contains("invalid")) {
-        fieldErrorElement(field).textContent = fieldErrorText(field);
-      }
-    });
-  };
 
   requiredFields.forEach((field) => {
     field.addEventListener("input", () => {
@@ -633,10 +542,12 @@
   // IntersectionObserver) the proof cards keep their final static chart.
   // A card starts its reveal once this fraction of it has scrolled into view.
   const CARD_REVEAL_FRACTION = 0.3;
-  const proofCards = document.querySelectorAll(".proof");
+  // Proof thumbnails and review ratings share one observer and one .in-view flag;
+  // their animations differ, but the trigger should not.
+  const revealCards = document.querySelectorAll(".proof, .say");
 
   const setUpProofReveals = () => {
-    if (prefersReducedMotion || !("IntersectionObserver" in window) || !proofCards.length) {
+    if (prefersReducedMotion || !("IntersectionObserver" in window) || !revealCards.length) {
       return;
     }
     document.documentElement.classList.add("js-reveal");
@@ -651,20 +562,19 @@
       },
       { threshold: CARD_REVEAL_FRACTION },
     );
-    proofCards.forEach((card) => cardObserver.observe(card));
+    // The class that hides the stars is added by the same pass that starts watching
+    // for them to scroll in. A stale or missing script therefore cannot hide a rating
+    // it will never reveal: the review data degrades to plain, visible stars.
+    revealCards.forEach((card) => {
+      card.classList.add("will-reveal");
+      cardObserver.observe(card);
+    });
   };
 
   // ---------- boot ----------
-  // Polish is the markup default, so a Polish visitor needs only the state sync on
-  // load, not a full-document text rewrite. English (query or stored) does the pass.
+  // The served HTML is already in the right language, so boot never rewrites copy.
   restoreOrder();
-  const initialLanguage = pickInitialLanguage();
-  if (initialLanguage === "en") {
-    applyLanguage("en");
-  } else {
-    syncLanguageState("pl");
-    refreshOrderReadout();
-  }
+  refreshOrderReadout();
 
   // Assemble the contact address at runtime (see CONTACT_EMAIL); the static markup
   // carries no email pattern, so Cloudflare adds no render-blocking decode script.

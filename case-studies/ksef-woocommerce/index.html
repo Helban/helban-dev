@@ -90,8 +90,8 @@ a{color:inherit; text-decoration:none}
 .nav a{padding:8px 12px; border-radius:10px; font-size:14.5px; font-weight:500; color:#d2d4e3}
 .nav a:hover{background:rgba(255,255,255,.06); color:#fff}
 .lang{display:inline-flex; align-items:center; gap:2px; padding:3px; background:rgba(255,255,255,.06); border:1px solid var(--line); border-radius:999px}
-.lang button{font-family:var(--mono); font-size:12px; font-weight:700; letter-spacing:.5px; color:var(--muted); background:transparent; border:0; cursor:pointer; padding:5px 11px; border-radius:999px}
-.lang button[aria-pressed="true"]{color:#fff; background:linear-gradient(160deg,#8b5cf6,#6d28d9)}
+.lang a{font-family:var(--mono); font-size:12px; font-weight:700; letter-spacing:.5px; color:var(--muted); background:transparent; border:0; cursor:pointer; padding:5px 11px; border-radius:999px}
+.lang a[aria-current="page"]{color:#fff; background:linear-gradient(160deg,#8b5cf6,#6d28d9)}
 .nav-toggle{display:none; margin-left:auto; background:rgba(255,255,255,.06); border:1px solid var(--line); border-radius:10px; width:42px; height:38px; cursor:pointer; color:#fff}
 .nav-toggle svg{width:22px; height:22px; margin:auto; stroke:#fff}
 
@@ -156,6 +156,14 @@ table.results tbody td.date{font-family:var(--mono); color:#fff; white-space:now
 .drow .verdict{font-family:var(--mono); font-size:11px; font-weight:700; letter-spacing:.5px; text-transform:uppercase; color:var(--edge,#8b5cf6); display:block; margin-bottom:7px}
 
 /* callout */
+/* Amber, not the coral .callout: this one is about the LANGUAGE of the page, not
+   about anything in the tax rules, and the two must not read as the same kind of warning. */
+.lang-note{margin:0 0 26px; padding:14px 18px; border-radius:12px;
+  background:rgba(245,158,11,.10); border:1px solid rgba(245,158,11,.34)}
+.lang-note p{font-size:14.5px; line-height:1.55; color:#f0e2c8; max-width:74ch}
+.lang-note a{color:#fcd34d; text-decoration:underline; text-underline-offset:3px}
+.lang-note a:hover{color:#fff}
+
 .callout{margin:24px 0 6px; padding:20px 22px; border-radius:var(--radius);
   background:rgba(244,63,94,.10); border:1px solid rgba(244,63,94,.3)}
 .callout .kicker{color:#f7a6b4}
@@ -221,8 +229,8 @@ footer .copy{width:100%; font-size:12.5px; color:#8a90a6; font-family:var(--mono
         <a href="/case-studies/" data-en="Case studies">Case studies</a>
         <a href="/#contact" data-en="Contact">Kontakt</a>
         <div class="lang" role="group" aria-label="Language / Język">
-          <button id="langPl" aria-pressed="true">PL</button>
-          <button id="langEn" aria-pressed="false">EN</button>
+          <a id="langPl" class="hit44" href="/case-studies/ksef-woocommerce/" aria-current="page" data-lang-link="pl">PL</a>
+          <a id="langEn" class="hit44" href="/en/" data-lang-link="en">EN</a>
         </div>
       </nav>
     </div>
@@ -231,11 +239,17 @@ footer .copy{width:100%; font-size:12.5px; color:#8a90a6; font-family:var(--mono
   <main id="article">
     <article class="doc">
       <div class="wrap">
+        <!-- English on a Polish page on purpose: the only reader who needs this note
+             is the one who arrived from /en/ and cannot read the article. -->
+        <div class="lang-note">
+          <p>This guide is only in Polish. KSeF is a Polish VAT system, and everyone who needs it searches in Polish, so a translation would serve nobody. If you invoice from Poland and want KSeF set up in your WooCommerce store, <a href="/en/#contact">write to me</a> and I will reply in English. The rest of the site has an <a href="/en/">English version</a>.</p>
+        </div>
+
         <div class="crumb"><a href="/case-studies/" data-en="← Case studies">← Case studies</a></div>
         <span class="eyebrow" data-en="Guide · KSeF + WooCommerce">Przewodnik · KSeF + WooCommerce</span>
         <h1 class="title">KSeF w WooCommerce: co naprawdę musisz wdrożyć</h1>
         <p class="lead">Od 2026 roku faktury w Polsce trafiają do Krajowego Systemu e-Faktur. Wokół tego narosło sporo strachu, a duża część sklepów WooCommerce nie musi robić prawie nic. Poniżej: kto wystawia faktury w KSeF i od kiedy, dlaczego sprzedaż do osób prywatnych zostaje poza systemem, i czego darmowa wtyczka za Ciebie nie rozwiąże.</p>
-        <p class="scopeline mono" data-en="This guide is written in Polish because KSeF is a Polish VAT rule and the whole audience for it searches in Polish. If you run a WooCommerce store that invoices from Poland and need KSeF set up, write to me at /#contact and I will reply in English.">Stan prawny: lipiec 2026. Dotyczy sklepów WooCommerce, które wystawiają faktury z Polski. To przewodnik, nie porada podatkowa.</p>
+        <p class="scopeline mono">Stan prawny: lipiec 2026. Dotyczy sklepów WooCommerce, które wystawiają faktury z Polski. To przewodnik, nie porada podatkowa.</p>
 
         <div class="glance">
           <div class="gstat"><div class="big">1 lut <i>2026</i></div><div class="lab">odbiór e-faktur obowiązkowy dla każdego podatnika VAT</div></div>
