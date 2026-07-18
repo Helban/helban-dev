@@ -537,21 +537,19 @@
     }
   };
 
-  // ---------- scroll-triggered reveals: chart draw + thumbnail motifs ----------
+  // ---------- scroll-triggered reveals: review ratings ----------
   // Pure enhancement. If it never runs (JS off, reduced motion, or no
-  // IntersectionObserver) the proof cards keep their final static chart.
+  // IntersectionObserver) the ratings stay plain and visible.
   // A card starts its reveal once this fraction of it has scrolled into view.
   const CARD_REVEAL_FRACTION = 0.3;
-  // Proof thumbnails and review ratings share one observer and one .in-view flag;
-  // their animations differ, but the trigger should not.
-  const revealCards = document.querySelectorAll(".proof, .say");
+  // Only the review cards animate on scroll. Proof thumbnails are static screenshots,
+  // so widening this selector would observe seven cards that have nothing to reveal.
+  const revealCards = document.querySelectorAll(".say");
 
-  const setUpProofReveals = () => {
+  const setUpRatingReveals = () => {
     if (prefersReducedMotion || !("IntersectionObserver" in window) || !revealCards.length) {
       return;
     }
-    document.documentElement.classList.add("js-reveal");
-
     const cardObserver = new IntersectionObserver(
       (entries, observer) => {
         entries.forEach((entry) => {
@@ -585,7 +583,7 @@
     contactEmailText.textContent = CONTACT_EMAIL;
   }
 
-  setUpProofReveals();
+  setUpRatingReveals();
   setUpScrollspy();
   startTerminal();
 })();

@@ -253,7 +253,10 @@ h1,h2,h3{text-wrap:balance}
 .proof .shot{aspect-ratio:16/10; border-radius:var(--radius-sm); overflow:hidden;
   border:1px solid var(--line); margin-bottom:15px; position:relative;
   background:linear-gradient(150deg,#241a45,#140e29)}
-.proof .shot svg{width:100%; height:100%}
+/* The screenshots are 16:10 like the frame, so cover only guards against a demo
+   being re-shot at another ratio. Artifacts live in assets/shots/, rebuilt by
+   build/build_shots.py. */
+.proof .shot img{display:block; width:100%; height:100%; object-fit:cover}
 .proof h3{font-size:17px; font-weight:700; letter-spacing:-.3px; margin-bottom:4px}
 .proof p{font-size:14px; color:#b6b9c9; margin-bottom:13px; flex:1}
 .psi{display:flex; gap:6px; margin-bottom:14px}
@@ -399,8 +402,8 @@ h1,h2,h3{text-wrap:balance}
 .rating svg{width:114px; height:22px; flex:none; fill:#f0b429}
 .rating .score{font-family:var(--mono); font-size:14px; font-weight:700; color:#f5c451}
 /* Stars light up one by one when the card scrolls in. Only opacity and transform
-   animate, so this stays off the layout and paint path, and it plays once instead of
-   looping like the proof motifs. Keyed on .will-reveal, which main.js writes onto the
+   animate, so this stays off the layout and paint path, and it plays once rather than
+   looping. Keyed on .will-reveal, which main.js writes onto the
    card at the same moment it starts observing it: a rating is never hidden by a script
    that is not also going to reveal it, so a stale or blocked main.js leaves plain
    visible stars rather than an empty gap. The same pass is skipped entirely under
@@ -511,8 +514,16 @@ footer .copy{width:100%; display:flex; justify-content:space-between; gap:8px 18
 @media (max-width:880px){
   .proof-grid,.steps{grid-template-columns:1fr}
   .about,.contact{grid-template-columns:1fr}
-  .nav{display:none; position:absolute; top:64px; left:0; right:0; flex-direction:column; align-items:stretch;
-    gap:4px; padding:14px 22px 18px; background:rgba(11,8,23,.97); border-bottom:1px solid var(--line)}
+  /* Opaque, and it has to stay opaque. The panel hangs over the hero, and 3% transparency
+     that is invisible on a mid-tone background is plainly readable in a dark UI: the h1 used
+     to show through the nav labels. Do NOT "fix" this with backdrop-filter, which is the
+     obvious-looking move and cannot work here: .topbar is an ancestor and already carries
+     backdrop-filter, so it establishes the backdrop root and a filter on .nav has nothing
+     behind it left to blur. Verified by removing the topbar's filter, at which point the
+     panel's blur springs to life. #100c22 sits just above the body so it reads as a surface. */
+  .nav{display:none; position:absolute; top:64px; left:0; right:0; z-index:1;
+    flex-direction:column; align-items:stretch;
+    gap:4px; padding:14px 22px 18px; background:#100c22; border-bottom:1px solid var(--line)}
   .nav.open{display:flex}
   .nav a{padding:12px 14px}
   .nav .lang{align-self:flex-start; margin-top:6px}
@@ -530,54 +541,9 @@ footer .copy{width:100%; display:flex; justify-content:space-between; gap:8px 18
   box-shadow:0 26px 54px rgba(0,0,0,.52), inset 0 1px 0 rgba(255,255,255,.13)}
 .proof:hover::before{background:linear-gradient(90deg, transparent, rgba(167,139,250,1), transparent)}
 
-/* The chart line and its end dot draw themselves once the card scrolls in.
-   .js-reveal is set by main.js only when motion is allowed, so no-JS and
-   reduced-motion visitors keep the fully drawn static chart. */
-.js-reveal .proof .spark{stroke-dasharray:300; stroke-dashoffset:300}
-.js-reveal .proof.in-view .spark{stroke-dashoffset:0; transition:stroke-dashoffset 1.15s ease .1s}
-.js-reveal .proof .spark-dot{opacity:0; transform:scale(0); transform-box:fill-box; transform-origin:center}
-.js-reveal .proof.in-view .spark-dot{opacity:1; transform:scale(1);
-  transition:opacity .3s ease .95s, transform .4s cubic-bezier(.22,1,.36,1) .95s}
-
-/* live "last price" ping: a ring expands off the end dot once the line is drawn */
-@keyframes sparkPing{
-  0%{opacity:.5; transform:scale(1)}
-  70%{opacity:0}
-  100%{opacity:0; transform:scale(2.8)}
-}
-.js-reveal .proof .spark-ping{transform-box:fill-box; transform-origin:center; opacity:0}
-.js-reveal .proof.in-view .spark-ping{animation:sparkPing 2.4s ease-out 1s infinite}
-
-/* thumbnail motifs: coins rising off the "zł" (calculator), sparkles round the
-   product (salon). They loop only while the card is in view. */
-@keyframes coinFloat{
-  0%{opacity:0; transform:translateY(7px) scale(.5)}
-  22%{opacity:1}
-  70%{opacity:1}
-  100%{opacity:0; transform:translateY(-30px) scale(1)}
-}
-.js-reveal .proof .coin{transform-box:fill-box; transform-origin:center; opacity:0}
-.js-reveal .proof.in-view .coin{animation:coinFloat 3.2s ease-in-out infinite}
-.js-reveal .proof.in-view .coin.c2{animation-delay:.6s}
-.js-reveal .proof.in-view .coin.c3{animation-delay:1.3s}
-
-@keyframes twinkle{
-  0%,100%{opacity:0; transform:scale(.35)}
-  50%{opacity:1; transform:scale(1)}
-}
-.js-reveal .proof .twinkle{transform-box:fill-box; transform-origin:center; opacity:0}
-.js-reveal .proof.in-view .twinkle{animation:twinkle 2.4s ease-in-out infinite}
-.js-reveal .proof.in-view .twinkle.t2{animation-delay:.9s}
-.js-reveal .proof.in-view .twinkle.t3{animation-delay:1.6s}
-
-@keyframes spin360{to{transform:rotate(360deg)}}
-.js-reveal .proof .spin360{transform-box:fill-box; transform-origin:center; opacity:0}
-.js-reveal .proof.in-view .spin360{opacity:1; animation:spin360 7s linear infinite; transition:opacity .6s ease}
-
 @media (prefers-reduced-motion:reduce){
   .proof{transition:none}
   .proof:hover{transform:none}
-  .js-reveal .proof.in-view .spin360{animation:none; opacity:1}
 }
   </style>
 </head>
@@ -642,7 +608,7 @@ footer .copy{width:100%; display:flex; justify-content:space-between; gap:8px 18
 
           <article class="card proof proof-flag">
             <div class="shot" aria-hidden="true">
-              <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f6c8d6"/><stop offset="1" stop-color="#c9a8ff"/></linearGradient></defs><rect width="320" height="200" fill="#1a1230"/><rect x="24" y="28" width="150" height="14" rx="7" fill="url(#g1)"/><rect x="24" y="52" width="110" height="8" rx="4" fill="#6d5a9c"/><rect x="24" y="72" width="84" height="26" rx="13" fill="#8b5cf6"/><rect x="196" y="28" width="100" height="120" rx="12" fill="#2a1f4d"/><circle cx="246" cy="78" r="26" fill="url(#g1)"/><g class="sparkles"><g transform="translate(277,54)"><polygon class="twinkle t1" points="0,-6 1.5,-1.5 6,0 1.5,1.5 0,6 -1.5,1.5 -6,0 -1.5,-1.5" fill="#fff0f6"/></g><g transform="translate(222,98)"><polygon class="twinkle t2" points="0,-5 1.3,-1.3 5,0 1.3,1.3 0,5 -1.3,1.3 -5,0 -1.3,-1.3" fill="#fff0f6"/></g><g transform="translate(266,114)"><polygon class="twinkle t3" points="0,-7 1.7,-1.7 7,0 1.7,1.7 0,7 -1.7,1.7 -7,0 -1.7,-1.7" fill="#fff0f6"/></g></g></svg>
+              <img src="/assets/shots/salon.webp" alt="" width="1120" height="700" loading="lazy" decoding="async">
             </div>
             <h3>salon.helban.dev</h3>
             <p data-en="Premium salon site, multi-page, JSON-LD schema and a validated contact form.">Premium salon site, multi-page, JSON-LD schema and a validated contact form.</p>
@@ -652,7 +618,7 @@ footer .copy{width:100%; display:flex; justify-content:space-between; gap:8px 18
 
           <article class="card proof">
             <div class="shot" aria-hidden="true">
-              <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="coinGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffe487"/><stop offset="1" stop-color="#dda43a"/></linearGradient></defs><rect width="320" height="200" fill="#101b18"/><rect x="24" y="26" width="130" height="12" rx="6" fill="#7ee0b0"/><rect x="24" y="50" width="180" height="7" rx="3" fill="#3c6b58"/><rect x="24" y="78" width="120" height="96" rx="12" fill="#16241f"/><rect x="38" y="96" width="92" height="9" rx="4" fill="#2f5447"/><rect x="38" y="116" width="64" height="9" rx="4" fill="#2f5447"/><rect x="38" y="142" width="72" height="20" rx="10" fill="#22c55e"/><rect x="164" y="78" width="132" height="96" rx="12" fill="#16241f"/><text x="230" y="138" font-family="monospace" font-size="40" fill="#7ee0b0" text-anchor="middle">zł</text><g class="coins"><circle class="coin c1" cx="202" cy="152" r="8" fill="url(#coinGrad)" stroke="#ffefb0" stroke-width="1.2"/><circle class="coin c2" cx="232" cy="156" r="9.5" fill="url(#coinGrad)" stroke="#ffefb0" stroke-width="1.2"/><circle class="coin c3" cx="262" cy="150" r="7" fill="url(#coinGrad)" stroke="#ffefb0" stroke-width="1.2"/></g></svg>
+              <img src="/assets/shots/kalkulator.webp" alt="" width="560" height="350" loading="lazy" decoding="async">
             </div>
             <h3>kalkulator.helban.dev</h3>
             <p data-en="Service landing with an interactive price calculator and lead capture, no backend.">Service landing with an interactive price calculator and lead capture, no backend.</p>
@@ -662,7 +628,7 @@ footer .copy{width:100%; display:flex; justify-content:space-between; gap:8px 18
 
           <article class="card proof">
             <div class="shot" aria-hidden="true">
-              <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice"><rect width="320" height="200" fill="#0e1426"/><rect x="24" y="26" width="150" height="12" rx="6" fill="#9dbcff"/><rect x="24" y="50" width="190" height="7" rx="3" fill="#36456b"/><polyline class="spark" points="30,160 80,130 120,142 170,96 220,108 280,64" fill="none" stroke="#22c55e" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><circle class="spark-ping" cx="280" cy="64" r="6" fill="#22c55e"/><circle class="spark-dot" cx="280" cy="64" r="6" fill="#22c55e"/></svg>
+              <img src="/assets/shots/dropwatch.webp" alt="" width="560" height="350" loading="lazy" decoding="async">
             </div>
             <h3>dropwatch.helban.dev</h3>
             <p data-en="English SaaS / product landing, PageSpeed 100 on mobile and desktop, no React.">English SaaS / product landing, PageSpeed 100 on mobile and desktop, no React.</p>
@@ -672,7 +638,7 @@ footer .copy{width:100%; display:flex; justify-content:space-between; gap:8px 18
 
           <article class="card proof">
             <div class="shot" aria-hidden="true">
-              <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice"><rect width="320" height="200" fill="#0e1206"/><rect x="24" y="28" width="132" height="12" rx="6" fill="#b9f73e"/><rect x="24" y="52" width="168" height="7" rx="3" fill="#48591f"/><ellipse cx="208" cy="156" rx="92" ry="18" fill="#182310"/><ellipse cx="208" cy="150" rx="62" ry="11" fill="none" stroke="#b9f73e" stroke-width="2" opacity=".6"/><g fill="none" stroke="#cfd3bd" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="176" cy="126" r="19"/><circle cx="246" cy="126" r="19"/><path d="M176 126 200 104 232 104 246 126"/><path d="M200 104 212 126"/><path d="M232 104 226 90 246 90"/></g><g class="spin360"><path d="M120 128a40 40 0 1 1 14 27" fill="none" stroke="#b9f73e" stroke-width="3.5" stroke-linecap="round"/><path d="M132 150 135 137 146 144z" fill="#b9f73e"/></g><text x="96" y="100" font-family="monospace" font-weight="700" font-size="16" fill="#eef7d8" text-anchor="middle">360°</text></svg>
+              <img src="/assets/shots/voltera.webp" alt="" width="560" height="350" loading="lazy" decoding="async">
             </div>
             <h3>voltera.helban.dev</h3>
             <p data-en="Interactive motorcycle showroom: garage, drag-to-spin 360°, hotspots that jump to each component. Bilingual, PageSpeed 99-100.">Interactive motorcycle showroom: garage, drag-to-spin 360°, hotspots that jump to each component. Bilingual, PageSpeed 99-100.</p>
@@ -682,7 +648,7 @@ footer .copy{width:100%; display:flex; justify-content:space-between; gap:8px 18
 
           <article class="card proof">
             <div class="shot" aria-hidden="true">
-              <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="aurG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f6e27a"/><stop offset=".5" stop-color="#d4af37"/><stop offset="1" stop-color="#8a6d1f"/></linearGradient></defs><rect width="320" height="200" fill="#0a0a0f"/><rect x="24" y="26" width="120" height="12" rx="6" fill="url(#aurG)"/><rect x="24" y="50" width="150" height="7" rx="3" fill="#5c4e26"/><rect x="36" y="74" width="248" height="98" rx="16" fill="#14141c" stroke="url(#aurG)" stroke-width="2.5"/><rect x="56" y="92" width="60" height="62" rx="8" fill="#08080d"/><rect x="130" y="92" width="60" height="62" rx="8" fill="#08080d"/><rect x="204" y="92" width="60" height="62" rx="8" fill="#08080d"/><path d="M50 123H270" stroke="#17b877" stroke-width="2" opacity=".65"/><g stroke="#8a6d1f" stroke-width="1"><g transform="translate(86,120)"><path d="M-13,9 -10,-5 -3,2 0,-11 3,2 10,-5 13,9Z" fill="url(#aurG)"/><rect x="-13" y="9" width="26" height="5" rx="1.5" fill="url(#aurG)"/></g><g transform="translate(160,120)"><path d="M-13,9 -10,-5 -3,2 0,-11 3,2 10,-5 13,9Z" fill="url(#aurG)"/><rect x="-13" y="9" width="26" height="5" rx="1.5" fill="url(#aurG)"/></g><g transform="translate(234,120)"><path d="M-13,9 -10,-5 -3,2 0,-11 3,2 10,-5 13,9Z" fill="url(#aurG)"/><rect x="-13" y="9" width="26" height="5" rx="1.5" fill="url(#aurG)"/></g></g><g fill="#f6e27a" class="jackpot"><polygon class="twinkle t1" points="292,150 294,155 299,157 294,159 292,164 290,159 285,157 290,155"/><polygon class="twinkle t2" points="279,40 281,44 285,46 281,48 279,52 277,48 273,46 277,44"/></g></svg>
+              <img src="/assets/shots/aurum.webp" alt="" width="560" height="350" loading="lazy" decoding="async">
             </div>
             <h3>aurum-casino.helban.dev</h3>
             <p data-en="Playable slot and a dual-currency wallet in a landscape PWA. Every graphic is drawn in code as SVG, no raster files, and the fonts weigh 40 KB.">Playable slot and a dual-currency wallet in a landscape PWA. Every graphic is drawn in code as SVG, no raster files, and the fonts weigh 40 KB.</p>
@@ -692,7 +658,7 @@ footer .copy{width:100%; display:flex; justify-content:space-between; gap:8px 18
 
           <article class="card proof">
             <div class="shot" aria-hidden="true">
-              <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="aethosG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7c5cff"/><stop offset=".55" stop-color="#29e0d6"/><stop offset="1" stop-color="#35e1d4"/></linearGradient><radialGradient id="aethosGlow" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#29e0d6" stop-opacity=".9"/><stop offset="1" stop-color="#29e0d6" stop-opacity="0"/></radialGradient></defs><rect width="320" height="200" fill="#08090c"/><rect x="24" y="26" width="118" height="12" rx="6" fill="#eceef2"/><rect x="24" y="50" width="164" height="7" rx="3" fill="#3a3f4a"/><rect x="24" y="150" width="120" height="20" rx="4" fill="url(#aethosG)" opacity=".9"/><g fill="none" stroke-linecap="round"><path d="M150 70 C200 50 240 120 300 92" stroke="url(#aethosG)" stroke-width="2.5"/><path d="M120 120 C180 100 230 150 300 132" stroke="#7c5cff" stroke-width="1.8" opacity=".6"/><path d="M160 40 C210 30 250 80 300 60" stroke="#29e0d6" stroke-width="1.5" opacity=".5"/></g><circle cx="300" cy="92" r="15" fill="url(#aethosGlow)"/><circle cx="300" cy="92" r="3.6" fill="#35e1d4"/><circle cx="238" cy="86" r="2.4" fill="#7c5cff"/><circle cx="266" cy="120" r="2" fill="#ff5ca8"/></svg>
+              <img src="/assets/shots/aethos.webp" alt="" width="560" height="350" loading="lazy" decoding="async">
             </div>
             <h3>aethos.helban.dev</h3>
             <p data-en="Concept site for a futuristic branding studio. No traditional sections, spatial navigation and a cursor-reactive particle field on canvas. Hand-coded, PageSpeed 98-100.">Concept site for a futuristic branding studio. No traditional sections, spatial navigation and a cursor-reactive particle field on canvas. Hand-coded, PageSpeed 98-100.</p>
@@ -702,7 +668,7 @@ footer .copy{width:100%; display:flex; justify-content:space-between; gap:8px 18
 
           <article class="card proof">
             <div class="shot" aria-hidden="true">
-              <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="orqaG" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#8b7cf6"/><stop offset="1" stop-color="#2dd4bf"/></linearGradient><radialGradient id="orqaGlow" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#e9edff" stop-opacity=".95"/><stop offset="1" stop-color="#8b7cf6" stop-opacity="0"/></radialGradient></defs><rect width="320" height="200" fill="#05060b"/><rect x="24" y="26" width="112" height="12" rx="6" fill="url(#orqaG)"/><rect x="24" y="50" width="150" height="7" rx="3" fill="#2b3358"/><g fill="none" stroke="#6d5cf6" stroke-width="2" opacity=".75"><path d="M96 100 C130 100 130 138 168 138"/><path d="M96 168 C130 168 130 146 168 142"/><path d="M232 138 C260 138 262 108 288 106"/></g><rect x="34" y="84" width="62" height="32" rx="7" fill="#0b1020" stroke="#2dd4bf" stroke-width="1.6"/><rect x="34" y="152" width="62" height="32" rx="7" fill="#0b1020" stroke="#2dd4bf" stroke-width="1.6"/><rect x="168" y="112" width="64" height="52" rx="8" fill="#0d1226" stroke="#8b7cf6" stroke-width="2"/><rect x="176" y="122" width="48" height="4" rx="2" fill="#8b7cf6"/><rect x="176" y="132" width="34" height="4" rx="2" fill="#39406b"/><rect x="176" y="142" width="42" height="4" rx="2" fill="#39406b"/><rect x="288" y="88" width="10" height="36" rx="4" fill="#0b1020" stroke="#38bdf8" stroke-width="1.6"/><circle cx="168" cy="138" r="17" fill="url(#orqaGlow)"/><circle class="spark-ping" cx="140" cy="122" r="5" fill="#edf0ff"/><circle class="spark-dot" cx="140" cy="122" r="4" fill="#edf0ff"/><g font-family="monospace" font-size="7" fill="#2dd4bf"><text x="240" y="34">429 · retry 2/4</text><text x="240" y="46" fill="#5f6a99">backing off</text></g></svg>
+              <img src="/assets/shots/orqa.webp" alt="" width="560" height="350" loading="lazy" decoding="async">
             </div>
             <h3>orqa.helban.dev</h3>
             <p data-en="Node-based editor for AI workflows: wire nodes, run the graph through the Claude API. A cinema mode turns it into a control room, where a light carries each result down the wire and a telemetry console prints every retry and its HTTP code.">Node-based editor for AI workflows: wire nodes, run the graph through the Claude API. A cinema mode turns it into a control room, where a light carries each result down the wire and a telemetry console prints every retry and its HTTP code.</p>
