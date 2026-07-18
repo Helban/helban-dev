@@ -357,15 +357,21 @@
     if (DEBUG) console.warn("LCP observer unavailable:", observerError);
   }
 
+  // transferSize is what actually crossed the wire (0 on a cached repeat visit);
+  // decodedBodySize is the unpacked weight, available even when served from cache.
   const measureTransfer = () => {
     const navigationEntry = performance.getEntriesByType("navigation")[0];
-    let totalBytes = navigationEntry ? navigationEntry.transferSize || 0 : 0;
-    let fontBytes = 0;
+    let transferredBytes = navigationEntry ? navigationEntry.transferSize || 0 : 0;
+    let decodedBytes = navigationEntry ? navigationEntry.decodedBodySize || 0 : 0;
+    let fontTransferredBytes = 0;
     performance.getEntriesByType("resource").forEach((resourceEntry) => {
-      totalBytes += resourceEntry.transferSize || 0;
-      if (resourceEntry.name.includes("/fonts/")) fontBytes += resourceEntry.transferSize || 0;
+      transferredBytes += resourceEntry.transferSize || 0;
+      decodedBytes += resourceEntry.decodedBodySize || 0;
+      if (resourceEntry.name.includes("/fonts/")) {
+        fontTransferredBytes += resourceEntry.transferSize || 0;
+      }
     });
-    return { totalBytes, fontBytes };
+    return { transferredBytes, decodedBytes, fontTransferredBytes };
   };
 
   const pickLoadMomentMs = () => {
@@ -392,23 +398,49 @@
   let terminalMeasurements = null;
 
   const terminalLines = () => {
-    const { totalBytes, fontBytes } = terminalMeasurements.transfer;
+    const { transferredBytes, decodedBytes, fontTransferredBytes } = terminalMeasurements.transfer;
     const loadMomentMs = terminalMeasurements.loadMomentMs;
-    const fromCache = totalBytes < CACHED_VISIT_MAX_BYTES;
-    if (activeLanguage === "pl") {
+    const usePolish = activeLanguage === "pl";
+
+    // Repeat visit: nothing crossed the wire, the browser served its cache.
+    // Say so instead of printing a broken-looking "0 KB".
+    const fromCache = transferredBytes < CACHED_VISIT_MAX_BYTES && decodedBytes > CACHED_VISIT_MAX_BYTES;
+    // Timing APIs unavailable or zeroed (some privacy browsers): no numbers, no claims.
+    const unmeasurable = transferredBytes < CACHED_VISIT_MAX_BYTES && !fromCache;
+
+    if (unmeasurable) {
+      return usePolish
+        ? [
+            "ta strona: ręcznie pisany HTML, bez frameworka",
+            "fonty: 6 plików, zero zapytań do Google",
+            "zmierz sam: PageSpeed Insights",
+          ]
+        : [
+            "this page: hand-written HTML, no framework",
+            "fonts: 6 files, self-hosted, zero Google",
+            "measure it yourself: PageSpeed Insights",
+          ];
+    }
+
+    const loadPl = loadMomentMs ? `wczytana w ${formatSeconds(loadMomentMs)} · ` : "";
+    const loadEn = loadMomentMs ? `loaded in ${formatSeconds(loadMomentMs)} · ` : "";
+    const fontsPl = fontTransferredBytes ? `fonty: ${formatKb(fontTransferredBytes)}` : "fonty: z cache";
+    const fontsEn = fontTransferredBytes ? `fonts: ${formatKb(fontTransferredBytes)}` : "fonts: cached";
+
+    if (usePolish) {
       return [
         fromCache
-          ? `ta strona: ${formatKb(totalBytes)}, reszta z cache`
-          : `ta strona, przesłane teraz: ${formatKb(totalBytes)}`,
-        `${loadMomentMs ? `wczytana w ${formatSeconds(loadMomentMs)} · ` : ""}fonty: ${formatKb(fontBytes)}`,
+          ? `ta strona: cała z cache, waży ${formatKb(decodedBytes)}`
+          : `ta strona, przesłane teraz: ${formatKb(transferredBytes)}`,
+        `${loadPl}${fontsPl}`,
         "zmierzone u Ciebie, a nie obiecane",
       ];
     }
     return [
       fromCache
-        ? `this page: ${formatKb(totalBytes)}, rest from cache`
-        : `this page, transferred now: ${formatKb(totalBytes)}`,
-      `${loadMomentMs ? `loaded in ${formatSeconds(loadMomentMs)} · ` : ""}fonts: ${formatKb(fontBytes)}`,
+        ? `this page: from cache, weighs ${formatKb(decodedBytes)}`
+        : `this page, transferred now: ${formatKb(transferredBytes)}`,
+      `${loadEn}${fontsEn}`,
       "measured on your device, not promised",
     ];
   };
