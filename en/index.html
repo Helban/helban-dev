@@ -110,14 +110,21 @@
   --glass-1:rgba(255,255,255,.072);
   --glass-2:rgba(255,255,255,.022);
 
-  /* Type scale, ratio 1.2 from a 10px root. The page previously carried twenty distinct
-     sizes, twelve of them inside 12-18px with steps as small as 1.06x: differences too
-     small to read as hierarchy, large enough to read as carelessness. Every size now maps
-     to its NEAREST step, which is a rule rather than a per-element opinion, and moves
-     nothing by more than ~2px. The old extremes already sat on this scale: 10px and the
-     62px h1 cap are exactly ten steps apart. */
-  --fs-1:10px; --fs-2:12px; --fs-3:14.4px; --fs-4:17.3px; --fs-5:20.7px;
-  --fs-6:24.9px; --fs-7:29.8px; --fs-8:35.8px; --fs-9:43px; --fs-10:51.6px; --fs-11:61.9px;
+  /* Type scale, ratio 1.25 from a 10px root. The page once carried twenty distinct sizes,
+     twelve of them inside 12-18px with steps as small as 1.06x: differences too small to
+     read as hierarchy, large enough to read as carelessness. A first pass put everything
+     on a 1.2 ladder, which killed the noise but still sat under the 1.25 floor a brand
+     surface wants, and left body copy and card titles one thin step apart.
+     At 1.25 the rungs are far enough apart that a step MEANS something, which is also why
+     usage is assigned by ROLE rather than by rounding: at this ratio the nearest step
+     would collapse card titles into the body copy underneath them.
+     The rungs carry: 10 micro labels · 12.5 mono meta and badges · 15.6 body, controls and
+     card copy · 19.5 card titles, section intros and pull quotes · 24.4 and up headings.
+     Section prose deliberately shares 19.5 with card titles: it is a lede, weight and
+     position separate them, and card copy still sits a full step below its own heading.
+     Every rung is used except 47.7px, kept so the ladder stays a ladder. */
+  --fs-1:10px; --fs-2:12.5px; --fs-3:15.6px; --fs-4:19.5px; --fs-5:24.4px;
+  --fs-6:30.5px; --fs-7:38.1px; --fs-8:47.7px; --fs-9:59.6px;
 
   --maxw:1120px;
   --radius:18px; --radius-sm:12px; --radius-xs:9px;
@@ -204,12 +211,12 @@ img,svg{display:block}
 section{position:relative; padding:84px 0}
 h1,h2,h3{text-wrap:balance}
 .sec-head{max-width:620px; margin-bottom:40px}
-.sec-head h2{font-size:clamp(var(--fs-6),4vw,var(--fs-8)); font-weight:800; letter-spacing:-1px; line-height:1.08; margin:0 0 10px}
+.sec-head h2{font-size:clamp(var(--fs-5),4vw,var(--fs-7)); font-weight:800; letter-spacing:-1px; line-height:1.08; margin:0 0 10px}
 .sec-head p{color:#c3c6d6; font-size:var(--fs-4); text-wrap:pretty}
 
 /* ---------- hero ---------- */
 .hero{padding:96px 0 72px; text-align:center}
-.hero h1{font-size:clamp(var(--fs-8),6.4vw,var(--fs-11)); font-weight:800; line-height:1.02; letter-spacing:-.02em;
+.hero h1{font-size:clamp(var(--fs-7),6.4vw,var(--fs-9)); font-weight:800; line-height:1.02; letter-spacing:-.02em;
   margin:0 auto; max-width:14ch; color:#fff}
 .hero h1 .tld-dot{color:var(--coral)}
 /* Both ends of the old clamp (16px, 19px) round to the same step, which would freeze the
@@ -266,8 +273,14 @@ h1,h2,h3{text-wrap:balance}
 /* ---------- proof strip ---------- */
 .proof-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:18px}
 .proof{display:flex; flex-direction:column}
+/* Every shot gets the same plate and hairline, whatever it contains. Three of the seven
+   demos are near-black by design, and at the old .11 border they read as an empty gap in
+   the card rather than as a screenshot. The frame, not the pixels, is what tells the eye
+   an image is there: brightening those shots to match the light ones would misrepresent
+   what the client is buying (see the asymmetric band in build/build_shots.py). */
 .proof .shot{aspect-ratio:16/10; border-radius:var(--radius-sm); overflow:hidden;
-  border:1px solid var(--line); margin-bottom:15px; position:relative;
+  border:1px solid var(--line-strong); margin-bottom:15px; position:relative;
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,.55);
   background:linear-gradient(150deg,#241a45,#140e29)}
 /* The screenshots are 16:10 like the frame, so cover only guards against a demo
    being re-shot at another ratio. Artifacts live in assets/shots/, rebuilt by
@@ -399,9 +412,10 @@ h1,h2,h3{text-wrap:balance}
 
 /* ---------- about ---------- */
 .about{display:grid; grid-template-columns:1.4fr 1fr; gap:30px; align-items:center}
-/* Inherited line-height:1.6 from the body while every other heading sits at 1.02-1.08,
-   so this one rendered visibly looser than its neighbours. */
-.about-h{font-size:clamp(var(--fs-6),3.4vw,var(--fs-7)); font-weight:800; letter-spacing:-.8px; line-height:1.1; margin:12px 0 16px}
+/* Two defects in one heading: it inherited line-height:1.6 from the body while every other
+   heading sits at 1.02-1.08, and its 3.4vw made it render 29.8px where its six sibling h2s
+   rendered 35.8px. Same level, same rung, same coefficient now. */
+.about-h{font-size:clamp(var(--fs-5),4vw,var(--fs-7)); font-weight:800; letter-spacing:-.8px; line-height:1.1; margin:12px 0 16px}
 .about-stats{display:grid; grid-template-columns:1fr 1fr; gap:16px 22px}
 .stat{padding-top:14px; border-top:1px solid var(--line-strong)}
 .stat .big{font-family:var(--mono); font-weight:700; font-size:var(--fs-6); color:#fff}
