@@ -28,21 +28,64 @@
   <link rel="preload" href="/fonts/inter-800.woff2?v=3" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/inter-400.woff2?v=3" as="font" type="font/woff2" crossorigin>
 
+  <!-- Organization + Service, not ProfessionalService: schema.org marks that type
+       deprecated ("confusion with Service"), and without a postal address it never
+       qualified for a LocalBusiness rich result anyway. -->
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "ProfessionalService",
-    "name": "helban.dev",
-    "url": "https://helban.dev/",
-    "image": "https://helban.dev/assets/og-image.png",
-    "description": "Szybkie strony, web scrapery, rozszerzenia Chrome i automatyzacje. 10 lat C++ embedded.",
-    "areaServed": "Worldwide",
-    "knowsLanguage": ["pl", "en"],
-    "founder": { "@type": "Person", "name": "Adam K", "jobTitle": "Software Engineer" },
-    "sameAs": [
-      "https://github.com/Helban"
-    ]
-  }
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://helban.dev/#organization",
+      "name": "helban.dev",
+      "url": "https://helban.dev/en/",
+      "image": "https://helban.dev/assets/og-image.png",
+      "description": "Adam K, 10 years of C++ embedded. I build fast websites (PageSpeed 97-100), Python web scrapers, Chrome MV3 extensions and automations. Every service comes with a live demo you can click.",
+      "knowsLanguage": [
+        "pl",
+        "en"
+      ],
+      "founder": {
+        "@id": "https://helban.dev/#adam"
+      },
+      "sameAs": [
+        "https://github.com/Helban"
+      ]
+    },
+    {
+      "@type": "Person",
+      "@id": "https://helban.dev/#adam",
+      "name": "Adam K",
+      "jobTitle": "Software Engineer",
+      "url": "https://helban.dev/en/",
+      "sameAs": [
+        "https://github.com/Helban"
+      ]
+    },
+    {
+      "@type": "Service",
+      "@id": "https://helban.dev/#services",
+      "name": "Web development and automation",
+      "provider": {
+        "@id": "https://helban.dev/#organization"
+      },
+      "areaServed": "Worldwide",
+      "availableLanguage": [
+        "pl",
+        "en"
+      ],
+      "serviceType": [
+        "Web development",
+        "Website performance optimization",
+        "Web scraping",
+        "Chrome extension development",
+        "Workflow automation",
+        "AI chatbot development"
+      ]
+    }
+  ]
+}
   </script>
 
   <style>

@@ -20,6 +20,7 @@ own inputs.
 from __future__ import annotations
 
 import html
+import json
 import logging
 import posixpath
 import re
@@ -53,6 +54,10 @@ ASSET_ATTRIBUTE = re.compile(r'\b(href|src)="([^"]+)"')
 # url(), which no href/src rule would ever see.
 CSS_URL = re.compile(r"url\((['\"]?)([^)'\"]+)\1\)")
 SKIP_URL = re.compile(r"^(?:https?:|//|#|mailto:|tel:|data:)", re.I)
+LD_JSON_BLOCK = re.compile(r'(<script type="application/ld\+json">)(.*?)(</script>)', re.S)
+# Nodes whose human-readable label describes the PAGE, so it follows the page language.
+# Organization and Person names are proper nouns and stay put in both trees.
+LOCALIZED_LD_TYPES = frozenset({"WebPage", "CollectionPage", "Article", "BlogPosting", "ListItem"})
 
 VOID_ELEMENTS = frozenset(
     {"area", "base", "br", "col", "embed", "hr", "img", "input", "link", "meta", "param", "source", "track", "wbr"}
@@ -80,6 +85,10 @@ class PageSpec:
     @property
     def output_path(self) -> Path:
         return REPO_ROOT / "en" / self.route.strip("/") / "index.html" if self.route != "/" else REPO_ROOT / "en" / "index.html"
+
+    @property
+    def polish_url(self) -> str:
+        return f"{SITE_ORIGIN}{self.route}"
 
     @property
     def english_url(self) -> str:
@@ -423,6 +432,60 @@ def rewrite_head(markup: str, spec: PageSpec) -> str:
     return rewritten
 
 
+def rewrite_structured_data(markup: str, spec: PageSpec) -> str:
+    """Point the JSON-LD graph at the English twin.
+
+    Copied verbatim, the block tells crawlers that the /en/ page lives at the Polish
+    URL, is written in Polish and carries the Polish headline, which contradicts the
+    canonical and hreflang the head already declares.
+
+    @id values are deliberately left alone: they identify an entity, not a document,
+    and Adam is the same person on both sides of the language pair.
+    """
+
+    ld_block = LD_JSON_BLOCK.search(markup)
+    if ld_block is None:
+        return markup
+
+    english_headline = spec.title.split(" · ")[0]
+
+    def retarget(node: object) -> None:
+        if isinstance(node, list):
+            for child in node:
+                retarget(child)
+            return
+        if not isinstance(node, dict):
+            return
+
+        describes_this_page = spec.polish_url in (node.get("url"), node.get("item"))
+        if node.get("url") == spec.polish_url:
+            node["url"] = spec.english_url
+        breadcrumb_target = node.get("item")
+        if isinstance(breadcrumb_target, str) and breadcrumb_target.startswith(SITE_ORIGIN):
+            node["item"] = f"{SITE_ORIGIN}{EN_PREFIX}{breadcrumb_target[len(SITE_ORIGIN):]}"
+        if "inLanguage" in node:
+            node["inLanguage"] = "en"
+        if describes_this_page:
+            if "description" in node:
+                node["description"] = spec.description
+            if node.get("@type") in LOCALIZED_LD_TYPES:
+                for label in ("name", "headline"):
+                    if label in node:
+                        node[label] = english_headline
+
+        for child in node.values():
+            retarget(child)
+
+    try:
+        graph = json.loads(ld_block.group(2))
+    except json.JSONDecodeError as malformed_block:
+        raise ValueError(f"invalid JSON-LD in {spec.source_path}: {malformed_block}") from malformed_block
+
+    retarget(graph)
+    rendered_graph = json.dumps(graph, ensure_ascii=False, indent=2)
+    return markup[: ld_block.start(2)] + f"\n{rendered_graph}\n  " + markup[ld_block.end(2) :]
+
+
 def build_page(spec: PageSpec) -> None:
     source = spec.source_path
     if not source.is_file():
@@ -435,6 +498,7 @@ def build_page(spec: PageSpec) -> None:
     markup = retarget_internal_links(markup)
     markup = rewrite_language_switcher(markup, spec)
     markup = rewrite_head(markup, spec)
+    markup = rewrite_structured_data(markup, spec)
 
     spec.output_path.parent.mkdir(parents=True, exist_ok=True)
     spec.output_path.write_text(markup, encoding="utf-8")
