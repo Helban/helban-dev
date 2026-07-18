@@ -288,12 +288,21 @@ h1,h2,h3{text-wrap:balance}
 .proof .shot img{display:block; width:100%; height:100%; object-fit:cover}
 .proof h3{font-size:var(--fs-4); font-weight:700; letter-spacing:-.3px; margin-bottom:4px}
 .proof p{font-size:var(--fs-3); color:#b6b9c9; margin-bottom:13px; flex:1}
-.psi{display:flex; gap:6px; margin-bottom:14px}
+/* One badge, not four. Three of the four always read 100, so the row spent the loudest
+   colour on the page repeating a constant twenty-one times, out-shouting the project names
+   it sat under. The constant is now stated once in the section preamble and each card keeps
+   only the number that actually differs. The badge no longer stretches: a lone flex:1 pill
+   would have swallowed the full card width and made the problem worse. */
+.psi{display:flex; gap:10px; align-items:center; margin-bottom:14px}
 /* dark ink on the green fill: white-on-#26d366 sat at ~2:1, far under the 4.5:1 AA floor */
-.psi b{flex:1; text-align:center; font-family:var(--mono); font-weight:700; font-size:var(--fs-2); letter-spacing:-.3px; white-space:nowrap; color:#04301b;
-  border-radius:8px; padding:6px 0; background:linear-gradient(180deg,#26d366,#1fb457);
+.psi b{flex:none; text-align:center; font-family:var(--mono); font-weight:700; font-size:var(--fs-2); letter-spacing:-.3px; white-space:nowrap; color:#04301b;
+  border-radius:8px; padding:6px 12px; background:linear-gradient(180deg,#26d366,#1fb457);
   box-shadow:inset 0 1px 0 rgba(255,255,255,.45)}
 .psi b small{display:block; font-size:var(--fs-1); font-weight:700; letter-spacing:.4px; margin-top:2px; color:#04301b}
+/* Names the destination: the badge deep-links to PageSpeed, not to the demo, and nothing
+   else in the card said so. */
+.psi-measure{font-family:var(--mono); font-size:var(--fs-2); color:var(--violet-ll); white-space:nowrap}
+.psi-link:hover .psi-measure{color:#fff}
 /* .sec-head p would win on specificity and blow this up to 16.5px */
 .sec-head .psi-legend{font-family:var(--mono); font-size:var(--fs-2); color:var(--muted); margin-top:10px}
 /* the whole badge row deep-links to a fresh PageSpeed run of that site;
@@ -637,8 +646,8 @@ footer .copy{width:100%; display:flex; justify-content:space-between; gap:8px 18
       <div class="wrap">
         <div class="sec-head">
           <h2 id="work-h" data-en="Click the proof, don't take my word">Click the proof, don't take my word</h2>
-          <p data-en="Seven hand-coded projects, no WordPress, no page builder. Real PageSpeed scores on mobile, measured not promised. Performance swings 1-2 points between PSI runs (mobile, July 2026); accessibility, best practices and SEO stay at 100.">Seven hand-coded projects, no WordPress, no page builder. Real PageSpeed scores on mobile, measured not promised. Performance swings 1-2 points between PSI runs (mobile, July 2026); accessibility, best practices and SEO stay at 100.</p>
-          <p class="psi-legend" data-en="Badges = Google PageSpeed results (mobile), 0-100: PERF performance, A11Y accessibility, BP best practices, SEO visibility in Google. Click a badge row to run the measurement yourself.">Badges = Google PageSpeed results (mobile), 0-100: PERF performance, A11Y accessibility, BP best practices, SEO visibility in Google. Click a badge row to run the measurement yourself.</p>
+          <p data-en="Seven hand-coded projects, no WordPress, no page builder. All of them score 100 out of 100 on accessibility, best practices and SEO, so each card shows only performance, the one number that differs between them.">Seven hand-coded projects, no WordPress, no page builder. All of them score 100 out of 100 on accessibility, best practices and SEO, so each card shows only performance, the one number that differs between them.</p>
+          <p class="psi-legend" data-en="Google PageSpeed, mobile, July 2026. Scores swing 1-2 points between runs. Click a score to measure it yourself.">Google PageSpeed, mobile, July 2026. Scores swing 1-2 points between runs. Click a score to measure it yourself.</p>
         </div>
         <div class="proof-grid">
 
@@ -648,7 +657,7 @@ footer .copy{width:100%; display:flex; justify-content:space-between; gap:8px 18
             </div>
             <h3>salon.helban.dev</h3>
             <p data-en="Premium salon site, multi-page, JSON-LD schema and a validated contact form.">Premium salon site, multi-page, JSON-LD schema and a validated contact form.</p>
-            <a class="psi-link" href="https://pagespeed.web.dev/analysis?url=https%3A%2F%2Fsalon.helban.dev%2F" target="_blank" rel="noopener" ><span class="sr-only">PageSpeed Insights, salon.helban.dev: </span><div class="psi"><b>97-99<small>PERF</small></b><b>100<small>A11Y</small></b><b>100<small>BP</small></b><b>100<small>SEO</small></b></div></a>
+            <a class="psi-link" href="https://pagespeed.web.dev/analysis?url=https%3A%2F%2Fsalon.helban.dev%2F" target="_blank" rel="noopener" ><span class="sr-only">Google PageSpeed, salon.helban.dev: </span><div class="psi"><b>97-99<small data-en="performance">performance</small></b><span class="psi-measure" data-en="measure it yourself →">measure it yourself →</span></div></a>
             <a class="live" href="https://salon.helban.dev" target="_blank" rel="noopener">salon.helban.dev <span class="arrow">→</span></a>
           </article>
 
@@ -658,7 +667,7 @@ footer .copy{width:100%; display:flex; justify-content:space-between; gap:8px 18
             </div>
             <h3>kalkulator.helban.dev</h3>
             <p data-en="Service landing with an interactive price calculator and lead capture, no backend.">Service landing with an interactive price calculator and lead capture, no backend.</p>
-            <a class="psi-link" href="https://pagespeed.web.dev/analysis?url=https%3A%2F%2Fkalkulator.helban.dev%2F" target="_blank" rel="noopener" ><span class="sr-only">PageSpeed Insights, kalkulator.helban.dev: </span><div class="psi"><b>98-99<small>PERF</small></b><b>100<small>A11Y</small></b><b>100<small>BP</small></b><b>100<small>SEO</small></b></div></a>
+            <a class="psi-link" href="https://pagespeed.web.dev/analysis?url=https%3A%2F%2Fkalkulator.helban.dev%2F" target="_blank" rel="noopener" ><span class="sr-only">Google PageSpeed, kalkulator.helban.dev: </span><div class="psi"><b>98-99<small data-en="performance">performance</small></b><span class="psi-measure" data-en="measure it yourself →">measure it yourself →</span></div></a>
             <a class="live" href="https://kalkulator.helban.dev" target="_blank" rel="noopener">kalkulator.helban.dev <span class="arrow">→</span></a>
           </article>
 
@@ -668,7 +677,7 @@ footer .copy{width:100%; display:flex; justify-content:space-between; gap:8px 18
             </div>
             <h3>dropwatch.helban.dev</h3>
             <p data-en="English SaaS / product landing, PageSpeed 100 on mobile and desktop, no React.">English SaaS / product landing, PageSpeed 100 on mobile and desktop, no React.</p>
-            <a class="psi-link" href="https://pagespeed.web.dev/analysis?url=https%3A%2F%2Fdropwatch.helban.dev%2F" target="_blank" rel="noopener" ><span class="sr-only">PageSpeed Insights, dropwatch.helban.dev: </span><div class="psi"><b>100<small>PERF</small></b><b>100<small>A11Y</small></b><b>100<small>BP</small></b><b>100<small>SEO</small></b></div></a>
+            <a class="psi-link" href="https://pagespeed.web.dev/analysis?url=https%3A%2F%2Fdropwatch.helban.dev%2F" target="_blank" rel="noopener" ><span class="sr-only">Google PageSpeed, dropwatch.helban.dev: </span><div class="psi"><b>100<small data-en="performance">performance</small></b><span class="psi-measure" data-en="measure it yourself →">measure it yourself →</span></div></a>
             <a class="live" href="https://dropwatch.helban.dev" target="_blank" rel="noopener">dropwatch.helban.dev <span class="arrow">→</span></a>
           </article>
 
@@ -678,7 +687,7 @@ footer .copy{width:100%; display:flex; justify-content:space-between; gap:8px 18
             </div>
             <h3>voltera.helban.dev</h3>
             <p data-en="Interactive motorcycle showroom: garage, drag-to-spin 360°, hotspots that jump to each component. Bilingual, PageSpeed 99-100.">Interactive motorcycle showroom: garage, drag-to-spin 360°, hotspots that jump to each component. Bilingual, PageSpeed 99-100.</p>
-            <a class="psi-link" href="https://pagespeed.web.dev/analysis?url=https%3A%2F%2Fvoltera.helban.dev%2F" target="_blank" rel="noopener" ><span class="sr-only">PageSpeed Insights, voltera.helban.dev: </span><div class="psi"><b>99-100<small>PERF</small></b><b>100<small>A11Y</small></b><b>100<small>BP</small></b><b>100<small>SEO</small></b></div></a>
+            <a class="psi-link" href="https://pagespeed.web.dev/analysis?url=https%3A%2F%2Fvoltera.helban.dev%2F" target="_blank" rel="noopener" ><span class="sr-only">Google PageSpeed, voltera.helban.dev: </span><div class="psi"><b>99-100<small data-en="performance">performance</small></b><span class="psi-measure" data-en="measure it yourself →">measure it yourself →</span></div></a>
             <a class="live" href="https://voltera.helban.dev" target="_blank" rel="noopener">voltera.helban.dev <span class="arrow">→</span></a>
           </article>
 
@@ -688,7 +697,7 @@ footer .copy{width:100%; display:flex; justify-content:space-between; gap:8px 18
             </div>
             <h3>aurum-casino.helban.dev</h3>
             <p data-en="Playable slot and a dual-currency wallet in a landscape PWA. Every graphic is drawn in code as SVG, no raster files, and the fonts weigh 40 KB.">Playable slot and a dual-currency wallet in a landscape PWA. Every graphic is drawn in code as SVG, no raster files, and the fonts weigh 40 KB.</p>
-            <a class="psi-link" href="https://pagespeed.web.dev/analysis?url=https%3A%2F%2Faurum-casino.helban.dev%2F" target="_blank" rel="noopener" ><span class="sr-only">PageSpeed Insights, aurum-casino.helban.dev: </span><div class="psi"><b>99-100<small>PERF</small></b><b>100<small>A11Y</small></b><b>100<small>BP</small></b><b>100<small>SEO</small></b></div></a>
+            <a class="psi-link" href="https://pagespeed.web.dev/analysis?url=https%3A%2F%2Faurum-casino.helban.dev%2F" target="_blank" rel="noopener" ><span class="sr-only">Google PageSpeed, aurum-casino.helban.dev: </span><div class="psi"><b>99-100<small data-en="performance">performance</small></b><span class="psi-measure" data-en="measure it yourself →">measure it yourself →</span></div></a>
             <a class="live" href="https://aurum-casino.helban.dev" target="_blank" rel="noopener">aurum-casino.helban.dev <span class="arrow">→</span></a>
           </article>
 
@@ -698,7 +707,7 @@ footer .copy{width:100%; display:flex; justify-content:space-between; gap:8px 18
             </div>
             <h3>aethos.helban.dev</h3>
             <p data-en="Concept site for a futuristic branding studio. No traditional sections, spatial navigation and a cursor-reactive particle field on canvas. Hand-coded, PageSpeed 98-100.">Concept site for a futuristic branding studio. No traditional sections, spatial navigation and a cursor-reactive particle field on canvas. Hand-coded, PageSpeed 98-100.</p>
-            <a class="psi-link" href="https://pagespeed.web.dev/analysis?url=https%3A%2F%2Faethos.helban.dev%2F" target="_blank" rel="noopener" ><span class="sr-only">PageSpeed Insights, aethos.helban.dev: </span><div class="psi"><b>98-100<small>PERF</small></b><b>100<small>A11Y</small></b><b>100<small>BP</small></b><b>100<small>SEO</small></b></div></a>
+            <a class="psi-link" href="https://pagespeed.web.dev/analysis?url=https%3A%2F%2Faethos.helban.dev%2F" target="_blank" rel="noopener" ><span class="sr-only">Google PageSpeed, aethos.helban.dev: </span><div class="psi"><b>98-100<small data-en="performance">performance</small></b><span class="psi-measure" data-en="measure it yourself →">measure it yourself →</span></div></a>
             <a class="live" href="https://aethos.helban.dev" target="_blank" rel="noopener">aethos.helban.dev <span class="arrow">→</span></a>
           </article>
 
@@ -708,7 +717,7 @@ footer .copy{width:100%; display:flex; justify-content:space-between; gap:8px 18
             </div>
             <h3>orqa.helban.dev</h3>
             <p data-en="Node-based editor for AI workflows: wire nodes, run the graph through the Claude API. A cinema mode turns it into a control room, where a light carries each result down the wire and a telemetry console prints every retry and its HTTP code.">Node-based editor for AI workflows: wire nodes, run the graph through the Claude API. A cinema mode turns it into a control room, where a light carries each result down the wire and a telemetry console prints every retry and its HTTP code.</p>
-            <a class="psi-link" href="https://pagespeed.web.dev/analysis?url=https%3A%2F%2Forqa.helban.dev%2F" target="_blank" rel="noopener" ><span class="sr-only">PageSpeed Insights, orqa.helban.dev: </span><div class="psi"><b>98-100<small>PERF</small></b><b>100<small>A11Y</small></b><b>100<small>BP</small></b><b>100<small>SEO</small></b></div></a>
+            <a class="psi-link" href="https://pagespeed.web.dev/analysis?url=https%3A%2F%2Forqa.helban.dev%2F" target="_blank" rel="noopener" ><span class="sr-only">Google PageSpeed, orqa.helban.dev: </span><div class="psi"><b>98-100<small data-en="performance">performance</small></b><span class="psi-measure" data-en="measure it yourself →">measure it yourself →</span></div></a>
             <a class="live" href="https://orqa.helban.dev" target="_blank" rel="noopener">orqa.helban.dev <span class="arrow">→</span></a>
           </article>
 
