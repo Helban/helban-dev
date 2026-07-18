@@ -504,8 +504,16 @@ footer .copy{width:100%; display:flex; justify-content:space-between; gap:8px 18
 @media (max-width:880px){
   .proof-grid,.steps{grid-template-columns:1fr}
   .about,.contact{grid-template-columns:1fr}
-  .nav{display:none; position:absolute; top:64px; left:0; right:0; flex-direction:column; align-items:stretch;
-    gap:4px; padding:14px 22px 18px; background:rgba(11,8,23,.97); border-bottom:1px solid var(--line)}
+  /* Opaque, and it has to stay opaque. The panel hangs over the hero, and 3% transparency
+     that is invisible on a mid-tone background is plainly readable in a dark UI: the h1 used
+     to show through the nav labels. Do NOT "fix" this with backdrop-filter, which is the
+     obvious-looking move and cannot work here: .topbar is an ancestor and already carries
+     backdrop-filter, so it establishes the backdrop root and a filter on .nav has nothing
+     behind it left to blur. Verified by removing the topbar's filter, at which point the
+     panel's blur springs to life. #100c22 sits just above the body so it reads as a surface. */
+  .nav{display:none; position:absolute; top:64px; left:0; right:0; z-index:1;
+    flex-direction:column; align-items:stretch;
+    gap:4px; padding:14px 22px 18px; background:#100c22; border-bottom:1px solid var(--line)}
   .nav.open{display:flex}
   .nav a{padding:12px 14px}
   .nav .lang{align-self:flex-start; margin-top:6px}
