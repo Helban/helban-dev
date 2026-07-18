@@ -259,8 +259,14 @@ h1,h2,h3{text-wrap:balance}
 /* ---------- proof strip ---------- */
 .proof-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:18px}
 .proof{display:flex; flex-direction:column}
+/* Every shot gets the same plate and hairline, whatever it contains. Three of the seven
+   demos are near-black by design, and at the old .11 border they read as an empty gap in
+   the card rather than as a screenshot. The frame, not the pixels, is what tells the eye
+   an image is there: brightening those shots to match the light ones would misrepresent
+   what the client is buying (see the asymmetric band in build/build_shots.py). */
 .proof .shot{aspect-ratio:16/10; border-radius:var(--radius-sm); overflow:hidden;
-  border:1px solid var(--line); margin-bottom:15px; position:relative;
+  border:1px solid var(--line-strong); margin-bottom:15px; position:relative;
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,.55);
   background:linear-gradient(150deg,#241a45,#140e29)}
 /* The screenshots are 16:10 like the frame, so cover only guards against a demo
    being re-shot at another ratio. Artifacts live in assets/shots/, rebuilt by
