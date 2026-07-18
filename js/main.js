@@ -57,7 +57,11 @@
     document.querySelectorAll("[data-en-placeholder]").forEach((node) => {
       polishPlaceholder.set(node, node.getAttribute("placeholder") || "");
     });
-    return { polishText, polishPlaceholder };
+    const polishTitle = new Map();
+    document.querySelectorAll("[data-en-title]").forEach((node) => {
+      polishTitle.set(node, node.getAttribute("title") || "");
+    });
+    return { polishText, polishPlaceholder, polishTitle };
   };
 
   const polishDefaults = snapshotPolishDefaults();
@@ -138,6 +142,13 @@
       node.setAttribute(
         "placeholder",
         useEnglish ? node.dataset.enPlaceholder : polishDefaults.polishPlaceholder.get(node),
+      );
+    });
+    // Surfaces as the hover tooltip, and as the native validation bubble with JS off.
+    document.querySelectorAll("[data-en-title]").forEach((node) => {
+      node.setAttribute(
+        "title",
+        useEnglish ? node.dataset.enTitle : polishDefaults.polishTitle.get(node),
       );
     });
     // Only the visible .price spans display the amount; the order buttons carry the
