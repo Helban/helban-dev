@@ -234,30 +234,50 @@ h1,h2,h3{text-wrap:balance}
   box-shadow:0 0 0 2px rgba(167,139,250,.55), var(--shadow-card)}
 
 /* ---------- services ---------- */
-/* three intent doors: the buyer picks their problem, the grid narrows.
-   Pure enhancement — without JS every package stays visible. Tinted violet and
-   arrowed so they read as a choice, not as another row of package cards. */
-.doors-label{font-size:16px; font-weight:700; color:#fff; margin-bottom:12px}
-.doors{display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:30px}
+/* three intent doors. They open the section alone: packages stay collapsed
+   until one is picked, so nothing competes with the choice. Without JS the
+   doors are inert and every package is visible (see the .js-doors gate). */
+.doors-label{font-size:17px; font-weight:700; color:#fff; margin-bottom:14px}
+.doors{display:grid; grid-template-columns:repeat(3,1fr); gap:14px}
 .door{display:flex; align-items:center; justify-content:space-between; gap:12px;
-  text-align:left; cursor:pointer; padding:16px 18px; border-radius:var(--radius-sm);
-  background:rgba(124,58,237,.09); border:1px solid var(--line-strong); color:var(--text);
-  transition:border-color .15s ease, background .15s ease}
-.door:hover{border-color:var(--violet-l); background:rgba(124,58,237,.16)}
-.door[aria-pressed="true"]{border-color:var(--violet-l); background:rgba(124,58,237,.24);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.09)}
-.door b{display:block; font-size:16px; font-weight:700; color:#fff; margin-bottom:3px}
-.door .door-sub{font-size:12.5px; color:var(--muted)}
-.door .arrow{font-family:var(--mono); font-size:16px; color:var(--violet-ll); flex:none;
-  transition:transform .15s ease}
+  text-align:left; cursor:pointer; padding:20px 22px; border-radius:var(--radius-sm);
+  color:#fff; border:1px solid transparent;
+  background:linear-gradient(160deg,#8b5cf6,#6d28d9);
+  box-shadow:0 8px 18px rgba(124,58,237,.28), inset 0 1px 0 rgba(255,255,255,.28);
+  transition:filter .15s ease, transform .12s ease, background .2s ease, box-shadow .2s ease}
+.door:hover{filter:brightness(1.08); transform:translateY(-1px)}
+.door b{display:block; font-size:17px; font-weight:700; margin-bottom:3px}
+.door .door-sub{font-size:13px; color:rgba(255,255,255,.82)}
+.door .arrow{font-family:var(--mono); font-size:18px; flex:none; transition:transform .15s ease}
 .door:hover .arrow{transform:translateX(3px)}
-.door[aria-pressed="true"] .arrow{transform:rotate(90deg)}
+/* once a choice exists the unchosen doors step back, so the packages below own
+   the attention and the picked door still reads as the current filter */
+.doors.chosen .door{background:rgba(255,255,255,.05); border-color:var(--line-strong);
+  box-shadow:none; color:var(--text)}
+.doors.chosen .door .door-sub{color:var(--muted)}
+.doors.chosen .door[aria-pressed="true"]{background:linear-gradient(160deg,#8b5cf6,#6d28d9);
+  color:#fff; box-shadow:0 8px 18px rgba(124,58,237,.28), inset 0 1px 0 rgba(255,255,255,.28)}
+.doors.chosen .door[aria-pressed="true"] .door-sub{color:rgba(255,255,255,.82)}
+.doors.chosen .door[aria-pressed="true"] .arrow{transform:rotate(90deg)}
+.doors-all{display:none; margin:16px 0 0; font-size:14.5px; color:#c3c6d6}
+.js-doors .doors-all{display:block}
+.doors-all button{background:none; border:0; padding:0; cursor:pointer; font:inherit;
+  color:var(--violet-ll); text-decoration:underline; text-underline-offset:3px}
+.doors-all button:hover{color:#fff}
 @media (max-width:700px){.doors{grid-template-columns:1fr}}
 
-.svc-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(310px,1fr)); gap:18px}
+.svc-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(310px,1fr)); gap:18px;
+  margin-top:30px}
 .svc[hidden]{display:none}
 /* in a narrowed view the flagship span would wreck the small row */
 .svc-grid.filtered .svc-flag{grid-column:auto}
+/* four visible packages sit as 2x2 rather than 3 + a lone card */
+@media (min-width:800px){.svc-grid.cols-2{grid-template-columns:repeat(2,1fr)}}
+/* JS present: packages wait for a door (or for "pokaż wszystkie"). The class is
+   set by an inline script in <head>, so they never flash before collapsing. */
+.js-doors .svc-grid:not(.open){display:none}
+.js-doors .svc-note{display:none}
+.js-doors .svc-grid.open ~ .svc-note{display:block}
 .svc{display:flex; flex-direction:column; gap:11px}
 .svc h3{font-size:18px; font-weight:800; letter-spacing:-.3px; line-height:1.25; color:#fff}
 .flag-pill{align-self:flex-start; font-family:var(--mono); font-size:11.5px; font-weight:700;
@@ -463,6 +483,7 @@ footer .copy{width:100%; display:flex; justify-content:space-between; gap:8px 18
   </style>
 </head>
 <body>
+  <script>document.documentElement.classList.add("js-doors");</script>
   <div class="bg" aria-hidden="true"></div>
   <a class="skip" href="#top" data-en="Skip to content">Przejdź do treści</a>
 
@@ -599,7 +620,7 @@ footer .copy{width:100%; display:flex; justify-content:space-between; gap:8px 18
       <div class="wrap">
         <div class="sec-head">
           <h2 id="svc-h" data-en="Seven packages, each with proof">Siedem pakietów, każdy z dowodem</h2>
-          <p data-en="Fixed scope, a starting price, and a link to live code or a live demo on every package. Pick what brings you here, or browse everything.">Stały zakres, cena wyjściowa i link do działającego kodu albo demo przy każdym pakiecie. Wybierz, z czym przychodzisz, albo przeglądaj wszystko.</p>
+          <p data-en="Fixed scope, a starting price, and a link to live code or a live demo on every package.">Stały zakres, cena wyjściowa i link do działającego kodu albo demo przy każdym pakiecie.</p>
         </div>
 
         <p class="doors-label" data-en="What brings you here?">Z czym przychodzisz?</p>
@@ -626,6 +647,7 @@ footer .copy{width:100%; display:flex; justify-content:space-between; gap:8px 18
             <span class="arrow" aria-hidden="true">→</span>
           </button>
         </div>
+        <p class="doors-all"><span data-en="Not sure? ">Nie wiesz, co wybrać? </span><button type="button" id="showAllPackages" data-en="Show all seven packages">Pokaż wszystkie siedem pakietów</button></p>
 
         <div class="svc-grid">
 

@@ -235,42 +235,53 @@
   };
 
   // ---------- service intent doors ----------
-  // The buyer picks their problem and the package grid narrows to it; clicking
-  // the active door again brings every package back. Without JS the doors are
-  // inert and all packages stay visible.
-  const doorButtons = Array.from(document.querySelectorAll("#svcDoors .door"));
+  // The section opens with three doors and no packages: a visible grid always
+  // out-shouted the choice. Picking a door reveals the matching packages,
+  // "pokaż wszystkie" reveals the lot. Without JS (no .js-doors class on <html>)
+  // the doors are inert and every package is visible from the start.
+  // Four visible cards look better as 2x2 than as a row of three plus a stray.
+  const FOUR_CARD_ROW = 4;
+
+  const doorRow = document.getElementById("svcDoors");
+  const doorButtons = Array.from(doorRow ? doorRow.querySelectorAll(".door") : []);
+  const showAllButton = document.getElementById("showAllPackages");
   const packageGrid = document.querySelector(".svc-grid");
   const packageCards = packageGrid ? Array.from(packageGrid.querySelectorAll(".svc")) : [];
 
-  const showAllPackages = () => {
+  const revealAllPackages = () => {
     doorButtons.forEach((doorButton) => doorButton.setAttribute("aria-pressed", "false"));
     packageCards.forEach((packageCard) => {
       packageCard.hidden = false;
     });
-    packageGrid.classList.remove("filtered");
+    doorRow.classList.remove("chosen");
+    packageGrid.classList.remove("filtered", "cols-2");
+    packageGrid.classList.add("open");
   };
 
-  const narrowToDoor = (activeDoor) => {
+  const revealDoorPackages = (activeDoor) => {
     doorButtons.forEach((doorButton) => {
       doorButton.setAttribute("aria-pressed", String(doorButton.dataset.door === activeDoor));
     });
+    let visibleCount = 0;
     packageCards.forEach((packageCard) => {
       const cardDoor = packageCard.dataset.door;
       packageCard.hidden = cardDoor !== activeDoor && cardDoor !== "any";
+      if (!packageCard.hidden) visibleCount += 1;
     });
-    packageGrid.classList.add("filtered");
+    doorRow.classList.add("chosen");
+    packageGrid.classList.add("filtered", "open");
+    packageGrid.classList.toggle("cols-2", visibleCount === FOUR_CARD_ROW);
   };
 
   doorButtons.forEach((doorButton) => {
     doorButton.addEventListener("click", () => {
-      const wasActive = doorButton.getAttribute("aria-pressed") === "true";
-      if (wasActive) {
-        showAllPackages();
-      } else {
-        narrowToDoor(doorButton.dataset.door);
-      }
+      revealDoorPackages(doorButton.dataset.door);
     });
   });
+
+  if (showAllButton) {
+    showAllButton.addEventListener("click", revealAllPackages);
+  }
 
   // ---------- order prefill ----------
   const orderClearButton = document.getElementById("orderClear");
