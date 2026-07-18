@@ -277,7 +277,6 @@ h1,h2,h3{text-wrap:balance}
 /* three intent doors. They open the section alone: packages stay collapsed
    until one is picked, so nothing competes with the choice. Without JS the
    doors are inert and every package is visible (see the .js-doors gate). */
-.doors-label{font-size:17px; font-weight:700; color:#fff; margin-bottom:14px}
 .doors{display:grid; grid-template-columns:repeat(3,1fr); gap:14px}
 /* the gradient is darker than the primary button's: white 17px bold needs
    4.5:1 and the old #8b5cf6 end only reached 4.2:1 */
@@ -711,12 +710,13 @@ footer .copy{width:100%; display:flex; justify-content:space-between; gap:8px 18
     <!-- ================= SERVICES ================= -->
     <section id="services" aria-labelledby="svc-h">
       <div class="wrap">
+        <!-- The heading names the choice this section presents, and must not count the
+             packages: the grid stays collapsed until a door is picked, so a heading that
+             promises seven of them describes content the visitor cannot yet see. -->
         <div class="sec-head">
-          <h2 id="svc-h" data-en="Seven packages, each with proof">Siedem pakietów, każdy z dowodem</h2>
-          <p data-en="Fixed scope, a starting price, and a link to live code or a live demo on every package.">Stały zakres, cena wyjściowa i link do działającego kodu albo demo przy każdym pakiecie.</p>
+          <h2 id="svc-h" data-en="What brings you here?">Z czym przychodzisz?</h2>
+          <p data-en="Seven packages, fixed scope and a starting price. Pick a direction and I'll show only the ones that fit.">Siedem pakietów ze stałym zakresem i ceną wyjściową. Wybierz kierunek, a pokażę tylko te, które pasują.</p>
         </div>
-
-        <p class="doors-label" data-en="What brings you here?">Z czym przychodzisz?</p>
         <div class="doors" id="svcDoors">
           <button type="button" class="door" data-door="web" aria-pressed="false">
             <span class="door-txt">
