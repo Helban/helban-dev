@@ -626,8 +626,10 @@ footer .copy{width:100%; display:flex; justify-content:space-between; gap:8px 18
         <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
       </button>
       <nav class="nav" id="nav">
-        <a href="#services" data-en="Services">Services</a>
+        <!-- Order follows the page, not the sales pitch: #work sits above #services in the
+             DOM, so leading with Usługi made the menu disagree with what scrolling does. -->
         <a href="#work" data-en="Live work">Live work</a>
+        <a href="#services" data-en="Services">Services</a>
         <a href="#case-studies" data-en="Case studies">Case studies</a>
         <a href="#how" data-en="How it works">How it works</a>
         <a href="#about" data-en="About">About</a>
@@ -1124,8 +1126,8 @@ footer .copy{width:100%; display:flex; justify-content:space-between; gap:8px 18
     <div class="wrap">
       <span class="brand">helban<span class="tld">.dev</span></span>
       <nav class="f-links" aria-label="Footer">
-        <a href="#services" data-en="Services">Services</a>
         <a href="#work" data-en="Live work">Live work</a>
+        <a href="#services" data-en="Services">Services</a>
         <a href="#case-studies" data-en="Case studies">Case studies</a>
         <a href="#how" data-en="How it works">How it works</a>
         <a href="#about" data-en="About">About</a>
