@@ -1076,6 +1076,13 @@ footer .copy{width:100%; display:flex; justify-content:space-between; gap:8px 18
               </div>
               <input class="hp" type="text" name="botcheck" tabindex="-1" autocomplete="off" aria-hidden="true">
               <input type="hidden" name="access_key" value="52aa9b5b-27a0-4842-9dbf-0e384294bd0f">
+              <!-- Only reachable with JavaScript off, where the browser POSTs natively and
+                   Web3Forms decides the landing page; with JS the submit handler calls
+                   preventDefault() and this field is never read. Without it those visitors
+                   land on Web3Forms' own English success page after contacting a Polish
+                   site. Web3Forms requires an absolute URL and, on the free plan, the same
+                   domain. Docs: getting-started/customizations/redirection. -->
+              <input type="hidden" name="redirect" value="https://helban.dev/dziekuje/">
               <input type="hidden" name="subject" id="fSubject" value="helban.dev: zapytanie ze strony">
               <input type="hidden" name="from_name" value="helban.dev">
               <input type="hidden" name="service" id="fService">

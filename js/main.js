@@ -398,6 +398,15 @@
   // attribute is absent and native validation still guards the plain POST.
   orderForm.noValidate = true;
 
+  // Both of the native-submit affordances come off once this script is running. The
+  // redirect field is the one that matters: this path posts with fetch and parses the
+  // reply as JSON, and Web3Forms documents redirect only for the no-JS form without
+  // saying what it answers when a script sends it anyway. A redirect reply here would
+  // throw inside response.json() and tell the visitor the message failed after it had
+  // already been delivered. Dropping the field keeps the two paths disjoint instead of
+  // betting on undocumented behaviour.
+  orderForm.elements.redirect?.remove();
+
   const showStatus = (stateKey, kind) => {
     formStatus.textContent = STATUS_TEXT[stateKey][activeLanguage];
     formStatus.className = `form-status ${kind}`;

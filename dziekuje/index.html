@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Dziękuję · helban.dev</title>
+  <meta name="theme-color" content="#0b0817">
+  <!-- Nobody should arrive here from a search result: the page only makes sense straight
+       after sending the form, and a thin "thanks" page in the index is a liability.
+       Deliberately absent from sitemap.xml and from build_en.py for the same reason. -->
+  <meta name="robots" content="noindex, follow">
+
+  <!-- One page for both languages instead of a /en/ twin. Web3Forms takes a single
+       absolute URL in the hidden redirect field and build_en.py rewrites href and src,
+       never an input value, so a per-language target would need a new rule in the
+       generator to serve a visitor who has JavaScript switched off. -->
+
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="../fonts/inter-800.woff2?v=3" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../fonts/inter-400.woff2?v=3" as="font" type="font/woff2" crossorigin>
+
+  <style>
+@font-face{font-family:'Inter';font-style:normal;font-weight:400;font-display:swap;src:url(../fonts/inter-400.woff2?v=3) format('woff2');}
+@font-face{font-family:'Inter';font-style:normal;font-weight:700;font-display:swap;src:url(../fonts/inter-700.woff2?v=3) format('woff2');}
+@font-face{font-family:'Inter';font-style:normal;font-weight:800;font-display:swap;src:url(../fonts/inter-800.woff2?v=3) format('woff2');}
+@font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:700;font-display:swap;src:url(../fonts/jetbrains-mono-700.woff2?v=3) format('woff2');}
+
+:root{
+  --sans:'Inter',-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,"SF Mono",Menlo,monospace;
+  --violet-l:#a78bfa; --violet-ll:#c4b5fd; --coral:#F43F5E; --green:#22c55e;
+  --paper:#f4f3fb; --muted:#8a90a6;
+  --line:rgba(255,255,255,.11);
+  --maxw:920px;
+}
+*{box-sizing:border-box; margin:0; padding:0}
+body{font-family:var(--sans); color:var(--paper); background:#0b0817; min-height:100vh;
+  display:flex; flex-direction:column;
+  -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; line-height:1.6}
+.bg{position:fixed; inset:0; z-index:-2; pointer-events:none;
+  background:
+    radial-gradient(680px 460px at 6% -8%, rgba(139,92,246,.32), transparent 60%),
+    radial-gradient(560px 420px at 96% 2%, rgba(99,102,241,.22), transparent 60%),
+    linear-gradient(170deg,#181034 0%,#110c25 52%,#0b0817 100%);}
+a{color:inherit; text-decoration:none}
+:focus-visible{outline:2px solid var(--violet-l); outline-offset:3px; border-radius:6px}
+.wrap{width:100%; max-width:var(--maxw); margin:0 auto; padding:0 22px}
+
+.topbar{border-bottom:1px solid var(--line)}
+.topbar .wrap{display:flex; align-items:center; height:64px}
+.brand{font-family:var(--mono); font-weight:700; font-size:18px; letter-spacing:.3px; color:#efe9ff}
+.brand .tld{color:var(--coral)}
+
+main{flex:1; display:flex; align-items:center; padding:56px 0}
+.said{max-width:52ch}
+/* The tick is drawn, not typed: the fonts are subset to about 140 codepoints and a
+   character like U+2713 is not among them, so it would render as an empty box. */
+.tick{width:44px; height:44px; margin-bottom:22px}
+.tick circle{fill:rgba(34,197,94,.14); stroke:var(--green); stroke-width:1.5}
+.tick path{fill:none; stroke:var(--green); stroke-width:2.4; stroke-linecap:round; stroke-linejoin:round}
+h1{font-size:clamp(28px,5vw,40px); font-weight:800; letter-spacing:-1px; line-height:1.1}
+.said p{color:#c6c9d8; font-size:17px; margin-top:12px}
+.said .en{margin-top:30px; padding-top:24px; border-top:1px solid var(--line)}
+.said .en h2{font-size:19px; font-weight:700; color:#fff; letter-spacing:-.2px}
+.said .en p{font-size:16px; margin-top:6px}
+/* Weight 700 on both, because that is the only JetBrains Mono face this page loads:
+   at the default 400 they would drop to the system monospace and stop matching the
+   wordmark sitting right above them. */
+.back{display:inline-block; margin-top:32px; font-family:var(--mono); font-weight:700; font-size:14px;
+  color:var(--violet-ll); text-decoration:underline; text-underline-offset:4px}
+.back:hover{color:#fff}
+
+footer{border-top:1px solid var(--line); padding:22px 0}
+footer .wrap{font-family:var(--mono); font-weight:700; font-size:12.5px; color:var(--muted)}
+  </style>
+</head>
+<body>
+  <div class="bg" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="/">helban<span class="tld">.dev</span></a>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap">
+      <div class="said">
+        <svg class="tick" viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="11"/>
+          <path d="m7 12.4 3.2 3.2L17 8.8"/>
+        </svg>
+        <h1>Dziękuję, wiadomość dotarła.</h1>
+        <p>Odezwę się wkrótce.</p>
+
+        <div class="en" lang="en">
+          <h2>Thanks, your message is in.</h2>
+          <p>I'll get back to you soon.</p>
+        </div>
+
+        <a class="back" href="/">helban.dev</a>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="wrap">helban.dev</div>
+  </footer>
+</body>
+</html>
