@@ -124,6 +124,34 @@
       navToggle.focus();
     }
   });
+
+  // Focus enters the panel by itself (it follows the toggle in the DOM), but tabbing
+  // off the last link used to escape to the page behind it, which is still scroll-locked.
+  // Only the two edges are handled, so tabbing inside the panel stays untouched. The
+  // toggle joins the cycle because it is the control that closes the panel again.
+  const mobileNavStops = () => [navToggle, ...navMenu.querySelectorAll("a")];
+
+  document.addEventListener("keydown", (keyEvent) => {
+    if (keyEvent.key !== "Tab" || !navMenu.classList.contains("open")) return;
+    const stops = mobileNavStops();
+    const currentStop = stops.indexOf(document.activeElement);
+    if (currentStop === -1) return;
+    const leavingPanel = keyEvent.shiftKey ? currentStop === 0 : currentStop === stops.length - 1;
+    if (!leavingPanel) return;
+    keyEvent.preventDefault();
+    stops[keyEvent.shiftKey ? stops.length - 1 : 0].focus();
+  });
+
+  // The far side of the 880px breakpoint that turns .nav into an overlay panel in CSS.
+  // Both numbers describe the same threshold, so they have to move together.
+  const ABOVE_MOBILE_NAV = "(min-width:881px)";
+
+  // Widening past it turns the panel back into a plain row, but body.nav-locked is not
+  // media-scoped, so a menu left open through a rotation froze the desktop layout.
+  const wideViewport = window.matchMedia(ABOVE_MOBILE_NAV);
+  wideViewport.addEventListener("change", (viewportChange) => {
+    if (viewportChange.matches) closeMobileNav();
+  });
   document.addEventListener("click", (clickEvent) => {
     if (navMenu.classList.contains("open") && !navMenu.contains(clickEvent.target)) {
       closeMobileNav();
@@ -176,6 +204,44 @@
   const showAllButton = document.getElementById("showAllPackages");
   const packageGrid = document.querySelector(".svc-grid");
   const packageCards = packageGrid ? Array.from(packageGrid.querySelectorAll(".svc")) : [];
+  const packageAnnouncement = document.getElementById("svcAnnounce");
+
+  const SHOW_ALL_LABEL = {
+    expand: { pl: "Pokaż wszystkie siedem pakietów", en: "Show all seven packages" },
+    collapse: { pl: "Zwiń pakiety", en: "Collapse packages" },
+  };
+
+  // Polish takes three forms: 1 pakiet, 2-4 pakiety, 5+ pakietów, with the teens
+  // falling back to the last form regardless of their final digit.
+  const polishPackageNoun = (count) => {
+    const lastDigit = count % 10;
+    const lastTwoDigits = count % 100;
+    if (count === 1) return "pakiet";
+    const isTeen = lastTwoDigits >= 12 && lastTwoDigits <= 14;
+    return lastDigit >= 2 && lastDigit <= 4 && !isTeen ? "pakiety" : "pakietów";
+  };
+
+  // The grid appears, disappears and re-filters without focus ever moving, so a
+  // screen reader gets no signal at all. This narrates the result of the click.
+  const announcePackages = (visibleCount) => {
+    if (!packageAnnouncement) return;
+    if (visibleCount === 0) {
+      packageAnnouncement.textContent =
+        activeLanguage === "en" ? "Packages hidden." : "Pakiety zwinięte.";
+      return;
+    }
+    packageAnnouncement.textContent =
+      activeLanguage === "en"
+        ? `Showing ${visibleCount} package${visibleCount === 1 ? "" : "s"}.`
+        : `Pokazuję ${visibleCount} ${polishPackageNoun(visibleCount)}.`;
+  };
+
+  const setShowAllState = (isExpanded) => {
+    if (!showAllButton) return;
+    showAllButton.setAttribute("aria-expanded", String(isExpanded));
+    showAllButton.textContent =
+      SHOW_ALL_LABEL[isExpanded ? "collapse" : "expand"][activeLanguage];
+  };
 
   const revealAllPackages = () => {
     doorButtons.forEach((doorButton) => doorButton.setAttribute("aria-pressed", "false"));
@@ -185,6 +251,19 @@
     doorRow.classList.remove("chosen");
     packageGrid.classList.remove("filtered", "cols-2");
     packageGrid.classList.add("open");
+    setShowAllState(true);
+    announcePackages(packageCards.length);
+  };
+
+  // The way back out. Without it the only exit from an opened grid was a page reload,
+  // and a control that never returns to its starting state cannot honestly carry
+  // aria-expanded.
+  const collapsePackages = () => {
+    doorButtons.forEach((doorButton) => doorButton.setAttribute("aria-pressed", "false"));
+    doorRow.classList.remove("chosen");
+    packageGrid.classList.remove("open", "filtered", "cols-2");
+    setShowAllState(false);
+    announcePackages(0);
   };
 
   const revealDoorPackages = (activeDoor) => {
@@ -200,6 +279,9 @@
     doorRow.classList.add("chosen");
     packageGrid.classList.add("filtered", "open");
     packageGrid.classList.toggle("cols-2", visibleCount === FOUR_CARD_ROW);
+    // A door narrows the grid, so the button no longer describes the state it is in.
+    setShowAllState(false);
+    announcePackages(visibleCount);
   };
 
   doorButtons.forEach((doorButton) => {
@@ -209,7 +291,13 @@
   });
 
   if (showAllButton) {
-    showAllButton.addEventListener("click", revealAllPackages);
+    showAllButton.addEventListener("click", () => {
+      if (showAllButton.getAttribute("aria-expanded") === "true") {
+        collapsePackages();
+        return;
+      }
+      revealAllPackages();
+    });
   }
 
   // ---------- order prefill ----------
@@ -241,6 +329,10 @@
       };
       persistOrder();
       refreshOrderReadout();
+      // A failed submit leaves three red errors and a red status behind. Ordering a
+      // package scrolls the visitor back down to that wreckage, so the form would
+      // greet a fresh order by shouting about the previous one.
+      clearFormValidation();
       document.getElementById("contact").scrollIntoView({ behavior: "smooth", block: "start" });
       focusWhenScrollSettles(nameInput);
     });
@@ -297,15 +389,23 @@
 
   const findFirstInvalidField = () => requiredFields.find((field) => !field.checkValidity());
 
+  const clearFieldError = (field) => {
+    field.classList.remove("invalid");
+    field.setAttribute("aria-invalid", "false");
+    const errorElement = fieldErrorElement(field);
+    errorElement.textContent = "";
+    errorElement.classList.remove("show");
+  };
+
+  const clearFormValidation = () => {
+    requiredFields.forEach(clearFieldError);
+    formStatus.textContent = "";
+    formStatus.className = "form-status";
+  };
+
   requiredFields.forEach((field) => {
     field.addEventListener("input", () => {
-      if (field.checkValidity()) {
-        field.classList.remove("invalid");
-        field.setAttribute("aria-invalid", "false");
-        const errorElement = fieldErrorElement(field);
-        errorElement.textContent = "";
-        errorElement.classList.remove("show");
-      }
+      if (field.checkValidity()) clearFieldError(field);
     });
   });
 

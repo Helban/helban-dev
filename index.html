@@ -157,12 +157,18 @@ img,svg{display:block}
 
 .wrap{width:100%; max-width:var(--maxw); margin:0 auto; padding:0 22px}
 .mono{font-family:var(--mono)}
-/* invisible hit-area extension: small controls keep their look but meet the
-   44px touch floor */
-/* Grows the tap area to the 44px WCAG 2.5.8 floor without touching layout. Vertical
-   only: the PL/EN pair sits 2px apart, so widening horizontally would overlap them. */
+/* Invisible hit-area extension: small controls keep their look but meet the 44px
+   touch floor. A fixed inset could not keep that promise, because the class rides
+   elements from 17px to 40px tall and -13px left the 17px "wyczyść" button at 43px.
+   The floor is now stated as a floor: pad by 26px, or grow to 44px, whichever is
+   larger, centred so nothing shifts. */
 .hit44{position:relative}
-.hit44::after{content:""; position:absolute; inset:-13px -6px}
+.hit44::after{content:""; position:absolute; left:-6px; right:-6px;
+  top:50%; transform:translateY(-50%); height:max(44px, calc(100% + 26px))}
+/* The PL/EN pair sits 2px apart, so the default -6px made each pseudo reach 4px into
+   its neighbour's pill: clicking the right edge of the highlighted PL fired EN.
+   Half the gap each tiles them edge to edge instead. */
+.lang .hit44::after{left:-1px; right:-1px}
 .sr-only{position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden;
   clip-path:inset(50%); white-space:nowrap; border:0}
 
@@ -183,7 +189,7 @@ img,svg{display:block}
 .nav a:hover{background:rgba(255,255,255,.06); color:#fff}
 .nav a.active:not(.nav-cta){background:rgba(255,255,255,.07); color:#fff}
 .nav-cta{font-weight:600; color:#fff !important;
-  background:linear-gradient(160deg,#8b5cf6,#6d28d9); box-shadow:0 6px 14px rgba(124,58,237,.28)}
+  background:linear-gradient(160deg,#7c3aed,#5b21b6); box-shadow:0 6px 14px rgba(124,58,237,.28)}
 .nav-cta:hover{filter:brightness(1.08)}
 
 /* language toggle */
@@ -194,7 +200,7 @@ img,svg{display:block}
    at p90, under AA. This lighter grey clears the floor against the tinted bar too. */
 .lang a{font-family:var(--mono); font-size:var(--fs-2); font-weight:700; letter-spacing:.5px;
   color:#c3c6d6; background:transparent; border:0; cursor:pointer; padding:5px 11px; border-radius:999px}
-.lang a[aria-current="page"]{color:#fff; background:linear-gradient(160deg,#8b5cf6,#6d28d9)}
+.lang a[aria-current="page"]{color:#fff; background:linear-gradient(160deg,#7c3aed,#5b21b6)}
 
 .nav-toggle{display:none; margin-left:auto; background:rgba(255,255,255,.06);
   border:1px solid var(--line); border-radius:10px; width:44px; height:44px; cursor:pointer; color:#fff}
@@ -242,7 +248,11 @@ h1,h2,h3{text-wrap:balance}
   padding:13px 22px; border-radius:12px; border:1px solid transparent; transition:transform .12s ease, filter .12s ease}
 .btn:hover{transform:translateY(-1px)}
 .btn:active{transform:translateY(0)}
-.btn-primary{color:#fff; background:linear-gradient(160deg,#8b5cf6,#6d28d9);
+/* One violet fill for every white-on-violet control on the page. The old light end
+   #8b5cf6 measured 4.23:1 against white, under the 4.5:1 AA floor, and a gradient is
+   only as accessible as its lightest stop. #7c3aed reaches 5.70:1. The doors already
+   carried the darker pair, so this also collapses two near-identical violets into one. */
+.btn-primary{color:#fff; background:linear-gradient(160deg,#7c3aed,#5b21b6);
   box-shadow:0 8px 18px rgba(124,58,237,.28), inset 0 1px 0 rgba(255,255,255,.35)}
 .btn-primary:hover{filter:brightness(1.08)}
 .btn-ghost{color:#e9e7f5; background:rgba(255,255,255,.05); border-color:var(--line-strong)}
@@ -319,8 +329,8 @@ h1,h2,h3{text-wrap:balance}
    until one is picked, so nothing competes with the choice. Without JS the
    doors are inert and every package is visible (see the .js-doors gate). */
 .doors{display:grid; grid-template-columns:repeat(3,1fr); gap:14px}
-/* the gradient is darker than the primary button's: white 17px bold needs
-   4.5:1 and the old #8b5cf6 end only reached 4.2:1 */
+/* white 17px bold needs 4.5:1 and the old #8b5cf6 end only reached 4.2:1; the whole
+   page now shares this darker pair (see .btn-primary) */
 .door{display:flex; align-items:center; justify-content:space-between; gap:12px;
   text-align:left; cursor:pointer; padding:20px 22px; border-radius:var(--radius-sm);
   color:#fff; border:1px solid transparent;
@@ -502,7 +512,10 @@ label{display:block; font-size:var(--fs-2); font-weight:600; color:#c9ccda; marg
 input,textarea{width:100%; font-family:var(--sans); font-size:var(--fs-3); color:#fff;
   background:rgba(255,255,255,.045); border:1px solid var(--line-strong); border-radius:12px; padding:12px 14px}
 input::placeholder,textarea::placeholder{color:#868ca2}
-input:focus,textarea:focus{outline:none; border-color:var(--violet-l); background:rgba(255,255,255,.07)}
+/* No outline:none here. It used to kill the global :focus-visible ring on the only
+   controls a keyboard user has to fill in, leaving a 1px border colour as the sole
+   focus cue. The lit border stays as the extra affordance, the ring does the work. */
+input:focus,textarea:focus{border-color:var(--violet-l); background:rgba(255,255,255,.07)}
 input.invalid,textarea.invalid{border-color:var(--coral)}
 .field-err{display:none; font-size:var(--fs-2); font-weight:600; color:var(--coral); margin-top:6px}
 .field-err.show{display:block}
@@ -751,9 +764,12 @@ footer .copy{width:100%; display:flex; justify-content:space-between; gap:8px 18
             <span class="arrow" aria-hidden="true">→</span>
           </button>
         </div>
-        <p class="doors-all"><span data-en="Not sure? ">Nie wiesz, co wybrać? </span><button type="button" id="showAllPackages" data-en="Show all seven packages">Pokaż wszystkie siedem pakietów</button></p>
+        <p class="doors-all"><span data-en="Not sure? ">Nie wiesz, co wybrać? </span><button type="button" id="showAllPackages" aria-expanded="false" aria-controls="svcGrid" data-en="Show all seven packages">Pokaż wszystkie siedem pakietów</button></p>
+        <!-- The doors and the show-all button change what the grid holds without moving
+             focus, which a screen reader has no way to notice. This says what happened. -->
+        <p class="sr-only" id="svcAnnounce" role="status" aria-live="polite"></p>
 
-        <div class="svc-grid">
+        <div class="svc-grid" id="svcGrid">
 
             <article class="card svc svc-flag" data-door="web">
               <span class="flag-pill" data-en="most ordered">najczęściej zamawiane</span>
