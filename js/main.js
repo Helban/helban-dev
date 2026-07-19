@@ -191,67 +191,24 @@
     spiedLinks.forEach((_link, section) => sectionObserver.observe(section));
   };
 
-  // ---------- collapsed sections ----------
-  // Two grids fold part of themselves away behind a single button: the packages and the
-  // proof strip. Both have to flip their label, keep aria-expanded honest, and say out
-  // loud what changed, because opening either one moves no focus for a reader to follow.
-  const setDisclosureLabel = (button, isExpanded, labels) => {
-    button.setAttribute("aria-expanded", String(isExpanded));
-    button.textContent = labels[isExpanded ? "collapse" : "expand"][activeLanguage];
-  };
-
   const announceInto = (region, message) => {
     if (region) region.textContent = message;
   };
 
-  // ---------- proof strip ----------
-  const proofGrid = document.getElementById("proofGrid");
-  const showAllProofButton = document.getElementById("showAllProof");
-  const proofAnnouncement = document.getElementById("proofAnnounce");
+  // ---------- price list filters ----------
+  // Every row is visible from the start and the intents narrow the list. The previous
+  // arrangement kept the packages hidden until a door was picked, because a grid of
+  // cards drowned out the choice standing next to it; a filter over a visible price
+  // list is the shape that pattern actually belongs to. Nothing here is load-bearing
+  // without JS: with the script off, every row simply stays on screen.
+  const ALL_PACKAGES = "all";
+  // The "Inny temat?" row, which belongs in every view whatever the filter.
+  const CATCH_ALL_ROW = "any";
 
-  const PROOF_LABEL = {
-    expand: { pl: "Pokaż pozostałe realizacje", en: "Show the rest" },
-    collapse: { pl: "Zwiń realizacje", en: "Show fewer" },
-  };
-
-  if (proofGrid && showAllProofButton) {
-    const proofCardCount = proofGrid.querySelectorAll(".proof").length;
-    const alwaysShownProofCount = proofGrid.querySelectorAll(".proof:not([data-extra])").length;
-
-    showAllProofButton.addEventListener("click", () => {
-      const isExpanded = proofGrid.classList.toggle("open");
-      setDisclosureLabel(showAllProofButton, isExpanded, PROOF_LABEL);
-      const shownCount = isExpanded ? proofCardCount : alwaysShownProofCount;
-      // "z 7 realizacji" takes the genitive whatever the count, so this one needs no
-      // plural helper.
-      announceInto(
-        proofAnnouncement,
-        activeLanguage === "en"
-          ? `Showing ${shownCount} of ${proofCardCount} projects.`
-          : `Pokazuję ${shownCount} z ${proofCardCount} realizacji.`,
-      );
-    });
-  }
-
-  // ---------- service intent doors ----------
-  // The section opens with three doors and no packages: a visible grid always
-  // out-shouted the choice. Picking a door reveals the matching packages,
-  // "pokaż wszystkie" reveals the lot. Without JS (no .js-collapse class on <html>)
-  // the doors are inert and every package is visible from the start.
-  // Four visible cards look better as 2x2 than as a row of three plus a stray.
-  const FOUR_CARD_ROW = 4;
-
-  const doorRow = document.getElementById("svcDoors");
-  const doorButtons = Array.from(doorRow ? doorRow.querySelectorAll(".door") : []);
-  const showAllButton = document.getElementById("showAllPackages");
-  const packageGrid = document.querySelector(".svc-grid");
-  const packageCards = packageGrid ? Array.from(packageGrid.querySelectorAll(".svc")) : [];
+  const filterRow = document.getElementById("svcDoors");
+  const filterButtons = Array.from(filterRow ? filterRow.querySelectorAll(".filter") : []);
+  const pricingRows = Array.from(document.querySelectorAll(".pricing .price-row"));
   const packageAnnouncement = document.getElementById("svcAnnounce");
-
-  const SHOW_ALL_LABEL = {
-    expand: { pl: "Pokaż wszystkie siedem pakietów", en: "Show all seven packages" },
-    collapse: { pl: "Zwiń pakiety", en: "Collapse packages" },
-  };
 
   // Polish takes three forms: 1 pakiet, 2-4 pakiety, 5+ pakietów, with the teens
   // falling back to the last form regardless of their final digit.
@@ -264,13 +221,6 @@
   };
 
   const announcePackages = (visibleCount) => {
-    if (visibleCount === 0) {
-      announceInto(
-        packageAnnouncement,
-        activeLanguage === "en" ? "Packages hidden." : "Pakiety zwinięte.",
-      );
-      return;
-    }
     announceInto(
       packageAnnouncement,
       activeLanguage === "en"
@@ -279,67 +229,25 @@
     );
   };
 
-  const setShowAllState = (isExpanded) => {
-    if (!showAllButton) return;
-    setDisclosureLabel(showAllButton, isExpanded, SHOW_ALL_LABEL);
-  };
-
-  const revealAllPackages = () => {
-    doorButtons.forEach((doorButton) => doorButton.setAttribute("aria-pressed", "false"));
-    packageCards.forEach((packageCard) => {
-      packageCard.hidden = false;
-    });
-    doorRow.classList.remove("chosen");
-    packageGrid.classList.remove("filtered", "cols-2");
-    packageGrid.classList.add("open");
-    setShowAllState(true);
-    announcePackages(packageCards.length);
-  };
-
-  // The way back out. Without it the only exit from an opened grid was a page reload,
-  // and a control that never returns to its starting state cannot honestly carry
-  // aria-expanded.
-  const collapsePackages = () => {
-    doorButtons.forEach((doorButton) => doorButton.setAttribute("aria-pressed", "false"));
-    doorRow.classList.remove("chosen");
-    packageGrid.classList.remove("open", "filtered", "cols-2");
-    setShowAllState(false);
-    announcePackages(0);
-  };
-
-  const revealDoorPackages = (activeDoor) => {
-    doorButtons.forEach((doorButton) => {
-      doorButton.setAttribute("aria-pressed", String(doorButton.dataset.door === activeDoor));
+  const applyPackageFilter = (activeDoor) => {
+    filterButtons.forEach((filterButton) => {
+      filterButton.setAttribute("aria-pressed", String(filterButton.dataset.door === activeDoor));
     });
     let visibleCount = 0;
-    packageCards.forEach((packageCard) => {
-      const cardDoor = packageCard.dataset.door;
-      packageCard.hidden = cardDoor !== activeDoor && cardDoor !== "any";
-      if (!packageCard.hidden) visibleCount += 1;
+    pricingRows.forEach((pricingRow) => {
+      const rowDoor = pricingRow.dataset.door;
+      pricingRow.hidden =
+        activeDoor !== ALL_PACKAGES && rowDoor !== activeDoor && rowDoor !== CATCH_ALL_ROW;
+      if (!pricingRow.hidden) visibleCount += 1;
     });
-    doorRow.classList.add("chosen");
-    packageGrid.classList.add("filtered", "open");
-    packageGrid.classList.toggle("cols-2", visibleCount === FOUR_CARD_ROW);
-    // A door narrows the grid, so the button no longer describes the state it is in.
-    setShowAllState(false);
     announcePackages(visibleCount);
   };
 
-  doorButtons.forEach((doorButton) => {
-    doorButton.addEventListener("click", () => {
-      revealDoorPackages(doorButton.dataset.door);
+  filterButtons.forEach((filterButton) => {
+    filterButton.addEventListener("click", () => {
+      applyPackageFilter(filterButton.dataset.door);
     });
   });
-
-  if (showAllButton) {
-    showAllButton.addEventListener("click", () => {
-      if (showAllButton.getAttribute("aria-expanded") === "true") {
-        collapsePackages();
-        return;
-      }
-      revealAllPackages();
-    });
-  }
 
   // ---------- order prefill ----------
   const orderClearButton = document.getElementById("orderClear");
@@ -360,8 +268,13 @@
     window.setTimeout(focusOnce, FOCUS_FALLBACK_MS);
   };
 
+  // The order control is an anchor to #contact, so a visitor with no JS lands on the
+  // form instead of pressing a button that does nothing. With JS the handler takes
+  // over: it prefills the service and scrolls with focus management, and the default
+  // jump would fight both.
   document.querySelectorAll(".order-btn").forEach((button) => {
-    button.addEventListener("click", () => {
+    button.addEventListener("click", (clickEvent) => {
+      clickEvent.preventDefault();
       selectedOrder = {
         servicePl: button.dataset.service,
         serviceEn: button.dataset.serviceEn,
