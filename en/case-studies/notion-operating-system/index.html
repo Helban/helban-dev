@@ -202,6 +202,9 @@ img,svg{display:block}
   background:var(--violet); color:#fff; padding:10px 16px; border-radius:0 0 10px 0; font-weight:600}
 .skip:focus{left:0}
 
+/* An anchor jump lands the target under the 64px sticky bar without this. */
+[id]{scroll-margin-top:80px}
+
 /* ---------- top bar ---------- */
 .topbar{position:sticky; top:0; z-index:50;
   backdrop-filter:saturate(150%) blur(14px); -webkit-backdrop-filter:saturate(150%) blur(14px);
@@ -262,6 +265,24 @@ footer .copy{width:100%; display:flex; justify-content:space-between; gap:8px 18
   .nav .lang{align-self:flex-start; margin-top:6px}
   .nav-toggle{display:block}
 }
+
+/* The open panel covers roughly half the screen and the rest of the page stays
+   visible, looking live while ignoring every tap. This dims it and gives the tap
+   that closes the menu something to land on.
+
+   Two things here are deliberate and easy to "fix" wrongly. It is NOT a
+   backdrop-filter on .nav: .topbar is an ancestor and already carries one, so it
+   establishes the backdrop root and a filter on the panel has nothing left behind
+   it to blur (tried 2026-07-18, the result was worse than none). And the scrim
+   hangs off body rather than sitting inside the panel, because that same
+   backdrop-filter makes .topbar the containing block for fixed descendants, so a
+   fixed layer inside it would cover the bar instead of the page.
+
+   It starts below the bar and sits under z-index 50, so bar and panel stay lit. */
+body.nav-locked{overflow:hidden}
+body.nav-locked::after{content:""; position:fixed; inset:64px 0 0; z-index:40;
+  background:rgba(6,4,14,.62)}
+@media (min-width:881px){body.nav-locked::after{content:none}}
 /* === generated:end === */
 /* An article page: a narrower measure and looser leading than the rest of the
    site, plus its own dot field — the mask is tuned to an article's opening,
@@ -277,10 +298,8 @@ body{line-height:1.7}
 .doc{padding:56px 0 30px}
 .crumb{font-family:var(--mono); font-size:12.5px; color:var(--muted); margin-bottom:18px}
 .crumb a:hover{color:#fff}
-.eyebrow{font-family:var(--mono); font-size:12px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--violet-l)}
 h1.title{font-size:clamp(28px,5vw,46px); font-weight:800; letter-spacing:-1.2px; line-height:1.08; margin:14px 0 16px;
-  background:linear-gradient(98deg,#ffffff 0%,#e2d7ff 55%,#f4b9c6 100%);
-  -webkit-background-clip:text; background-clip:text; color:transparent}
+  color:var(--ink)}
 .lead{font-size:clamp(16px,2.2vw,19px); color:#cdd0e0; max-width:66ch}
 .meta{display:flex; flex-wrap:wrap; gap:9px; margin-top:22px}
 .meta .chip{font-family:var(--mono); font-size:12px; color:#d3d9e4;
@@ -298,7 +317,10 @@ h1.title{font-size:clamp(28px,5vw,46px); font-weight:800; letter-spacing:-1.2px;
 
 section{padding:34px 0}
 section > h2{font-size:clamp(21px,3vw,27px); font-weight:800; letter-spacing:-.6px; line-height:1.15; margin-bottom:6px}
-.kicker{font-family:var(--mono); font-size:11px; font-weight:700; letter-spacing:1.6px; text-transform:uppercase; color:var(--violet-l); display:block; margin-bottom:9px}
+/* Mono keeps these labels in the site's metadata voice, but the uppercase and the
+   wide tracking are gone: that combination is the eyebrow costume banned after
+   critique #2, and the ban had only ever reached the home page. */
+.kicker{font-family:var(--mono); font-size:var(--fs-2); font-weight:700; color:var(--violet-l); display:block; margin-bottom:9px}
 section p{color:#c6c9d8; font-size:16.5px; margin-top:14px}
 section p:first-of-type{margin-top:12px}
 strong{color:#efe9ff; font-weight:700}
@@ -400,7 +422,6 @@ strong{color:#efe9ff; font-weight:700}
     <article class="doc">
       <div class="wrap">
         <div class="crumb"><a href="/en/case-studies/" data-en="← Case studies">← Case studies</a></div>
-        <span class="eyebrow" data-en="Case study · Notion architecture">Case study · Notion architecture</span>
         <h1 class="title" data-en="A company operating system in Notion: 17 areas, 8 databases, zero duplication">A company operating system in Notion: 17 areas, 8 databases, zero duplication</h1>
         <p class="lead" data-en="An early-stage brand wants one place for the whole company and asks how to lay it out so it grows instead of falling apart. Below is the architecture I would propose: how seventeen areas from the brief collapse into eight connected databases, why exactly this way, and how a dashboard comes out of it that shows, first thing in the morning, what needs attention.">An early-stage brand wants one place for the whole company and asks how to lay it out so it grows instead of falling apart. Below is the architecture I would propose: how seventeen areas from the brief collapse into eight connected databases, why exactly this way, and how a dashboard comes out of it that shows, first thing in the morning, what needs attention.</p>
 

@@ -582,37 +582,39 @@
     if (unmeasurable) {
       return usePolish
         ? [
-            "ta strona: ręcznie pisany HTML, bez frameworka",
-            "fonty: 6 plików, zero zapytań do Google",
+            "pisana ręcznie, bez frameworka",
+            "fonty: 6 plików, zero Google",
             "zmierz sam: PageSpeed Insights",
           ]
         : [
-            "this page: hand-written HTML, no framework",
-            "fonts: 6 files, self-hosted, zero Google",
-            "measure it yourself: PageSpeed Insights",
+            "hand-written HTML, no framework",
+            "fonts: 6 files, zero Google",
+            "measure it: PageSpeed Insights",
           ];
     }
 
     const loadPl = loadMomentMs ? `wczytana w ${formatSeconds(loadMomentMs)} · ` : "";
     const loadEn = loadMomentMs ? `loaded in ${formatSeconds(loadMomentMs)} · ` : "";
-    const fontsPl = fontTransferredBytes ? `fonty: ${formatKb(fontTransferredBytes)}` : "fonty: z cache";
-    const fontsEn = fontTransferredBytes ? `fonts: ${formatKb(fontTransferredBytes)}` : "fonts: cached";
+    const fontsPl = fontTransferredBytes ? `fonty ${formatKb(fontTransferredBytes)}` : "fonty z cache";
+    const fontsEn = fontTransferredBytes ? `fonts ${formatKb(fontTransferredBytes)}` : "fonts cached";
 
     if (usePolish) {
       return [
         fromCache
-          ? `ta strona: cała z cache, waży ${formatKb(decodedBytes)}`
-          : `ta strona, przesłane teraz: ${formatKb(transferredBytes)}`,
+          ? `ta strona: cała z cache, ${formatKb(decodedBytes)}`
+          : `ta strona: pobrano ${formatKb(transferredBytes)}`,
         `${loadPl}${fontsPl}`,
-        "zmierzone u Ciebie, a nie obiecane",
+        // Not "nie obiecane": without an explicit contrast marker the separate
+        // spelling stops being defensible, and the marker does not fit the width.
+        "zmierzone u Ciebie, bez obietnic",
       ];
     }
     return [
       fromCache
-        ? `this page: from cache, weighs ${formatKb(decodedBytes)}`
-        : `this page, transferred now: ${formatKb(transferredBytes)}`,
+        ? `this page: from cache, ${formatKb(decodedBytes)}`
+        : `this page: transferred ${formatKb(transferredBytes)}`,
       `${loadEn}${fontsEn}`,
-      "measured on your device, not promised",
+      "measured on your device",
     ];
   };
 
