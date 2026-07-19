@@ -32,6 +32,9 @@
   background:var(--violet); color:#fff; padding:10px 16px; border-radius:0 0 10px 0; font-weight:600}
 .skip:focus{left:0}
 
+/* An anchor jump lands the target under the 64px sticky bar without this. */
+[id]{scroll-margin-top:80px}
+
 /* ---------- top bar ---------- */
 .topbar{position:sticky; top:0; z-index:50;
   backdrop-filter:saturate(150%) blur(14px); -webkit-backdrop-filter:saturate(150%) blur(14px);
@@ -92,3 +95,21 @@ footer .copy{width:100%; display:flex; justify-content:space-between; gap:8px 18
   .nav .lang{align-self:flex-start; margin-top:6px}
   .nav-toggle{display:block}
 }
+
+/* The open panel covers roughly half the screen and the rest of the page stays
+   visible, looking live while ignoring every tap. This dims it and gives the tap
+   that closes the menu something to land on.
+
+   Two things here are deliberate and easy to "fix" wrongly. It is NOT a
+   backdrop-filter on .nav: .topbar is an ancestor and already carries one, so it
+   establishes the backdrop root and a filter on the panel has nothing left behind
+   it to blur (tried 2026-07-18, the result was worse than none). And the scrim
+   hangs off body rather than sitting inside the panel, because that same
+   backdrop-filter makes .topbar the containing block for fixed descendants, so a
+   fixed layer inside it would cover the bar instead of the page.
+
+   It starts below the bar and sits under z-index 50, so bar and panel stay lit. */
+body.nav-locked{overflow:hidden}
+body.nav-locked::after{content:""; position:fixed; inset:64px 0 0; z-index:40;
+  background:rgba(6,4,14,.62)}
+@media (min-width:881px){body.nav-locked::after{content:none}}
