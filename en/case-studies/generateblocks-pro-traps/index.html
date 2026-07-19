@@ -77,6 +77,24 @@
   </script>
 
   <style>
+/* === generated:begin — build/css/base.css + shell.css, injected by build/build_css.py.
+   Edit those files and re-run the build; do not edit this block. === */
+/* ===================================================================
+   base — tokens, reset and primitives shared by EVERY page.
+
+   Injected into each page's <style> by build/build_css.py, so the
+   served HTML still carries its CSS inline and nothing render-blocks.
+   Edit here, run the build, never edit the generated block in a page.
+
+   Font URLs are written relative to the site root; the injector
+   rewrites the depth (fonts/ -> ../fonts/) per page.
+   =================================================================== */
+
+/* ---------------------------------------------------------------
+   Self-hosted, subset Inter + JetBrains Mono (latin + latin-ext;
+   Polish glyphs live in latin-ext). Replaces a render-blocking
+   Google Fonts <link>, so first paint never waits on a stylesheet.
+   --------------------------------------------------------------- */
 @font-face{font-family:'Inter';font-style:normal;font-weight:400;font-display:swap;src:url(/fonts/inter-400.woff2?v=3) format('woff2');}
 @font-face{font-family:'Inter';font-style:normal;font-weight:600;font-display:swap;src:url(/fonts/inter-600.woff2?v=3) format('woff2');}
 @font-face{font-family:'Inter';font-style:normal;font-weight:700;font-display:swap;src:url(/fonts/inter-700.woff2?v=3) format('woff2');}
@@ -87,51 +105,174 @@
 :root{
   --sans:'Inter',-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
   --mono:'JetBrains Mono',ui-monospace,"SF Mono",Menlo,monospace;
+
   --violet:#7C3AED; --violet-l:#a78bfa; --violet-ll:#c4b5fd;
-  --coral:#F43F5E; --green:#22c55e; --amber:#f59e0b; --red:#ef4444;
-  --paper:#f4f3fb; --ink:#ffffff; --muted:#9aa0b6;
-  --line:rgba(255,255,255,.11); --line-strong:rgba(255,255,255,.18);
-  --glass-1:rgba(255,255,255,.072); --glass-2:rgba(255,255,255,.022);
-  --maxw:860px; --radius:18px; --radius-sm:12px;
+  --coral:#F43F5E; --green:#22c55e; --green-d:#16a34a;
+  --amber:#f59e0b; --red:#ef4444;
+
+  --text:#f4f3fb; --ink:#ffffff; --muted:#9aa0b6;
+  --line:rgba(255,255,255,.11);
+  --line-strong:rgba(255,255,255,.18);
+  --glass-1:rgba(255,255,255,.072);
+  --glass-2:rgba(255,255,255,.022);
+
+  /* Type scale, ratio 1.25 from a 10px root. The page once carried twenty distinct sizes,
+     twelve of them inside 12-18px with steps as small as 1.06x: differences too small to
+     read as hierarchy, large enough to read as carelessness. A first pass put everything
+     on a 1.2 ladder, which killed the noise but still sat under the 1.25 floor a brand
+     surface wants, and left body copy and card titles one thin step apart.
+     At 1.25 the rungs are far enough apart that a step MEANS something, which is also why
+     usage is assigned by ROLE rather than by rounding: at this ratio the nearest step
+     would collapse card titles into the body copy underneath them.
+     The rungs carry: 10 micro labels · 12.5 mono meta and badges · 15.6 body, controls and
+     card copy · 19.5 card titles, section intros and pull quotes · 24.4 and up headings.
+     Section prose deliberately shares 19.5 with card titles: it is a lede, weight and
+     position separate them, and card copy still sits a full step below its own heading.
+     Every rung is used except 47.7px, kept so the ladder stays a ladder. */
+  --fs-1:10px; --fs-2:12.5px; --fs-3:15.6px; --fs-4:19.5px; --fs-5:24.4px;
+  --fs-6:30.5px; --fs-7:38.1px; --fs-8:47.7px; --fs-9:59.6px;
+
+  /* Home is the widest surface. Reading pages narrow this in their own block:
+     920px for the list and policy pages, 860px for article bodies. */
+  --maxw:1120px;
+  --radius:18px; --radius-sm:12px; --radius-xs:9px;
   --shadow-card:0 18px 40px rgba(0,0,0,.46), inset 0 1px 0 rgba(255,255,255,.10);
+  --shadow-pop:0 24px 60px rgba(0,0,0,.55);
+  --space:8px;
 }
+
 *{box-sizing:border-box; margin:0; padding:0}
 html{scroll-behavior:smooth}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
-body{font-family:var(--sans); color:var(--paper); background:#0b0817;
-  -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; line-height:1.7; overflow-x:hidden}
+
+body{
+  font-family:var(--sans); color:var(--text);
+  background:#0b0817;
+  -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+  line-height:1.6; overflow-x:hidden;
+}
+
+/* Mesh background, fixed so it doesn't repaint on scroll. This is the calm
+   variant every reading page uses; the home page overrides it with a denser
+   mesh plus a masked dot field tuned to its hero. */
 .bg{position:fixed; inset:0; z-index:-2; pointer-events:none;
   background:
     radial-gradient(680px 460px at 6% -8%, rgba(139,92,246,.30), transparent 60%),
     radial-gradient(560px 420px at 96% 2%, rgba(99,102,241,.22), transparent 60%),
     radial-gradient(620px 520px at 88% 96%, rgba(244,63,94,.15), transparent 58%),
     linear-gradient(170deg,#181034 0%,#110c25 52%,#0b0817 100%);}
+
+a{color:inherit; text-decoration:none}
+img,svg{display:block}
+:focus-visible{outline:2px solid var(--violet-l); outline-offset:3px; border-radius:6px}
+
+.wrap{width:100%; max-width:var(--maxw); margin:0 auto; padding:0 22px}
+
+/* ===================================================================
+   shell — top bar, navigation, language toggle, footer, and the
+   utilities that only a navigated page uses.
+
+   Every page that carries the site navigation takes this layer.
+   /dziekuje/ deliberately does NOT: it is a terminal page with no nav
+   and no language toggle, and forcing the shell on it would mean five
+   overrides fighting the shared sheet. The utilities below live here
+   rather than in base for the same reason — that page uses none of
+   them, and base is meant to be what EVERY page genuinely needs.
+   =================================================================== */
+
+.mono{font-family:var(--mono)}
+.sr-only{position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden;
+  clip-path:inset(50%); white-space:nowrap; border:0}
+
+/* Invisible hit-area extension: small controls keep their look but meet the 44px
+   touch floor. A fixed inset could not keep that promise, because the class rides
+   elements from 17px to 40px tall and -13px left the 17px "wyczyść" button at 43px.
+   The floor is now stated as a floor: pad by 26px, or grow to 44px, whichever is
+   larger, centred so nothing shifts. */
+.hit44{position:relative}
+.hit44::after{content:""; position:absolute; left:-6px; right:-6px;
+  top:50%; transform:translateY(-50%); height:max(44px, calc(100% + 26px))}
+/* The PL/EN pair sits 2px apart, so the default -6px made each pseudo reach 4px into
+   its neighbour's pill: clicking the right edge of the highlighted PL fired EN.
+   Half the gap each tiles them edge to edge instead. */
+.lang .hit44::after{left:-1px; right:-1px}
+
+/* ---------- skip link ---------- */
+.skip{position:absolute; left:-9999px; top:0; z-index:100;
+  background:var(--violet); color:#fff; padding:10px 16px; border-radius:0 0 10px 0; font-weight:600}
+.skip:focus{left:0}
+
+/* ---------- top bar ---------- */
+.topbar{position:sticky; top:0; z-index:50;
+  backdrop-filter:saturate(150%) blur(14px); -webkit-backdrop-filter:saturate(150%) blur(14px);
+  background:rgba(11,8,23,.62); border-bottom:1px solid var(--line);}
+.topbar .wrap{display:flex; align-items:center; gap:18px; height:64px}
+.brand{font-family:var(--mono); font-weight:700; font-size:var(--fs-4); letter-spacing:.3px; color:#efe9ff}
+.brand .tld{color:var(--coral)}
+.nav{display:flex; gap:6px; margin-left:auto; align-items:center}
+.nav a{padding:8px 12px; border-radius:10px; font-size:var(--fs-3); font-weight:500; color:#d2d4e3}
+.nav a:hover{background:rgba(255,255,255,.06); color:#fff}
+.nav a.active:not(.nav-cta){background:rgba(255,255,255,.07); color:#fff}
+.nav-cta{font-weight:600; color:#fff !important;
+  background:linear-gradient(160deg,#7c3aed,#5b21b6); box-shadow:0 6px 14px rgba(124,58,237,.28)}
+.nav-cta:hover{filter:brightness(1.08)}
+
+/* language toggle */
+.lang{display:inline-flex; align-items:center; gap:2px; padding:3px;
+  background:rgba(255,255,255,.06); border:1px solid var(--line); border-radius:999px}
+/* Not var(--muted): the topbar is translucent, and around scrollY 2100 the green PSI
+   badge row passes underneath and tints it, which dropped the inactive label to 3.93:1
+   at p90, under AA. This lighter grey clears the floor against the tinted bar too. */
+.lang a{font-family:var(--mono); font-size:var(--fs-2); font-weight:700; letter-spacing:.5px;
+  color:#c3c6d6; background:transparent; border:0; cursor:pointer; padding:5px 11px; border-radius:999px}
+.lang a[aria-current="page"]{color:#fff; background:linear-gradient(160deg,#7c3aed,#5b21b6)}
+
+.nav-toggle{display:none; margin-left:auto; background:rgba(255,255,255,.06);
+  border:1px solid var(--line); border-radius:10px; width:44px; height:44px; cursor:pointer; color:#fff}
+.nav-toggle svg{width:22px; height:22px; margin:auto; stroke:#fff}
+
+/* ---------- footer ---------- */
+footer{border-top:1px solid var(--line); padding:34px 0 46px; margin-top:20px}
+footer .wrap{display:flex; align-items:center; gap:18px; flex-wrap:wrap}
+footer .brand{font-size:var(--fs-4)}
+footer .f-links{display:flex; gap:16px; margin-left:auto; flex-wrap:wrap}
+footer .f-links a{font-size:var(--fs-3); color:var(--muted); position:relative}
+footer .f-links a::after{content:""; position:absolute; inset:-12px -6px}
+footer .f-links a:hover{color:#fff}
+footer .copy{width:100%; display:flex; justify-content:space-between; gap:8px 18px; flex-wrap:wrap;
+  font-size:var(--fs-2); color:#8a90a6; font-family:var(--mono); padding-top:6px}
+
+/* ---------- mobile navigation ----------
+   The breakpoint is 880px, not 760px: the horizontal nav runs out of room
+   before 800px on the pages that carry a CTA. Page-specific layout rules
+   keep their own breakpoints and stay in the page's own block. */
+@media (max-width:880px){
+  /* Opaque, and it has to stay opaque. The panel hangs over the hero, and 3% transparency
+     that is invisible on a mid-tone background is plainly readable in a dark UI: the h1 used
+     to show through the nav labels. Do NOT "fix" this with backdrop-filter, which is the
+     obvious-looking move and cannot work here: .topbar is an ancestor and already carries
+     backdrop-filter, so it establishes the backdrop root and a filter on .nav has nothing
+     behind it left to blur. Verified by removing the topbar's filter, at which point the
+     panel's blur springs to life. #100c22 sits just above the body so it reads as a surface. */
+  .nav{display:none; position:absolute; top:64px; left:0; right:0; z-index:1;
+    flex-direction:column; align-items:stretch;
+    gap:4px; padding:14px 22px 18px; background:#100c22; border-bottom:1px solid var(--line)}
+  .nav.open{display:flex}
+  .nav a{padding:12px 14px}
+  .nav .lang{align-self:flex-start; margin-top:6px}
+  .nav-toggle{display:block}
+}
+/* === generated:end === */
+/* An article page: a narrower measure and looser leading than the rest of the
+   site, plus its own dot field — the mask is tuned to an article's opening,
+   not to the home hero. Everything else comes from base + shell. */
+:root{--maxw:860px}
+body{line-height:1.7}
 .bg::after{content:""; position:absolute; inset:0;
   background-image:radial-gradient(rgba(255,255,255,.05) 1px, transparent 1.4px);
   background-size:28px 28px;
   -webkit-mask-image:radial-gradient(1100px 640px at 60% 12%, #000 20%, transparent 78%);
           mask-image:radial-gradient(1100px 640px at 60% 12%, #000 20%, transparent 78%);}
-a{color:inherit; text-decoration:none}
-:focus-visible{outline:2px solid var(--violet-l); outline-offset:3px; border-radius:6px}
-.wrap{width:100%; max-width:var(--maxw); margin:0 auto; padding:0 22px}
-.skip{position:absolute; left:-9999px; top:0; z-index:100; background:var(--violet); color:#fff; padding:10px 16px; border-radius:0 0 10px 0; font-weight:600}
-.skip:focus{left:0}
-
-/* top bar (shared with hub look) */
-.topbar{position:sticky; top:0; z-index:50;
-  backdrop-filter:saturate(150%) blur(14px); -webkit-backdrop-filter:saturate(150%) blur(14px);
-  background:rgba(11,8,23,.62); border-bottom:1px solid var(--line)}
-.topbar .wrap{display:flex; align-items:center; gap:18px; height:64px}
-.brand{font-family:var(--mono); font-weight:700; font-size:18px; letter-spacing:.3px; color:#efe9ff}
-.brand .tld{color:var(--coral)}
-.nav{display:flex; gap:6px; margin-left:auto; align-items:center}
-.nav a{padding:8px 12px; border-radius:10px; font-size:14.5px; font-weight:500; color:#d2d4e3}
-.nav a:hover{background:rgba(255,255,255,.06); color:#fff}
-.lang{display:inline-flex; align-items:center; gap:2px; padding:3px; background:rgba(255,255,255,.06); border:1px solid var(--line); border-radius:999px}
-.lang a{font-family:var(--mono); font-size:12px; font-weight:700; letter-spacing:.5px; color:var(--muted); background:transparent; border:0; cursor:pointer; padding:5px 11px; border-radius:999px}
-.lang a[aria-current="page"]{color:#fff; background:linear-gradient(160deg,#7c3aed,#5b21b6)}
-.nav-toggle{display:none; margin-left:auto; background:rgba(255,255,255,.06); border:1px solid var(--line); border-radius:10px; width:42px; height:38px; cursor:pointer; color:#fff}
-.nav-toggle svg{width:22px; height:22px; margin:auto; stroke:#fff}
 
 /* article */
 .doc{padding:56px 0 30px}
@@ -222,12 +363,6 @@ code.inline{font-family:var(--mono); font-size:.87em; color:#e3d9ff; background:
 .refs a:hover{color:#fff; border-color:var(--line-strong)}
 .refs .dot{width:6px; height:6px; border-radius:50%; background:var(--coral); box-shadow:0 0 9px rgba(244,63,94,.9)}
 
-footer{border-top:1px solid var(--line); padding:30px 0 44px; margin-top:26px}
-footer .wrap{display:flex; align-items:center; gap:16px; flex-wrap:wrap}
-footer .f-links{display:flex; gap:16px; margin-left:auto; flex-wrap:wrap}
-footer .f-links a{font-size:13.5px; color:var(--muted)}
-footer .f-links a:hover{color:#fff}
-footer .copy{width:100%; font-size:12.5px; color:#8a90a6; font-family:var(--mono); padding-top:6px}
 
 @media (max-width:760px){
   .glance{grid-template-columns:1fr 1fr 1fr; gap:10px}
@@ -235,12 +370,6 @@ footer .copy{width:100%; font-size:12.5px; color:#8a90a6; font-family:var(--mono
   .toc{grid-template-columns:1fr}
   pre.code{padding:16px 14px}
   pre.code code{font-size:12.5px}
-  .nav{display:none; position:absolute; top:64px; left:0; right:0; flex-direction:column; align-items:stretch;
-    gap:4px; padding:14px 22px 18px; background:rgba(11,8,23,.97); border-bottom:1px solid var(--line)}
-  .nav.open{display:flex}
-  .nav a{padding:12px 14px}
-  .nav .lang{align-self:flex-start; margin-top:6px}
-  .nav-toggle{display:block}
 }
   </style>
 </head>
