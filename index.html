@@ -327,7 +327,7 @@ h1,h2,h3{text-wrap:balance}
 /* ---------- services ---------- */
 /* three intent doors. They open the section alone: packages stay collapsed
    until one is picked, so nothing competes with the choice. Without JS the
-   doors are inert and every package is visible (see the .js-doors gate). */
+   doors are inert and every package is visible (see the .js-collapse gate). */
 .doors{display:grid; grid-template-columns:repeat(3,1fr); gap:14px}
 /* white 17px bold needs 4.5:1 and the old #8b5cf6 end only reached 4.2:1; the whole
    page now shares this darker pair (see .btn-primary) */
@@ -352,7 +352,7 @@ h1,h2,h3{text-wrap:balance}
 .doors.chosen .door[aria-pressed="true"] .door-sub{color:rgba(255,255,255,.93)}
 .doors.chosen .door[aria-pressed="true"] .arrow{transform:rotate(90deg)}
 .doors-all{display:none; margin:16px 0 0; font-size:var(--fs-3); color:#c3c6d6}
-.js-doors .doors-all{display:block}
+.js-collapse .doors-all{display:block}
 .doors-all button{position:relative; background:none; border:0; padding:0; cursor:pointer; font:inherit;
   color:var(--violet-ll); text-decoration:underline; text-underline-offset:3px}
 /* A bare text button renders 23px tall, under the 24px floor of WCAG 2.5.8. */
@@ -369,9 +369,9 @@ h1,h2,h3{text-wrap:balance}
 @media (min-width:800px){.svc-grid.cols-2{grid-template-columns:repeat(2,1fr)}}
 /* JS present: packages wait for a door (or for "pokaż wszystkie"). The class is
    set by an inline script in <head>, so they never flash before collapsing. */
-.js-doors .svc-grid:not(.open){display:none}
-.js-doors .svc-note{display:none}
-.js-doors .svc-grid.open ~ .svc-note{display:block}
+.js-collapse .svc-grid:not(.open){display:none}
+.js-collapse .svc-note{display:none}
+.js-collapse .svc-grid.open ~ .svc-note{display:block}
 .svc{display:flex; flex-direction:column; gap:11px}
 .svc h3{font-size:var(--fs-4); font-weight:800; letter-spacing:-.3px; line-height:1.25; color:#fff}
 .flag-pill{align-self:flex-start; font-family:var(--mono); font-size:var(--fs-2); font-weight:700;
@@ -599,7 +599,7 @@ footer .copy{width:100%; display:flex; justify-content:space-between; gap:8px 18
   </style>
 </head>
 <body>
-  <script>document.documentElement.classList.add("js-doors");</script>
+  <script>document.documentElement.classList.add("js-collapse");</script>
   <div class="bg" aria-hidden="true"></div>
   <a class="skip" href="#top" data-en="Skip to content">Przejdź do treści</a>
 

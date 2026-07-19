@@ -194,7 +194,7 @@
   // ---------- service intent doors ----------
   // The section opens with three doors and no packages: a visible grid always
   // out-shouted the choice. Picking a door reveals the matching packages,
-  // "pokaż wszystkie" reveals the lot. Without JS (no .js-doors class on <html>)
+  // "pokaż wszystkie" reveals the lot. Without JS (no .js-collapse class on <html>)
   // the doors are inert and every package is visible from the start.
   // Four visible cards look better as 2x2 than as a row of three plus a stray.
   const FOUR_CARD_ROW = 4;
