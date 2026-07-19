@@ -191,6 +191,48 @@
     spiedLinks.forEach((_link, section) => sectionObserver.observe(section));
   };
 
+  // ---------- collapsed sections ----------
+  // Two grids fold part of themselves away behind a single button: the packages and the
+  // proof strip. Both have to flip their label, keep aria-expanded honest, and say out
+  // loud what changed, because opening either one moves no focus for a reader to follow.
+  const setDisclosureLabel = (button, isExpanded, labels) => {
+    button.setAttribute("aria-expanded", String(isExpanded));
+    button.textContent = labels[isExpanded ? "collapse" : "expand"][activeLanguage];
+  };
+
+  const announceInto = (region, message) => {
+    if (region) region.textContent = message;
+  };
+
+  // ---------- proof strip ----------
+  const proofGrid = document.getElementById("proofGrid");
+  const showAllProofButton = document.getElementById("showAllProof");
+  const proofAnnouncement = document.getElementById("proofAnnounce");
+
+  const PROOF_LABEL = {
+    expand: { pl: "Pokaż pozostałe realizacje", en: "Show the rest" },
+    collapse: { pl: "Zwiń realizacje", en: "Show fewer" },
+  };
+
+  if (proofGrid && showAllProofButton) {
+    const proofCardCount = proofGrid.querySelectorAll(".proof").length;
+    const alwaysShownProofCount = proofGrid.querySelectorAll(".proof:not([data-extra])").length;
+
+    showAllProofButton.addEventListener("click", () => {
+      const isExpanded = proofGrid.classList.toggle("open");
+      setDisclosureLabel(showAllProofButton, isExpanded, PROOF_LABEL);
+      const shownCount = isExpanded ? proofCardCount : alwaysShownProofCount;
+      // "z 7 realizacji" takes the genitive whatever the count, so this one needs no
+      // plural helper.
+      announceInto(
+        proofAnnouncement,
+        activeLanguage === "en"
+          ? `Showing ${shownCount} of ${proofCardCount} projects.`
+          : `Pokazuję ${shownCount} z ${proofCardCount} realizacji.`,
+      );
+    });
+  }
+
   // ---------- service intent doors ----------
   // The section opens with three doors and no packages: a visible grid always
   // out-shouted the choice. Picking a door reveals the matching packages,
@@ -221,26 +263,25 @@
     return lastDigit >= 2 && lastDigit <= 4 && !isTeen ? "pakiety" : "pakietów";
   };
 
-  // The grid appears, disappears and re-filters without focus ever moving, so a
-  // screen reader gets no signal at all. This narrates the result of the click.
   const announcePackages = (visibleCount) => {
-    if (!packageAnnouncement) return;
     if (visibleCount === 0) {
-      packageAnnouncement.textContent =
-        activeLanguage === "en" ? "Packages hidden." : "Pakiety zwinięte.";
+      announceInto(
+        packageAnnouncement,
+        activeLanguage === "en" ? "Packages hidden." : "Pakiety zwinięte.",
+      );
       return;
     }
-    packageAnnouncement.textContent =
+    announceInto(
+      packageAnnouncement,
       activeLanguage === "en"
         ? `Showing ${visibleCount} package${visibleCount === 1 ? "" : "s"}.`
-        : `Pokazuję ${visibleCount} ${polishPackageNoun(visibleCount)}.`;
+        : `Pokazuję ${visibleCount} ${polishPackageNoun(visibleCount)}.`,
+    );
   };
 
   const setShowAllState = (isExpanded) => {
     if (!showAllButton) return;
-    showAllButton.setAttribute("aria-expanded", String(isExpanded));
-    showAllButton.textContent =
-      SHOW_ALL_LABEL[isExpanded ? "collapse" : "expand"][activeLanguage];
+    setDisclosureLabel(showAllButton, isExpanded, SHOW_ALL_LABEL);
   };
 
   const revealAllPackages = () => {

@@ -282,6 +282,14 @@ h1,h2,h3{text-wrap:balance}
 
 /* ---------- proof strip ---------- */
 .proof-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:18px}
+/* Four of the seven start folded away. Measured at 390px before the fold: the strip ran
+   4.89 screens on its own and pushed the packages to screen 6 of 15.7, so the proof a
+   buyer never scrolled to was proving nothing while costing everything below it. The
+   three left standing are the two that back a package you can actually order plus one
+   that shows range. Without JS the .js-collapse gate is absent and all seven show. */
+.proof-all{display:none; margin:22px 0 0; font-size:var(--fs-3); color:#c3c6d6}
+.js-collapse .proof-all{display:block}
+.js-collapse .proof-grid:not(.open) .proof[data-extra]{display:none}
 .proof{display:flex; flex-direction:column}
 /* Every shot gets the same plate and hairline, whatever it contains. Three of the seven
    demos are near-black by design, and at the old .11 border they read as an empty gap in
@@ -360,11 +368,11 @@ h1,h2,h3{text-wrap:balance}
 .doors.chosen .door[aria-pressed="true"] .arrow{transform:rotate(90deg)}
 .doors-all{display:none; margin:16px 0 0; font-size:var(--fs-3); color:#c3c6d6}
 .js-collapse .doors-all{display:block}
-.doors-all button{position:relative; background:none; border:0; padding:0; cursor:pointer; font:inherit;
+.doors-all button,.proof-all button{position:relative; background:none; border:0; padding:0; cursor:pointer; font:inherit;
   color:var(--violet-ll); text-decoration:underline; text-underline-offset:3px}
 /* A bare text button renders 23px tall, under the 24px floor of WCAG 2.5.8. */
-.doors-all button::after{content:""; position:absolute; inset:-11px -6px}
-.doors-all button:hover{color:#fff}
+.doors-all button::after,.proof-all button::after{content:""; position:absolute; inset:-11px -6px}
+.doors-all button:hover,.proof-all button:hover{color:#fff}
 @media (max-width:700px){.doors{grid-template-columns:1fr}}
 
 .svc-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(310px,1fr)); gap:18px;
@@ -662,7 +670,7 @@ footer .copy{width:100%; display:flex; justify-content:space-between; gap:8px 18
           <p data-en="Seven hand-coded projects, no WordPress, no page builder. All of them score 100 out of 100 on accessibility, best practices and SEO, so each card shows only performance, the one number that differs between them.">Seven hand-coded projects, no WordPress, no page builder. All of them score 100 out of 100 on accessibility, best practices and SEO, so each card shows only performance, the one number that differs between them.</p>
           <p class="psi-legend" data-en="Google PageSpeed, mobile, July 2026. Scores swing 1-2 points between runs. Click a score to measure it yourself.">Google PageSpeed, mobile, July 2026. Scores swing 1-2 points between runs. Click a score to measure it yourself.</p>
         </div>
-        <div class="proof-grid">
+        <div class="proof-grid" id="proofGrid">
 
           <article class="card proof proof-flag">
             <div class="shot" aria-hidden="true">
@@ -686,6 +694,16 @@ footer .copy{width:100%; display:flex; justify-content:space-between; gap:8px 18
 
           <article class="card proof">
             <div class="shot" aria-hidden="true">
+              <img src="/assets/shots/orqa.webp" alt="" width="560" height="350" loading="lazy" decoding="async">
+            </div>
+            <h3>orqa.helban.dev</h3>
+            <p data-en="Node-based editor for AI workflows: wire nodes, run the graph through the Claude API. A cinema mode turns it into a control room, where a light carries each result down the wire and a telemetry console prints every retry and its HTTP code.">Node-based editor for AI workflows: wire nodes, run the graph through the Claude API. A cinema mode turns it into a control room, where a light carries each result down the wire and a telemetry console prints every retry and its HTTP code.</p>
+            <a class="psi-link" href="https://pagespeed.web.dev/analysis?url=https%3A%2F%2Forqa.helban.dev%2F" target="_blank" rel="noopener" ><span class="sr-only">Google PageSpeed, orqa.helban.dev: </span><div class="psi"><b>98-100<small data-en="performance">performance</small></b><span class="psi-measure" data-en="measure it yourself →">measure it yourself →</span></div></a>
+            <a class="live" href="https://orqa.helban.dev" target="_blank" rel="noopener">orqa.helban.dev <span class="arrow">→</span></a>
+          </article>
+
+          <article class="card proof" data-extra>
+            <div class="shot" aria-hidden="true">
               <img src="/assets/shots/dropwatch.webp" alt="" width="560" height="350" loading="lazy" decoding="async">
             </div>
             <h3>dropwatch.helban.dev</h3>
@@ -694,7 +712,7 @@ footer .copy{width:100%; display:flex; justify-content:space-between; gap:8px 18
             <a class="live" href="https://dropwatch.helban.dev" target="_blank" rel="noopener">dropwatch.helban.dev <span class="arrow">→</span></a>
           </article>
 
-          <article class="card proof">
+          <article class="card proof" data-extra>
             <div class="shot" aria-hidden="true">
               <img src="/assets/shots/voltera.webp" alt="" width="560" height="350" loading="lazy" decoding="async">
             </div>
@@ -704,7 +722,7 @@ footer .copy{width:100%; display:flex; justify-content:space-between; gap:8px 18
             <a class="live" href="https://voltera.helban.dev" target="_blank" rel="noopener">voltera.helban.dev <span class="arrow">→</span></a>
           </article>
 
-          <article class="card proof">
+          <article class="card proof" data-extra>
             <div class="shot" aria-hidden="true">
               <img src="/assets/shots/aurum.webp" alt="" width="560" height="350" loading="lazy" decoding="async">
             </div>
@@ -714,7 +732,7 @@ footer .copy{width:100%; display:flex; justify-content:space-between; gap:8px 18
             <a class="live" href="https://aurum-casino.helban.dev" target="_blank" rel="noopener">aurum-casino.helban.dev <span class="arrow">→</span></a>
           </article>
 
-          <article class="card proof">
+          <article class="card proof" data-extra>
             <div class="shot" aria-hidden="true">
               <img src="/assets/shots/aethos.webp" alt="" width="560" height="350" loading="lazy" decoding="async">
             </div>
@@ -724,17 +742,9 @@ footer .copy{width:100%; display:flex; justify-content:space-between; gap:8px 18
             <a class="live" href="https://aethos.helban.dev" target="_blank" rel="noopener">aethos.helban.dev <span class="arrow">→</span></a>
           </article>
 
-          <article class="card proof">
-            <div class="shot" aria-hidden="true">
-              <img src="/assets/shots/orqa.webp" alt="" width="560" height="350" loading="lazy" decoding="async">
-            </div>
-            <h3>orqa.helban.dev</h3>
-            <p data-en="Node-based editor for AI workflows: wire nodes, run the graph through the Claude API. A cinema mode turns it into a control room, where a light carries each result down the wire and a telemetry console prints every retry and its HTTP code.">Node-based editor for AI workflows: wire nodes, run the graph through the Claude API. A cinema mode turns it into a control room, where a light carries each result down the wire and a telemetry console prints every retry and its HTTP code.</p>
-            <a class="psi-link" href="https://pagespeed.web.dev/analysis?url=https%3A%2F%2Forqa.helban.dev%2F" target="_blank" rel="noopener" ><span class="sr-only">Google PageSpeed, orqa.helban.dev: </span><div class="psi"><b>98-100<small data-en="performance">performance</small></b><span class="psi-measure" data-en="measure it yourself →">measure it yourself →</span></div></a>
-            <a class="live" href="https://orqa.helban.dev" target="_blank" rel="noopener">orqa.helban.dev <span class="arrow">→</span></a>
-          </article>
-
         </div>
+        <p class="proof-all"><button type="button" id="showAllProof" aria-expanded="false" aria-controls="proofGrid" data-en="Show the rest">Show the rest</button></p>
+        <p class="sr-only" id="proofAnnounce" role="status" aria-live="polite"></p>
       </div>
     </section>
 
