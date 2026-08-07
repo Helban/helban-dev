@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Szablon WordPress, który przeżywa skopiowanie · helban.dev</title>
+  <meta name="description" content="Strona-wzorzec WordPress do kopiowania na kolejne lokalizacje. Kopia pęka na numerach z bazy, nie na plikach: formularz, menu i zdjęcie trzymają się identyfikatorów, które nadała baza, w której powstały. Jak zbudować szablon, w którym nie ma ani jednego takiego numeru.">
+  <meta name="theme-color" content="#0b0817">
+  <link rel="canonical" href="https://helban.dev/case-studies/cloneable-wordpress-template/">
+
+  <!-- Both members of a language pair carry the identical block, so the return link
+       Google requires falls out of copying this file into the English build. -->
+  <link rel="alternate" hreflang="pl" href="https://helban.dev/case-studies/cloneable-wordpress-template/">
+  <link rel="alternate" hreflang="en" href="https://helban.dev/en/case-studies/cloneable-wordpress-template/">
+  <link rel="alternate" hreflang="x-default" href="https://helban.dev/case-studies/cloneable-wordpress-template/">
+
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="helban.dev">
+  <meta property="og:title" content="Szablon WordPress, który przeżywa skopiowanie">
+  <meta property="og:description" content="Kopia WordPressa pęka na numerach z bazy, nie na plikach. Case study szablonu, w którym nie ma ani jednego takiego numeru.">
+  <meta property="og:url" content="https://helban.dev/case-studies/cloneable-wordpress-template/">
+  <meta property="og:image" content="https://helban.dev/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="../../fonts/inter-800.woff2?v=3" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../../fonts/inter-400.woff2?v=3" as="font" type="font/woff2" crossorigin>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Szablon WordPress, który przeżywa skopiowanie",
+    "description": "Case study strony-wzorca WordPress budowanej pod kopiowanie na kolejne lokalizacje: dlaczego kopia pęka na identyfikatorach z bazy, jak rozwiązać formularz, menu i zdjęcia po slugu zamiast po numerze, i gdzie kończy się to, co o takim szablonie można uczciwie obiecać.",
+    "url": "https://helban.dev/case-studies/cloneable-wordpress-template/",
+    "image": "https://helban.dev/assets/og-image.png",
+    "datePublished": "2026-08-07T12:00:00+02:00",
+    "dateModified": "2026-08-07T12:00:00+02:00",
+    "author": { "@type": "Person", "name": "Adam K", "url": "https://helban.dev/#about" },
+    "publisher": { "@type": "Organization", "name": "helban.dev", "url": "https://helban.dev/" },
+    "inLanguage": "pl",
+    "about": "WordPress, GeneratePress, GenerateBlocks, WP-CLI",
+    "breadcrumb": {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "helban.dev", "item": "https://helban.dev/" },
+        { "@type": "ListItem", "position": 2, "name": "Case studies", "item": "https://helban.dev/case-studies/" },
+        { "@type": "ListItem", "position": 3, "name": "Szablon WordPress, który przeżywa skopiowanie", "item": "https://helban.dev/case-studies/cloneable-wordpress-template/" }
+      ]
+    }
+  }
+  </script>
+
+  <style>
+/* === generated:begin — build/css/base.css + shell.css, injected by build/build_css.py.
+   Edit those files and re-run the build; do not edit this block. === */
+/* ===================================================================
+   base — tokens, reset and primitives shared by EVERY page.
+
+   Injected into each page's <style> by build/build_css.py, so the
+   served HTML still carries its CSS inline and nothing render-blocks.
+   Edit here, run the build, never edit the generated block in a page.
+
+   Font URLs are written relative to the site root; the injector
+   rewrites the depth (fonts/ -> ../fonts/) per page.
+   =================================================================== */
+
+/* ---------------------------------------------------------------
+   Self-hosted, subset Inter + JetBrains Mono (latin + latin-ext;
+   Polish glyphs live in latin-ext). Replaces a render-blocking
+   Google Fonts <link>, so first paint never waits on a stylesheet.
+   --------------------------------------------------------------- */
+@font-face{font-family:'Inter';font-style:normal;font-weight:400;font-display:swap;src:url(../../fonts/inter-400.woff2?v=3) format('woff2');}
+@font-face{font-family:'Inter';font-style:normal;font-weight:600;font-display:swap;src:url(../../fonts/inter-600.woff2?v=3) format('woff2');}
+@font-face{font-family:'Inter';font-style:normal;font-weight:700;font-display:swap;src:url(../../fonts/inter-700.woff2?v=3) format('woff2');}
+@font-face{font-family:'Inter';font-style:normal;font-weight:800;font-display:swap;src:url(../../fonts/inter-800.woff2?v=3) format('woff2');}
+@font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:500;font-display:swap;src:url(../../fonts/jetbrains-mono-500.woff2?v=3) format('woff2');}
+@font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:700;font-display:swap;src:url(../../fonts/jetbrains-mono-700.woff2?v=3) format('woff2');}
+
+:root{
+  --sans:'Inter',-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,"SF Mono",Menlo,monospace;
+
+  --violet:#7C3AED; --violet-l:#a78bfa; --violet-ll:#c4b5fd;
+  --coral:#F43F5E; --green:#22c55e; --green-d:#16a34a;
+  --amber:#f59e0b; --red:#ef4444;
+
+  --text:#f4f3fb; --ink:#ffffff; --muted:#9aa0b6;
+  --line:rgba(255,255,255,.11);
+  --line-strong:rgba(255,255,255,.18);
+  --glass-1:rgba(255,255,255,.072);
+  --glass-2:rgba(255,255,255,.022);
+
+  /* Type scale, ratio 1.25 from a 10px root. The page once carried twenty distinct sizes,
+     twelve of them inside 12-18px with steps as small as 1.06x: differences too small to
+     read as hierarchy, large enough to read as carelessness. A first pass put everything
+     on a 1.2 ladder, which killed the noise but still sat under the 1.25 floor a brand
+     surface wants, and left body copy and card titles one thin step apart.
+     At 1.25 the rungs are far enough apart that a step MEANS something, which is also why
+     usage is assigned by ROLE rather than by rounding: at this ratio the nearest step
+     would collapse card titles into the body copy underneath them.
+     The rungs carry: 10 micro labels · 12.5 mono meta and badges · 15.6 body, controls and
+     card copy · 19.5 card titles, section intros and pull quotes · 24.4 and up headings.
+     Section prose deliberately shares 19.5 with card titles: it is a lede, weight and
+     position separate them, and card copy still sits a full step below its own heading.
+     Every rung is used except 47.7px, kept so the ladder stays a ladder. */
+  --fs-1:10px; --fs-2:12.5px; --fs-3:15.6px; --fs-4:19.5px; --fs-5:24.4px;
+  --fs-6:30.5px; --fs-7:38.1px; --fs-8:47.7px; --fs-9:59.6px;
+
+  /* Home is the widest surface. Reading pages narrow this in their own block:
+     920px for the list and policy pages, 860px for article bodies. */
+  --maxw:1120px;
+  --radius:18px; --radius-sm:12px; --radius-xs:9px;
+  --shadow-card:0 18px 40px rgba(0,0,0,.46), inset 0 1px 0 rgba(255,255,255,.10);
+  --shadow-pop:0 24px 60px rgba(0,0,0,.55);
+  --space:8px;
+}
+
+*{box-sizing:border-box; margin:0; padding:0}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+body{
+  font-family:var(--sans); color:var(--text);
+  background:#0b0817;
+  -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+  line-height:1.6; overflow-x:hidden;
+}
+
+/* Mesh background, fixed so it doesn't repaint on scroll. This is the calm
+   variant every reading page uses; the home page overrides it with a denser
+   mesh plus a masked dot field tuned to its hero. */
+.bg{position:fixed; inset:0; z-index:-2; pointer-events:none;
+  background:
+    radial-gradient(680px 460px at 6% -8%, rgba(139,92,246,.30), transparent 60%),
+    radial-gradient(560px 420px at 96% 2%, rgba(99,102,241,.22), transparent 60%),
+    radial-gradient(620px 520px at 88% 96%, rgba(244,63,94,.15), transparent 58%),
+    linear-gradient(170deg,#181034 0%,#110c25 52%,#0b0817 100%);}
+
+a{color:inherit; text-decoration:none}
+img,svg{display:block}
+:focus-visible{outline:2px solid var(--violet-l); outline-offset:3px; border-radius:6px}
+
+.wrap{width:100%; max-width:var(--maxw); margin:0 auto; padding:0 22px}
+
+/* ===================================================================
+   shell — top bar, navigation, language toggle, footer, and the
+   utilities that only a navigated page uses.
+
+   Every page that carries the site navigation takes this layer.
+   /dziekuje/ deliberately does NOT: it is a terminal page with no nav
+   and no language toggle, and forcing the shell on it would mean five
+   overrides fighting the shared sheet. The utilities below live here
+   rather than in base for the same reason — that page uses none of
+   them, and base is meant to be what EVERY page genuinely needs.
+   =================================================================== */
+
+.mono{font-family:var(--mono)}
+.sr-only{position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden;
+  clip-path:inset(50%); white-space:nowrap; border:0}
+
+/* Invisible hit-area extension: small controls keep their look but meet the 44px
+   touch floor. A fixed inset could not keep that promise, because the class rides
+   elements from 17px to 40px tall and -13px left the 17px "wyczyść" button at 43px.
+   The floor is now stated as a floor: pad by 26px, or grow to 44px, whichever is
+   larger, centred so nothing shifts. */
+.hit44{position:relative}
+.hit44::after{content:""; position:absolute; left:-6px; right:-6px;
+  top:50%; transform:translateY(-50%); height:max(44px, calc(100% + 26px))}
+/* The PL/EN pair sits 2px apart, so the default -6px made each pseudo reach 4px into
+   its neighbour's pill: clicking the right edge of the highlighted PL fired EN.
+   Half the gap each tiles them edge to edge instead. */
+.lang .hit44::after{left:-1px; right:-1px}
+
+/* ---------- skip link ---------- */
+.skip{position:absolute; left:-9999px; top:0; z-index:100;
+  background:var(--violet); color:#fff; padding:10px 16px; border-radius:0 0 10px 0; font-weight:600}
+.skip:focus{left:0}
+
+/* An anchor jump lands the target under the 64px sticky bar without this. */
+[id]{scroll-margin-top:80px}
+
+/* ---------- top bar ---------- */
+.topbar{position:sticky; top:0; z-index:50;
+  backdrop-filter:saturate(150%) blur(14px); -webkit-backdrop-filter:saturate(150%) blur(14px);
+  background:rgba(11,8,23,.62); border-bottom:1px solid var(--line);}
+.topbar .wrap{display:flex; align-items:center; gap:18px; height:64px}
+.brand{font-family:var(--mono); font-weight:700; font-size:var(--fs-4); letter-spacing:.3px; color:#efe9ff}
+.brand .tld{color:var(--coral)}
+.nav{display:flex; gap:6px; margin-left:auto; align-items:center}
+.nav a{padding:8px 12px; border-radius:10px; font-size:var(--fs-3); font-weight:500; color:#d2d4e3}
+.nav a:hover{background:rgba(255,255,255,.06); color:#fff}
+.nav a.active:not(.nav-cta){background:rgba(255,255,255,.07); color:#fff}
+.nav-cta{font-weight:600; color:#fff !important;
+  background:linear-gradient(160deg,#7c3aed,#5b21b6); box-shadow:0 6px 14px rgba(124,58,237,.28)}
+.nav-cta:hover{filter:brightness(1.08)}
+
+/* language toggle */
+.lang{display:inline-flex; align-items:center; gap:2px; padding:3px;
+  background:rgba(255,255,255,.06); border:1px solid var(--line); border-radius:999px}
+/* Not var(--muted): the topbar is translucent, and around scrollY 2100 the green PSI
+   badge row passes underneath and tints it, which dropped the inactive label to 3.93:1
+   at p90, under AA. This lighter grey clears the floor against the tinted bar too. */
+.lang a{font-family:var(--mono); font-size:var(--fs-2); font-weight:700; letter-spacing:.5px;
+  color:#c3c6d6; background:transparent; border:0; cursor:pointer; padding:5px 11px; border-radius:999px}
+.lang a[aria-current="page"]{color:#fff; background:linear-gradient(160deg,#7c3aed,#5b21b6)}
+
+.nav-toggle{display:none; margin-left:auto; background:rgba(255,255,255,.06);
+  border:1px solid var(--line); border-radius:10px; width:44px; height:44px; cursor:pointer; color:#fff}
+.nav-toggle svg{width:22px; height:22px; margin:auto; stroke:#fff}
+
+/* ---------- footer ---------- */
+footer{border-top:1px solid var(--line); padding:34px 0 46px; margin-top:20px}
+footer .wrap{display:flex; align-items:center; gap:18px; flex-wrap:wrap}
+footer .brand{font-size:var(--fs-4)}
+footer .f-links{display:flex; gap:16px; margin-left:auto; flex-wrap:wrap}
+footer .f-links a{font-size:var(--fs-3); color:var(--muted); position:relative}
+footer .f-links a::after{content:""; position:absolute; inset:-12px -6px}
+footer .f-links a:hover{color:#fff}
+footer .copy{width:100%; display:flex; justify-content:space-between; gap:8px 18px; flex-wrap:wrap;
+  font-size:var(--fs-2); color:#8a90a6; font-family:var(--mono); padding-top:6px}
+
+/* ---------- mobile navigation ----------
+   The breakpoint is 880px, not 760px: the horizontal nav runs out of room
+   before 800px on the pages that carry a CTA. Page-specific layout rules
+   keep their own breakpoints and stay in the page's own block. */
+@media (max-width:880px){
+  /* Opaque, and it has to stay opaque. The panel hangs over the hero, and 3% transparency
+     that is invisible on a mid-tone background is plainly readable in a dark UI: the h1 used
+     to show through the nav labels. Do NOT "fix" this with backdrop-filter, which is the
+     obvious-looking move and cannot work here: .topbar is an ancestor and already carries
+     backdrop-filter, so it establishes the backdrop root and a filter on .nav has nothing
+     behind it left to blur. Verified by removing the topbar's filter, at which point the
+     panel's blur springs to life. #100c22 sits just above the body so it reads as a surface. */
+  .nav{display:none; position:absolute; top:64px; left:0; right:0; z-index:1;
+    flex-direction:column; align-items:stretch;
+    gap:4px; padding:14px 22px 18px; background:#100c22; border-bottom:1px solid var(--line)}
+  .nav.open{display:flex}
+  .nav a{padding:12px 14px}
+  .nav .lang{align-self:flex-start; margin-top:6px}
+  .nav-toggle{display:block}
+}
+
+/* The open panel covers roughly half the screen and the rest of the page stays
+   visible, looking live while ignoring every tap. This dims it and gives the tap
+   that closes the menu something to land on.
+
+   Two things here are deliberate and easy to "fix" wrongly. It is NOT a
+   backdrop-filter on .nav: .topbar is an ancestor and already carries one, so it
+   establishes the backdrop root and a filter on the panel has nothing left behind
+   it to blur (tried 2026-07-18, the result was worse than none). And the scrim
+   hangs off body rather than sitting inside the panel, because that same
+   backdrop-filter makes .topbar the containing block for fixed descendants, so a
+   fixed layer inside it would cover the bar instead of the page.
+
+   It starts below the bar and sits under z-index 50, so bar and panel stay lit. */
+body.nav-locked{overflow:hidden}
+body.nav-locked::after{content:""; position:fixed; inset:64px 0 0; z-index:40;
+  background:rgba(6,4,14,.62)}
+@media (min-width:881px){body.nav-locked::after{content:none}}
+/* === generated:end === */
+/* An article page: a narrower measure and looser leading than the rest of the
+   site, plus its own dot field. Everything else comes from base + shell. */
+:root{--maxw:860px}
+body{line-height:1.7}
+.bg::after{content:""; position:absolute; inset:0;
+  background-image:radial-gradient(rgba(255,255,255,.05) 1px, transparent 1.4px);
+  background-size:28px 28px;
+  -webkit-mask-image:radial-gradient(1100px 640px at 60% 12%, #000 20%, transparent 78%);
+          mask-image:radial-gradient(1100px 640px at 60% 12%, #000 20%, transparent 78%);}
+
+/* article */
+.doc{padding:56px 0 30px}
+.crumb{font-family:var(--mono); font-size:12.5px; color:var(--muted); margin-bottom:18px}
+.crumb a:hover{color:#fff}
+h1.title{font-size:clamp(28px,5vw,46px); font-weight:800; letter-spacing:-1.2px; line-height:1.08; margin:14px 0 16px;
+  color:var(--ink)}
+.lead{font-size:clamp(16px,2.2vw,19px); color:#cdd0e0; max-width:66ch}
+.meta{display:flex; flex-wrap:wrap; gap:9px; margin-top:22px}
+.meta .chip{font-family:var(--mono); font-size:12px; color:#d3d9e4;
+  background:rgba(255,255,255,.05); border:1px solid var(--line); border-radius:9px; padding:7px 11px}
+.meta .chip b{color:var(--violet-ll); font-weight:600}
+
+.glance{display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:34px 0 8px}
+.gstat{position:relative; overflow:hidden; text-align:center;
+  background:linear-gradient(180deg, var(--glass-1), var(--glass-2)); border:1px solid var(--line);
+  border-radius:var(--radius); padding:20px 14px; box-shadow:var(--shadow-card)}
+.gstat::before{content:""; position:absolute; left:18px; right:18px; top:0; height:1px; background:linear-gradient(90deg, transparent, rgba(167,139,250,.7), transparent)}
+.gstat .big{font-family:var(--mono); font-weight:800; font-size:clamp(20px,3.4vw,27px); letter-spacing:-.5px; color:#fff}
+.gstat .big i{font-style:normal; color:var(--green)}
+.gstat .lab{font-size:12px; color:var(--muted); margin-top:6px; line-height:1.4}
+
+section{padding:34px 0}
+section > h2{font-size:clamp(21px,3vw,27px); font-weight:800; letter-spacing:-.6px; line-height:1.15; margin-bottom:6px}
+.kicker{font-family:var(--mono); font-size:var(--fs-2); font-weight:700; color:var(--violet-l); display:block; margin-bottom:9px}
+section p{color:#c6c9d8; font-size:16.5px; margin-top:14px}
+section p:first-of-type{margin-top:12px}
+strong{color:#efe9ff; font-weight:700}
+.ul{list-style:none; margin-top:16px; display:flex; flex-direction:column; gap:11px}
+.ul li{position:relative; padding-left:26px; color:#c6c9d8; font-size:16px}
+.ul li::before{content:""; position:absolute; left:4px; top:9px; width:8px; height:8px; border-radius:2px;
+  background:linear-gradient(160deg,#8b5cf6,#6d28d9); box-shadow:0 0 10px rgba(124,58,237,.7)}
+.ul li b{color:#efe9ff}
+
+/* symptom / fix labels */
+.turn{margin-top:18px}
+.turn > .lab{font-family:var(--mono); font-size:11px; font-weight:700; letter-spacing:1.4px; text-transform:uppercase;
+  color:var(--muted); display:block}
+.turn > .lab.sym{color:#f7a6b4}
+.turn > .lab.fix{color:#8fd694}
+.turn p{margin-top:6px}
+
+code.inline{font-family:var(--mono); font-size:.87em; color:#e3d9ff; background:rgba(124,58,237,.17);
+  border:1px solid rgba(167,139,250,.24); border-radius:6px; padding:2px 6px}
+
+/* callout */
+.callout{margin:24px 0 6px; padding:20px 22px; border-radius:var(--radius);
+  background:rgba(244,63,94,.10); border:1px solid rgba(244,63,94,.3)}
+.callout .kicker{color:#f7a6b4}
+.callout p{color:#e7d9dc; margin-top:8px; font-size:16.5px}
+
+/* cta + refs */
+.cta{margin:30px 0 8px; padding:26px 24px; text-align:center; border-radius:var(--radius);
+  background:linear-gradient(180deg, rgba(124,58,237,.18), rgba(124,58,237,.06)); border:1px solid var(--line-strong)}
+.cta h2{font-size:clamp(20px,3vw,26px); font-weight:800; letter-spacing:-.5px}
+.cta p{color:#cdd0e0; margin:10px 0 18px; font-size:16px}
+.btn{display:inline-flex; align-items:center; gap:9px; font-weight:600; font-size:15px; cursor:pointer;
+  padding:13px 24px; border-radius:12px; border:1px solid transparent; color:#fff;
+  background:linear-gradient(160deg,#7c3aed,#5b21b6); box-shadow:0 12px 26px rgba(124,58,237,.45), inset 0 1px 0 rgba(255,255,255,.35)}
+.btn:hover{filter:brightness(1.08)}
+.refs{display:flex; flex-wrap:wrap; gap:12px; margin-top:26px}
+.refs a{font-family:var(--mono); font-size:13px; color:var(--violet-ll); display:inline-flex; align-items:center; gap:8px;
+  background:rgba(255,255,255,.04); border:1px solid var(--line); border-radius:10px; padding:11px 14px}
+.refs a:hover{color:#fff; border-color:var(--line-strong)}
+.refs .dot{width:6px; height:6px; border-radius:50%; background:var(--coral); box-shadow:0 0 9px rgba(244,63,94,.9)}
+
+@media (max-width:760px){
+  .glance{grid-template-columns:1fr 1fr 1fr; gap:10px}
+  .gstat{padding:16px 8px}
+}
+  </style>
+</head>
+<body>
+  <div class="bg" aria-hidden="true"></div>
+  <a class="skip" href="#article" data-en="Skip to article">Przejdź do treści</a>
+
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="/">helban<span class="tld">.dev</span></a>
+      <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false" aria-controls="nav">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+      <nav class="nav" id="nav">
+        <a href="/#services" data-en="Services">Usługi</a>
+        <a href="/#work" data-en="Live work">Realizacje</a>
+        <a href="/case-studies/" data-en="Case studies">Case studies</a>
+        <a href="/#contact" data-en="Contact">Kontakt</a>
+        <div class="lang" role="group" aria-label="Language / Język">
+          <a id="langPl" class="hit44" href="/case-studies/cloneable-wordpress-template/" aria-current="page" data-lang-link="pl">PL</a>
+          <a id="langEn" class="hit44" href="/en/case-studies/cloneable-wordpress-template/" data-lang-link="en">EN</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main id="article">
+    <article class="doc">
+      <div class="wrap">
+        <div class="crumb"><a href="/case-studies/" data-en="← Case studies">← Case studies</a></div>
+        <h1 class="title" data-en="A WordPress template that survives being copied">Szablon WordPress, który przeżywa skopiowanie</h1>
+        <p class="lead" data-en="A client needed one master site he could copy for each new location instead of building every site from scratch. A copied WordPress install does not break on files. It breaks on numbers: the form, the menu and the photo all hold on to identifiers handed out by the database that made them, and those numbers mean nothing in the copy. This template contains no such number anywhere. Below: what breaks, what to use instead, and where the honest limit of this work is.">Klient potrzebował jednej strony-wzorca, którą kopiuje pod kolejną lokalizację, zamiast budować każdą od zera. Skopiowany WordPress nie psuje się na plikach. Psuje się na numerach: formularz, menu i zdjęcie trzymają się identyfikatorów nadanych przez bazę, w której powstały, a w kopii te numery nic nie znaczą. W tym szablonie nie ma ani jednego takiego numeru. Niżej: co dokładnie pęka, czego użyć zamiast tego i gdzie kończy się to, co mogę o tej robocie uczciwie powiedzieć.</p>
+
+        <div class="meta">
+          <span class="chip"><b data-en="Stack:">Stack:</b> WordPress · GeneratePress Premium · GenerateBlocks Pro · WP-CLI</span>
+          <span class="chip"><b data-en="Scope:">Zakres:</b> <span data-en="child theme + provisioning scripts">motyw potomny + skrypty wdrożeniowe</span></span>
+          <span class="chip"><b data-en="Delivered:">Oddane:</b> <span data-en="July 2026">lipiec 2026</span></span>
+        </div>
+
+        <div class="glance">
+          <div class="gstat"><div class="big"><i>9</i></div><div class="lab" data-en="fields to fill when a new site starts">pól do wypełnienia przy nowej stronie</div></div>
+          <div class="gstat"><div class="big"><i>0</i></div><div class="lab" data-en="database identifiers anywhere in the template">identyfikatorów z bazy w całym szablonie</div></div>
+          <div class="gstat"><div class="big"><i>8</i></div><div class="lab" data-en="assertions that a repeated migration changes nothing">asercji, że powtórzona migracja nic nie zmienia</div></div>
+        </div>
+      </div>
+
+      <div class="wrap">
+        <section>
+          <span class="kicker" data-en="The brief">Zadanie</span>
+          <h2 data-en="One master site, many copies">Jedna strona-wzorzec, wiele kopii</h2>
+          <p data-en="The client runs local lead-generation sites, each one for a different kind of service. Every site does the same job: it explains a service, it shows a phone number, it collects an enquiry. What differs is the name, the colours, the contact details and the wording. Building each one by hand is the obvious way and an expensive one: the twentieth site costs as much as the first.">Klient prowadzi lokalne strony pozyskujące zapytania, każda pod inny rodzaj usługi. Wszystkie robią to samo: opisują usługę, pokazują telefon, zbierają zgłoszenie. Różnią się nazwą, kolorami, danymi kontaktowymi i treścią. Budowanie każdej z osobna jest oczywiste i drogie: dwudziesta strona kosztuje tyle samo co pierwsza.</p>
+          <p data-en="So the deliverable was not a website. It was a site that copies well, plus the scripts that install and update it. Two very different quality bars: a website has to look right, a template has to still work after somebody duplicates it and changes six things.">Zamówieniem nie była więc strona. Była nią strona, którą da się dobrze skopiować, plus skrypty, które ją instalują i aktualizują. To dwie różne poprzeczki: strona ma dobrze wyglądać, a szablon ma nadal działać, kiedy ktoś go powieli i zmieni sześć rzeczy.</p>
+        </section>
+
+        <section>
+          <span class="kicker" data-en="The core of it">Sedno</span>
+          <h2 data-en="A copy breaks on numbers, not on files">Kopia pęka na numerach, nie na plikach</h2>
+          <p data-en="Copy a WordPress install and the files arrive intact. The database arrives too. What does not survive is the meaning of the numbers inside it, because half of WordPress refers to things by an ID that the original database invented.">Skopiuj instalację WordPressa, a pliki dojdą w całości. Baza też. Nie przeżywa znaczenie numerów, które w niej siedzą, bo pół WordPressa odwołuje się do rzeczy przez identyfikator wymyślony przez tamtą bazę.</p>
+
+          <div class="turn">
+            <span class="lab sym" data-en="Symptom">Objaw</span>
+            <p data-en="The copied site looks finished and quietly is not. The contact form renders as nothing at all, the menu comes up empty, one photo is a broken frame. Nobody sees an error, because none of this is an error: every one of those lookups succeeded and returned nothing.">Skopiowana strona wygląda na gotową i po cichu nie jest. Formularz kontaktowy nie renderuje się w ogóle, menu wychodzi puste, jedno zdjęcie zostaje pustą ramką. Nikt nie widzi błędu, bo to nie są błędy: każde z tych zapytań wykonało się poprawnie i nic nie zwróciło.</p>
+          </div>
+          <div class="turn">
+            <span class="lab" data-en="What is really going on">Co się naprawdę dzieje</span>
+            <p data-en="The form is embedded by its post ID. The menu is attached by its term ID. The card photo is an attachment ID. All three numbers were assigned by whichever database created them, so in a copy they point at nothing, or worse, at whatever else happens to sit at that number.">Formularz jest osadzony przez ID wpisu. Menu podpięte przez term_id. Zdjęcie na kafelku to ID załącznika. Wszystkie trzy numery nadała ta baza, która je stworzyła, więc w kopii wskazują na nic albo, gorzej, na cokolwiek innego, co akurat pod tym numerem leży.</p>
+          </div>
+          <div class="turn">
+            <span class="lab fix" data-en="The way around it">Obejście</span>
+            <p data-en="Nothing in the template is allowed to resolve by a number the database made up. The form is found by its slug. The menu is read by its slug. The placeholder photo stopped being an upload and became a file in the theme, because an attachment ID belongs to the database that made it and a theme file belongs to the theme.">Nic w szablonie nie może rozwiązywać się przez numer wymyślony przez bazę. Formularz odnajduje się po slugu. Menu czyta się po slugu. Zdjęcie zastępcze przestało być wgranym plikiem, a stało się plikiem motywu, bo ID załącznika należy do bazy, która je stworzyła, a plik motywu należy do motywu.</p>
+          </div>
+          <p data-en="This is the whole trick and it sounds too small to matter. It is the difference between a copy that works and a copy that needs an afternoon of clicking, every time, forever.">To cała sztuczka i brzmi na zbyt drobną, żeby miała znaczenie. To różnica między kopią, która działa, a kopią, która za każdym razem wymaga popołudnia klikania.</p>
+        </section>
+
+        <section>
+          <span class="kicker" data-en="The panel">Panel</span>
+          <h2 data-en="Six things to change, nine fields">Sześć rzeczy do zmiany, dziewięć pól</h2>
+          <p data-en="Everything that differs between sites sits in one place in the WordPress Customizer: business name, logo, brand colour, phone, email and address. Six things a person thinks about, entered through nine inputs, and nothing else has to be touched when a site is copied.">Wszystko, co różni strony, siedzi w jednym miejscu w Customizerze: nazwa firmy, logo, kolor marki, telefon, e-mail i adres. Sześć rzeczy, o których myśli człowiek, wpisywanych przez dziewięć pól, i nic poza tym nie trzeba ruszać po skopiowaniu strony.</p>
+          <p data-en="The address is four of those nine, and that is deliberate. Google wants a local business address as separate components, not as one line of free text. One text field would have to be split back apart by guesswork, and the first address typed in an unexpected shape would quietly produce invalid structured data on a site whose entire purpose is local search. The visible footer line is assembled from the same four parts, so what a visitor reads and what a crawler parses cannot drift apart.">Adres to cztery z tych dziewięciu i jest to decyzja, nie przypadek. Google chce adresu firmy w rozbiciu na składniki, a nie jako jednej linijki dowolnego tekstu. Jedno pole trzeba by potem rozbijać zgadywanką, a pierwszy adres wpisany w nieoczekiwanym kształcie po cichu wyprodukowałby błędne dane strukturalne na stronie, której cały sens to lokalne wyniki wyszukiwania. Widoczna linijka w stopce składa się z tych samych czterech części, więc to, co czyta gość, i to, co parsuje robot, nie mogą się rozjechać.</p>
+        </section>
+
+        <section>
+          <span class="kicker" data-en="Architecture">Architektura</span>
+          <h2 data-en="The design stayed in the database, against my recommendation">Wygląd został w bazie, wbrew mojej rekomendacji</h2>
+          <p data-en="I recommended keeping the design in code, in the theme, where it can be versioned and where fifty sites cannot drift apart. The client said no, and gave me the reason in the same message: these sites are meant to look different from each other, not identical. They are not branches of one franchise.">Rekomendowałem trzymanie wyglądu w kodzie, w motywie, gdzie da się go wersjonować i gdzie pięćdziesiąt stron nie rozjedzie się z czasem. Klient powiedział nie i w tej samej wiadomości podał powód: te strony mają się od siebie różnić, a nie być identyczne. To nie są oddziały jednej sieci.</p>
+          <p data-en="He was right and I was answering a question he had not asked. Identical-looking sites are a problem when a brand is the product. Here the site is the product, and each one is supposed to feel like a different local business. So the design lives in the database as global classes a person can edit per site, and my job stopped being to prevent drift and started being to make drift cheap.">Miał rację, a ja odpowiadałem na pytanie, którego nie zadał. Identyczne strony to problem, kiedy produktem jest marka. Tutaj produktem jest strona, a każda ma sprawiać wrażenie innej lokalnej firmy. Wygląd mieszka więc w bazie jako klasy globalne, które da się edytować per strona, a moim zadaniem przestało być zapobieganie rozjazdowi, a stało się uczynienie go tanim.</p>
+          <p data-en="I am writing this down because it is the useful part. The recommendation was technically sound and strategically wrong, and the only reason I found out is that he pushed back instead of nodding.">Zapisuję to, bo to jest użyteczna część. Rekomendacja była poprawna technicznie i błędna strategicznie, a dowiedziałem się o tym tylko dlatego, że klient się postawił, zamiast przytaknąć.</p>
+        </section>
+
+        <section>
+          <span class="kicker" data-en="Rollout">Wdrożenie</span>
+          <h2 data-en="Install and update without clicking">Instalacja i aktualizacja bez klikania</h2>
+          <p data-en="Three scripts do the work. A first install that builds an empty WordPress into the master. An incremental deploy that mirrors the theme, removes files that left the repository and rebuilds what has to be rebuilt. And a migration that changes the content already on the page.">Robotę robią trzy skrypty. Pierwsza instalacja, która buduje z pustego WordPressa stronę-wzorzec. Wdrożenie przyrostowe, które przenosi motyw, usuwa pliki wypadłe z repozytorium i przebudowuje to, co trzeba. Oraz migracja, która zmienia treść już stojącą na stronie.</p>
+          <p data-en="All three are idempotent, which matters more than it sounds. Running the first install twice repairs rather than duplicates, and it refuses outright when the live content differs from the seed, because the client edits his own site and a script that overwrites his wording is worse than no script. The migration parses the blocks already on the page and changes only what has to change, carrying his own text through untouched.">Wszystkie trzy są idempotentne, co znaczy więcej, niż brzmi. Druga instalacja naprawia, zamiast dublować, i odmawia wprost, kiedy treść na żywej stronie różni się od wzorcowej, bo klient edytuje własną stronę, a skrypt kasujący jego tekst jest gorszy niż brak skryptu. Migracja parsuje bloki już stojące na stronie i zmienia tylko to, co musi, przepuszczając jego własny tekst nietknięty.</p>
+          <p data-en="That last property is the one with a test behind it: eight assertions, including that his exact wording survives the move and that a second run leaves the markup identical byte for byte. A migration you are afraid to run twice is a migration you will run at the wrong moment.">Ta ostatnia własność jako jedyna ma za sobą test: osiem asercji, w tym ta, że jego dokładne brzmienie przeżywa przeniesienie i że drugi przebieg zostawia markup identyczny co do bajta. Migracja, której boisz się puścić drugi raz, to migracja, którą puścisz w złym momencie.</p>
+        </section>
+
+        <section>
+          <span class="kicker" data-en="The limit">Granica</span>
+          <h2 data-en="What this template does not do">Czego ten szablon nie robi</h2>
+          <p data-en="The copying itself was a separate stage and it was never commissioned, so I never built it and I have never clicked the duplication tool in the client's hosting panel. What is proven here is the master and the tooling around it: a site with nothing in it that a copy would break, and the scripts that install and update that site.">Samo kopiowanie było osobnym etapem i nigdy nie zostało zamówione, więc go nie zbudowałem i ani razu nie kliknąłem narzędzia do powielania w panelu hostingowym klienta. Udowodnione jest to, co wyżej: strona, w której nie ma niczego, co kopia by zepsuła, oraz skrypty, które ją instalują i aktualizują.</p>
+          <p data-en="So I have no numbers about fifty live sites, no traffic figures and no rankings, and you will not find them anywhere on this page. I would rather write a shorter case study than a wrong one.">Nie mam więc żadnych liczb o pięćdziesięciu działających stronach, żadnych danych o ruchu ani o pozycjach, i nie znajdziesz ich nigdzie na tej stronie. Wolę napisać krótsze case study niż nieprawdziwe.</p>
+
+          <div class="callout">
+            <span class="kicker" data-en="Worth knowing before your first copy">Warto wiedzieć przed pierwszą kopią</span>
+            <p data-en="One thing fails quietly. The enquiry form sends to whatever address sits in the Customizer email field. Leave that field blank on a new site and the enquiries go to the site's admin address instead. The mail still sends, so nothing looks broken. Fill your fields, then send yourself one test enquiry before a phone number goes live anywhere.">Jedna rzecz psuje się po cichu. Formularz wysyła zgłoszenia na adres wpisany w polu e-mail w Customizerze. Zostaw to pole puste na nowej stronie, a zgłoszenia pójdą na adres administratora. Poczta nadal wychodzi, więc nic nie wygląda na zepsute. Wypełnij pola, a potem wyślij sobie jedno testowe zgłoszenie, zanim gdziekolwiek pojawi się numer telefonu.</p>
+          </div>
+        </section>
+
+        <div class="wrap" style="padding:0">
+          <div class="cta">
+            <h2 data-en="Several locations to cover?">Masz kilka lokalizacji do obsłużenia?</h2>
+            <p data-en="Tell me how many sites you expect and what actually differs between them. That answer decides whether you need a template at all, and I will say so if you do not.">Napisz, ile stron przewidujesz i co naprawdę je od siebie różni. Ta odpowiedź decyduje, czy w ogóle potrzebujesz szablonu, a jeśli nie potrzebujesz, powiem to wprost.</p>
+            <a class="btn" href="/#contact" data-en="Ask about your build">Zapytaj o swój projekt</a>
+          </div>
+
+          <div class="refs">
+            <a href="/case-studies/generateblocks-pro-traps/"><span class="dot"></span><span data-en="Case study · GenerateBlocks Pro and GP Premium: eight traps the docs never mention">Case study · GenerateBlocks Pro i GP Premium: osiem pułapek spoza dokumentacji</span></a>
+            <a href="/case-studies/wordpress-speed/"><span class="dot"></span><span data-en="Case study · one WordPress page, built three ways: 63 → 99">Case study · ta sama strona WordPress, zbudowana trzy razy: 63 → 99</span></a>
+            <a href="https://developers.google.com/search/docs/appearance/structured-data/local-business" target="_blank" rel="noopener"><span class="dot"></span><span data-en="Google · LocalBusiness structured data">Google · dane strukturalne LocalBusiness</span></a>
+          </div>
+        </div>
+      </div>
+    </article>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <span class="brand">helban<span class="tld">.dev</span></span>
+      <nav class="f-links" aria-label="Footer">
+        <a href="/#services" data-en="Services">Usługi</a>
+        <a href="/case-studies/" data-en="Case studies">Case studies</a>
+        <a href="/#contact" data-en="Contact">Kontakt</a>
+        <a href="/privacy/" data-en="Privacy policy">Polityka prywatności</a>
+        <a href="https://github.com/Helban" target="_blank" rel="noopener">GitHub</a>
+      </nav>
+      <p class="copy"><span data-en="Built by hand, no framework, no build step.">Napisane ręcznie, bez frameworka, bez etapu budowania.</span> · © 2026 helban.dev</p>
+    </div>
+  </footer>
+
+  <script src="../cs.js" defer></script>
+</body>
+</html>

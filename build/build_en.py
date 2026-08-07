@@ -47,6 +47,7 @@ TRANSLATED_ROUTES = (
     "/case-studies/wordpress-speed/",
     "/case-studies/notion-operating-system/",
     "/case-studies/generateblocks-pro-traps/",
+    "/case-studies/cloneable-wordpress-template/",
 )
 
 ASSET_ATTRIBUTE = re.compile(r'\b(href|src)="([^"]+)"')
@@ -174,6 +175,20 @@ PAGES: tuple[PageSpec, ...] = (
         og_description=(
             "Eight undocumented behaviours in GenerateBlocks Pro and GP Premium, each one "
             "found the expensive way."
+        ),
+    ),
+    PageSpec(
+        route="/case-studies/cloneable-wordpress-template/",
+        title="A WordPress template that survives being copied · helban.dev",
+        description=(
+            "A master WordPress site built to be copied per location. A copy breaks on the "
+            "identifiers the original database invented, not on files, so nothing in this "
+            "template resolves by one."
+        ),
+        og_title="A WordPress template that survives being copied",
+        og_description=(
+            "A copied WordPress install breaks on database identifiers, not on files. A case "
+            "study of a template that contains none."
         ),
     ),
 )
