@@ -48,6 +48,7 @@ TRANSLATED_ROUTES = (
     "/case-studies/notion-operating-system/",
     "/case-studies/generateblocks-pro-traps/",
     "/case-studies/cloneable-wordpress-template/",
+    "/case-studies/grok-to-blogger/",
 )
 
 ASSET_ATTRIBUTE = re.compile(r'\b(href|src)="([^"]+)"')
@@ -189,6 +190,21 @@ PAGES: tuple[PageSpec, ...] = (
         og_description=(
             "A copied WordPress install breaks on database identifiers, not on files. A case "
             "study of a template that contains none."
+        ),
+    ),
+    PageSpec(
+        route="/case-studies/grok-to-blogger/",
+        title="An AI chat as a blog post: 133 pictures, each under its own paragraph · helban.dev",
+        description=(
+            "A Chrome MV3 extension that turns a conversation with a model into a finished "
+            "Blogger post: images uploaded to the author's own blog as permanent links and "
+            "placed under the paragraph they belong to. Where the file names come from, how "
+            "the paragraph is chosen, and how often it lands."
+        ),
+        og_title="An AI chat as a blog post: 133 pictures, each under its own paragraph",
+        og_description=(
+            "The file name is not on the page. A case study of an extension that finds it "
+            "elsewhere, builds a post out of it, and explains every decision it made."
         ),
     ),
 )

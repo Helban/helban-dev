@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Rozmowa z AI jako wpis na bloga: 133 obrazki pod swoimi akapitami · helban.dev</title>
+  <meta name="description" content="Wtyczka Chrome MV3, która przerabia rozmowę z modelem AI na gotowy wpis na Bloggera: wgrywa obrazki na blog jako trwałe linki i wstawia każdy pod właściwym akapitem. Skąd bierze nazwy plików, jak wybiera akapit, ile razy trafia i co zapisuje w raporcie, kiedy nie trafi.">
+  <meta name="theme-color" content="#0b0817">
+  <link rel="canonical" href="https://helban.dev/case-studies/grok-to-blogger/">
+
+  <!-- Both members of a language pair carry the identical block, so the return link
+       Google requires falls out of copying this file into the English build. -->
+  <link rel="alternate" hreflang="pl" href="https://helban.dev/case-studies/grok-to-blogger/">
+  <link rel="alternate" hreflang="en" href="https://helban.dev/en/case-studies/grok-to-blogger/">
+  <link rel="alternate" hreflang="x-default" href="https://helban.dev/case-studies/grok-to-blogger/">
+
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="helban.dev">
+  <meta property="og:title" content="Rozmowa z AI jako wpis na bloga: 133 obrazki pod swoimi akapitami">
+  <meta property="og:description" content="Nazwy plików nie ma na stronie. Case study wtyczki, która wyciąga ją skądinąd i układa z niej wpis, a z każdej decyzji się tłumaczy.">
+  <meta property="og:url" content="https://helban.dev/case-studies/grok-to-blogger/">
+  <meta property="og:image" content="https://helban.dev/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="../../fonts/inter-800.woff2?v=3" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../../fonts/inter-400.woff2?v=3" as="font" type="font/woff2" crossorigin>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Rozmowa z AI jako wpis na bloga: 133 obrazki pod swoimi akapitami",
+    "description": "Case study wtyczki Chrome MV3 eksportującej rozmowę z modelem AI do Bloggera: skąd biorą się nazwy wgranych plików, jak z nazwy wybierany jest akapit, ile razy trafia w zestawie akceptacyjnym i co narzędzie zapisuje o własnych decyzjach, żeby dało się je rozstrzygnąć bez zgadywania.",
+    "url": "https://helban.dev/case-studies/grok-to-blogger/",
+    "image": "https://helban.dev/assets/og-image.png",
+    "datePublished": "2026-08-12T12:00:00+02:00",
+    "dateModified": "2026-08-12T12:00:00+02:00",
+    "author": { "@type": "Person", "name": "Adam K", "url": "https://helban.dev/#about" },
+    "publisher": { "@type": "Organization", "name": "helban.dev", "url": "https://helban.dev/" },
+    "inLanguage": "pl",
+    "about": "Chrome Extension, Manifest V3, Blogger, automatyzacja",
+    "breadcrumb": {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "helban.dev", "item": "https://helban.dev/" },
+        { "@type": "ListItem", "position": 2, "name": "Case studies", "item": "https://helban.dev/case-studies/" },
+        { "@type": "ListItem", "position": 3, "name": "Rozmowa z AI jako wpis na bloga: 133 obrazki pod swoimi akapitami", "item": "https://helban.dev/case-studies/grok-to-blogger/" }
+      ]
+    }
+  }
+  </script>
+
+  <style>
+/* === generated:begin — build/css/base.css + shell.css, injected by build/build_css.py.
+   Edit those files and re-run the build; do not edit this block. === */
+/* ===================================================================
+   base — tokens, reset and primitives shared by EVERY page.
+
+   Injected into each page's <style> by build/build_css.py, so the
+   served HTML still carries its CSS inline and nothing render-blocks.
+   Edit here, run the build, never edit the generated block in a page.
+
+   Font URLs are written relative to the site root; the injector
+   rewrites the depth (fonts/ -> ../fonts/) per page.
+   =================================================================== */
+
+/* ---------------------------------------------------------------
+   Self-hosted, subset Inter + JetBrains Mono (latin + latin-ext;
+   Polish glyphs live in latin-ext). Replaces a render-blocking
+   Google Fonts <link>, so first paint never waits on a stylesheet.
+   --------------------------------------------------------------- */
+@font-face{font-family:'Inter';font-style:normal;font-weight:400;font-display:swap;src:url(../../fonts/inter-400.woff2?v=3) format('woff2');}
+@font-face{font-family:'Inter';font-style:normal;font-weight:600;font-display:swap;src:url(../../fonts/inter-600.woff2?v=3) format('woff2');}
+@font-face{font-family:'Inter';font-style:normal;font-weight:700;font-display:swap;src:url(../../fonts/inter-700.woff2?v=3) format('woff2');}
+@font-face{font-family:'Inter';font-style:normal;font-weight:800;font-display:swap;src:url(../../fonts/inter-800.woff2?v=3) format('woff2');}
+@font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:500;font-display:swap;src:url(../../fonts/jetbrains-mono-500.woff2?v=3) format('woff2');}
+@font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:700;font-display:swap;src:url(../../fonts/jetbrains-mono-700.woff2?v=3) format('woff2');}
+
+:root{
+  --sans:'Inter',-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,"SF Mono",Menlo,monospace;
+
+  --violet:#7C3AED; --violet-l:#a78bfa; --violet-ll:#c4b5fd;
+  --coral:#F43F5E; --green:#22c55e; --green-d:#16a34a;
+  --amber:#f59e0b; --red:#ef4444;
+
+  --text:#f4f3fb; --ink:#ffffff; --muted:#9aa0b6;
+  --line:rgba(255,255,255,.11);
+  --line-strong:rgba(255,255,255,.18);
+  --glass-1:rgba(255,255,255,.072);
+  --glass-2:rgba(255,255,255,.022);
+
+  /* Type scale, ratio 1.25 from a 10px root. The page once carried twenty distinct sizes,
+     twelve of them inside 12-18px with steps as small as 1.06x: differences too small to
+     read as hierarchy, large enough to read as carelessness. A first pass put everything
+     on a 1.2 ladder, which killed the noise but still sat under the 1.25 floor a brand
+     surface wants, and left body copy and card titles one thin step apart.
+     At 1.25 the rungs are far enough apart that a step MEANS something, which is also why
+     usage is assigned by ROLE rather than by rounding: at this ratio the nearest step
+     would collapse card titles into the body copy underneath them.
+     The rungs carry: 10 micro labels · 12.5 mono meta and badges · 15.6 body, controls and
+     card copy · 19.5 card titles, section intros and pull quotes · 24.4 and up headings.
+     Section prose deliberately shares 19.5 with card titles: it is a lede, weight and
+     position separate them, and card copy still sits a full step below its own heading.
+     Every rung is used except 47.7px, kept so the ladder stays a ladder. */
+  --fs-1:10px; --fs-2:12.5px; --fs-3:15.6px; --fs-4:19.5px; --fs-5:24.4px;
+  --fs-6:30.5px; --fs-7:38.1px; --fs-8:47.7px; --fs-9:59.6px;
+
+  /* Home is the widest surface. Reading pages narrow this in their own block:
+     920px for the list and policy pages, 860px for article bodies. */
+  --maxw:1120px;
+  --radius:18px; --radius-sm:12px; --radius-xs:9px;
+  --shadow-card:0 18px 40px rgba(0,0,0,.46), inset 0 1px 0 rgba(255,255,255,.10);
+  --shadow-pop:0 24px 60px rgba(0,0,0,.55);
+  --space:8px;
+}
+
+*{box-sizing:border-box; margin:0; padding:0}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+body{
+  font-family:var(--sans); color:var(--text);
+  background:#0b0817;
+  -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+  line-height:1.6; overflow-x:hidden;
+}
+
+/* Mesh background, fixed so it doesn't repaint on scroll. This is the calm
+   variant every reading page uses; the home page overrides it with a denser
+   mesh plus a masked dot field tuned to its hero. */
+.bg{position:fixed; inset:0; z-index:-2; pointer-events:none;
+  background:
+    radial-gradient(680px 460px at 6% -8%, rgba(139,92,246,.30), transparent 60%),
+    radial-gradient(560px 420px at 96% 2%, rgba(99,102,241,.22), transparent 60%),
+    radial-gradient(620px 520px at 88% 96%, rgba(244,63,94,.15), transparent 58%),
+    linear-gradient(170deg,#181034 0%,#110c25 52%,#0b0817 100%);}
+
+a{color:inherit; text-decoration:none}
+img,svg{display:block}
+:focus-visible{outline:2px solid var(--violet-l); outline-offset:3px; border-radius:6px}
+
+.wrap{width:100%; max-width:var(--maxw); margin:0 auto; padding:0 22px}
+
+/* ===================================================================
+   shell — top bar, navigation, language toggle, footer, and the
+   utilities that only a navigated page uses.
+
+   Every page that carries the site navigation takes this layer.
+   /dziekuje/ deliberately does NOT: it is a terminal page with no nav
+   and no language toggle, and forcing the shell on it would mean five
+   overrides fighting the shared sheet. The utilities below live here
+   rather than in base for the same reason — that page uses none of
+   them, and base is meant to be what EVERY page genuinely needs.
+   =================================================================== */
+
+.mono{font-family:var(--mono)}
+.sr-only{position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden;
+  clip-path:inset(50%); white-space:nowrap; border:0}
+
+/* Invisible hit-area extension: small controls keep their look but meet the 44px
+   touch floor. A fixed inset could not keep that promise, because the class rides
+   elements from 17px to 40px tall and -13px left the 17px "wyczyść" button at 43px.
+   The floor is now stated as a floor: pad by 26px, or grow to 44px, whichever is
+   larger, centred so nothing shifts. */
+.hit44{position:relative}
+.hit44::after{content:""; position:absolute; left:-6px; right:-6px;
+  top:50%; transform:translateY(-50%); height:max(44px, calc(100% + 26px))}
+/* The PL/EN pair sits 2px apart, so the default -6px made each pseudo reach 4px into
+   its neighbour's pill: clicking the right edge of the highlighted PL fired EN.
+   Half the gap each tiles them edge to edge instead. */
+.lang .hit44::after{left:-1px; right:-1px}
+
+/* ---------- skip link ---------- */
+.skip{position:absolute; left:-9999px; top:0; z-index:100;
+  background:var(--violet); color:#fff; padding:10px 16px; border-radius:0 0 10px 0; font-weight:600}
+.skip:focus{left:0}
+
+/* An anchor jump lands the target under the 64px sticky bar without this. */
+[id]{scroll-margin-top:80px}
+
+/* ---------- top bar ---------- */
+.topbar{position:sticky; top:0; z-index:50;
+  backdrop-filter:saturate(150%) blur(14px); -webkit-backdrop-filter:saturate(150%) blur(14px);
+  background:rgba(11,8,23,.62); border-bottom:1px solid var(--line);}
+.topbar .wrap{display:flex; align-items:center; gap:18px; height:64px}
+.brand{font-family:var(--mono); font-weight:700; font-size:var(--fs-4); letter-spacing:.3px; color:#efe9ff}
+.brand .tld{color:var(--coral)}
+.nav{display:flex; gap:6px; margin-left:auto; align-items:center}
+.nav a{padding:8px 12px; border-radius:10px; font-size:var(--fs-3); font-weight:500; color:#d2d4e3}
+.nav a:hover{background:rgba(255,255,255,.06); color:#fff}
+.nav a.active:not(.nav-cta){background:rgba(255,255,255,.07); color:#fff}
+.nav-cta{font-weight:600; color:#fff !important;
+  background:linear-gradient(160deg,#7c3aed,#5b21b6); box-shadow:0 6px 14px rgba(124,58,237,.28)}
+.nav-cta:hover{filter:brightness(1.08)}
+
+/* language toggle */
+.lang{display:inline-flex; align-items:center; gap:2px; padding:3px;
+  background:rgba(255,255,255,.06); border:1px solid var(--line); border-radius:999px}
+/* Not var(--muted): the topbar is translucent, and around scrollY 2100 the green PSI
+   badge row passes underneath and tints it, which dropped the inactive label to 3.93:1
+   at p90, under AA. This lighter grey clears the floor against the tinted bar too. */
+.lang a{font-family:var(--mono); font-size:var(--fs-2); font-weight:700; letter-spacing:.5px;
+  color:#c3c6d6; background:transparent; border:0; cursor:pointer; padding:5px 11px; border-radius:999px}
+.lang a[aria-current="page"]{color:#fff; background:linear-gradient(160deg,#7c3aed,#5b21b6)}
+
+.nav-toggle{display:none; margin-left:auto; background:rgba(255,255,255,.06);
+  border:1px solid var(--line); border-radius:10px; width:44px; height:44px; cursor:pointer; color:#fff}
+.nav-toggle svg{width:22px; height:22px; margin:auto; stroke:#fff}
+
+/* ---------- footer ---------- */
+footer{border-top:1px solid var(--line); padding:34px 0 46px; margin-top:20px}
+footer .wrap{display:flex; align-items:center; gap:18px; flex-wrap:wrap}
+footer .brand{font-size:var(--fs-4)}
+footer .f-links{display:flex; gap:16px; margin-left:auto; flex-wrap:wrap}
+footer .f-links a{font-size:var(--fs-3); color:var(--muted); position:relative}
+footer .f-links a::after{content:""; position:absolute; inset:-12px -6px}
+footer .f-links a:hover{color:#fff}
+footer .copy{width:100%; display:flex; justify-content:space-between; gap:8px 18px; flex-wrap:wrap;
+  font-size:var(--fs-2); color:#8a90a6; font-family:var(--mono); padding-top:6px}
+
+/* ---------- mobile navigation ----------
+   The breakpoint is 880px, not 760px: the horizontal nav runs out of room
+   before 800px on the pages that carry a CTA. Page-specific layout rules
+   keep their own breakpoints and stay in the page's own block. */
+@media (max-width:880px){
+  /* Opaque, and it has to stay opaque. The panel hangs over the hero, and 3% transparency
+     that is invisible on a mid-tone background is plainly readable in a dark UI: the h1 used
+     to show through the nav labels. Do NOT "fix" this with backdrop-filter, which is the
+     obvious-looking move and cannot work here: .topbar is an ancestor and already carries
+     backdrop-filter, so it establishes the backdrop root and a filter on .nav has nothing
+     behind it left to blur. Verified by removing the topbar's filter, at which point the
+     panel's blur springs to life. #100c22 sits just above the body so it reads as a surface. */
+  .nav{display:none; position:absolute; top:64px; left:0; right:0; z-index:1;
+    flex-direction:column; align-items:stretch;
+    gap:4px; padding:14px 22px 18px; background:#100c22; border-bottom:1px solid var(--line)}
+  .nav.open{display:flex}
+  .nav a{padding:12px 14px}
+  .nav .lang{align-self:flex-start; margin-top:6px}
+  .nav-toggle{display:block}
+}
+
+/* The open panel covers roughly half the screen and the rest of the page stays
+   visible, looking live while ignoring every tap. This dims it and gives the tap
+   that closes the menu something to land on.
+
+   Two things here are deliberate and easy to "fix" wrongly. It is NOT a
+   backdrop-filter on .nav: .topbar is an ancestor and already carries one, so it
+   establishes the backdrop root and a filter on the panel has nothing left behind
+   it to blur (tried 2026-07-18, the result was worse than none). And the scrim
+   hangs off body rather than sitting inside the panel, because that same
+   backdrop-filter makes .topbar the containing block for fixed descendants, so a
+   fixed layer inside it would cover the bar instead of the page.
+
+   It starts below the bar and sits under z-index 50, so bar and panel stay lit. */
+body.nav-locked{overflow:hidden}
+body.nav-locked::after{content:""; position:fixed; inset:64px 0 0; z-index:40;
+  background:rgba(6,4,14,.62)}
+@media (min-width:881px){body.nav-locked::after{content:none}}
+/* === generated:end === */
+/* An article page: a narrower measure and looser leading than the rest of the
+   site, plus its own dot field. Everything else comes from base + shell. */
+:root{--maxw:860px}
+body{line-height:1.7}
+.bg::after{content:""; position:absolute; inset:0;
+  background-image:radial-gradient(rgba(255,255,255,.05) 1px, transparent 1.4px);
+  background-size:28px 28px;
+  -webkit-mask-image:radial-gradient(1100px 640px at 60% 12%, #000 20%, transparent 78%);
+          mask-image:radial-gradient(1100px 640px at 60% 12%, #000 20%, transparent 78%);}
+
+/* article */
+.doc{padding:56px 0 30px}
+.crumb{font-family:var(--mono); font-size:12.5px; color:var(--muted); margin-bottom:18px}
+.crumb a:hover{color:#fff}
+h1.title{font-size:clamp(28px,5vw,46px); font-weight:800; letter-spacing:-1.2px; line-height:1.08; margin:14px 0 16px;
+  color:var(--ink)}
+.lead{font-size:clamp(16px,2.2vw,19px); color:#cdd0e0; max-width:66ch}
+.meta{display:flex; flex-wrap:wrap; gap:9px; margin-top:22px}
+.meta .chip{font-family:var(--mono); font-size:12px; color:#d3d9e4;
+  background:rgba(255,255,255,.05); border:1px solid var(--line); border-radius:9px; padding:7px 11px}
+.meta .chip b{color:var(--violet-ll); font-weight:600}
+
+.glance{display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:34px 0 8px}
+.gstat{position:relative; overflow:hidden; text-align:center;
+  background:linear-gradient(180deg, var(--glass-1), var(--glass-2)); border:1px solid var(--line);
+  border-radius:var(--radius); padding:20px 14px; box-shadow:var(--shadow-card)}
+.gstat::before{content:""; position:absolute; left:18px; right:18px; top:0; height:1px; background:linear-gradient(90deg, transparent, rgba(167,139,250,.7), transparent)}
+.gstat .big{font-family:var(--mono); font-weight:800; font-size:clamp(20px,3.4vw,27px); letter-spacing:-.5px; color:#fff}
+.gstat .big i{font-style:normal; color:var(--green)}
+.gstat .lab{font-size:12px; color:var(--muted); margin-top:6px; line-height:1.4}
+
+section{padding:34px 0}
+section > h2{font-size:clamp(21px,3vw,27px); font-weight:800; letter-spacing:-.6px; line-height:1.15; margin-bottom:6px}
+.kicker{font-family:var(--mono); font-size:var(--fs-2); font-weight:700; color:var(--violet-l); display:block; margin-bottom:9px}
+section p{color:#c6c9d8; font-size:16.5px; margin-top:14px}
+section p:first-of-type{margin-top:12px}
+strong{color:#efe9ff; font-weight:700}
+.ul{list-style:none; margin-top:16px; display:flex; flex-direction:column; gap:11px}
+.ul li{position:relative; padding-left:26px; color:#c6c9d8; font-size:16px}
+.ul li::before{content:""; position:absolute; left:4px; top:9px; width:8px; height:8px; border-radius:2px;
+  background:linear-gradient(160deg,#8b5cf6,#6d28d9); box-shadow:0 0 10px rgba(124,58,237,.7)}
+.ul li b{color:#efe9ff}
+
+/* symptom / fix labels */
+.turn{margin-top:18px}
+.turn > .lab{font-family:var(--mono); font-size:11px; font-weight:700; letter-spacing:1.4px; text-transform:uppercase;
+  color:var(--muted); display:block}
+.turn > .lab.sym{color:#f7a6b4}
+.turn > .lab.fix{color:#8fd694}
+.turn p{margin-top:6px}
+
+code.inline{font-family:var(--mono); font-size:.87em; color:#e3d9ff; background:rgba(124,58,237,.17);
+  border:1px solid rgba(167,139,250,.24); border-radius:6px; padding:2px 6px}
+
+/* callout */
+.callout{margin:24px 0 6px; padding:20px 22px; border-radius:var(--radius);
+  background:rgba(244,63,94,.10); border:1px solid rgba(244,63,94,.3)}
+.callout .kicker{color:#f7a6b4}
+.callout p{color:#e7d9dc; margin-top:8px; font-size:16.5px}
+
+/* cta + refs */
+.cta{margin:30px 0 8px; padding:26px 24px; text-align:center; border-radius:var(--radius);
+  background:linear-gradient(180deg, rgba(124,58,237,.18), rgba(124,58,237,.06)); border:1px solid var(--line-strong)}
+.cta h2{font-size:clamp(20px,3vw,26px); font-weight:800; letter-spacing:-.5px}
+.cta p{color:#cdd0e0; margin:10px 0 18px; font-size:16px}
+.btn{display:inline-flex; align-items:center; gap:9px; font-weight:600; font-size:15px; cursor:pointer;
+  padding:13px 24px; border-radius:12px; border:1px solid transparent; color:#fff;
+  background:linear-gradient(160deg,#7c3aed,#5b21b6); box-shadow:0 12px 26px rgba(124,58,237,.45), inset 0 1px 0 rgba(255,255,255,.35)}
+.btn:hover{filter:brightness(1.08)}
+.refs{display:flex; flex-wrap:wrap; gap:12px; margin-top:26px}
+.refs a{font-family:var(--mono); font-size:13px; color:var(--violet-ll); display:inline-flex; align-items:center; gap:8px;
+  background:rgba(255,255,255,.04); border:1px solid var(--line); border-radius:10px; padding:11px 14px}
+.refs a:hover{color:#fff; border-color:var(--line-strong)}
+.refs .dot{width:6px; height:6px; border-radius:50%; background:var(--coral); box-shadow:0 0 9px rgba(244,63,94,.9)}
+
+@media (max-width:760px){
+  .glance{grid-template-columns:1fr 1fr 1fr; gap:10px}
+  .gstat{padding:16px 8px}
+}
+  </style>
+</head>
+<body>
+  <div class="bg" aria-hidden="true"></div>
+  <a class="skip" href="#article" data-en="Skip to article">Przejdź do treści</a>
+
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="/">helban<span class="tld">.dev</span></a>
+      <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false" aria-controls="nav">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+      <nav class="nav" id="nav">
+        <a href="/#services" data-en="Services">Usługi</a>
+        <a href="/#work" data-en="Live work">Realizacje</a>
+        <a href="/case-studies/" data-en="Case studies">Case studies</a>
+        <a href="/#contact" data-en="Contact">Kontakt</a>
+        <div class="lang" role="group" aria-label="Language / Język">
+          <a id="langPl" class="hit44" href="/case-studies/grok-to-blogger/" aria-current="page" data-lang-link="pl">PL</a>
+          <a id="langEn" class="hit44" href="/en/case-studies/grok-to-blogger/" data-lang-link="en">EN</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main id="article">
+    <article class="doc">
+      <div class="wrap">
+        <div class="crumb"><a href="/case-studies/" data-en="← Case studies">← Case studies</a></div>
+        <h1 class="title" data-en="An AI chat as a blog post: 133 pictures, each under its own paragraph">Rozmowa z AI jako wpis na bloga: 133 obrazki pod swoimi akapitami</h1>
+        <p class="lead" data-en="A long chat with a model is hundreds of messages and hundreds of pictures. Paste it into a blog editor and the formatting goes, while the pictures stay linked to somebody else's server and quietly stop working months later. This extension turns that chat into a finished post in one click: every picture is uploaded to the author's own blog as a permanent link and dropped under the paragraph it belongs to. Below: where the tool gets the file names from, how it picks the paragraph, how often it lands, and what it writes down when it does not.">Długa rozmowa z modelem to setki wiadomości i setki obrazków. Wklejona do edytora bloga gubi formatowanie, a obrazki zostają podpięte do cudzego serwera i po kilku miesiącach po cichu przestają się wyświetlać. Ta wtyczka robi z takiej rozmowy gotowy wpis jednym kliknięciem: każdy obrazek wgrywa na blog autora jako trwały link i wstawia pod tym akapitem, do którego należy. Niżej: skąd bierze nazwy plików, jak wybiera akapit, ile razy trafia i co zapisuje wtedy, kiedy nie trafi.</p>
+
+        <div class="meta">
+          <span class="chip"><b data-en="Stack:">Stack:</b> Chrome MV3 · JavaScript · Blogger API</span>
+          <span class="chip"><b data-en="Scope:">Zakres:</b> <span data-en="extension, two contracts">wtyczka, dwa kontrakty</span></span>
+          <span class="chip"><b data-en="Delivered:">Oddane:</b> <span data-en="August 2026">sierpień 2026</span></span>
+        </div>
+
+        <div class="glance">
+          <div class="gstat"><div class="big"><i>133/133</i></div><div class="lab" data-en="pictures uploaded to the blog as permanent links">obrazków wgranych na blog jako trwałe linki</div></div>
+          <div class="gstat"><div class="big"><i>132/133</i></div><div class="lab" data-en="file names recovered from the conversation">nazw plików odzyskanych z rozmowy</div></div>
+          <div class="gstat"><div class="big"><i>46/56</i></div><div class="lab" data-en="placed within one paragraph of the target">obrazków w granicy jednego akapitu od celu</div></div>
+        </div>
+      </div>
+
+      <div class="wrap">
+        <section>
+          <span class="kicker" data-en="The brief">Zadanie</span>
+          <h2 data-en="Pasting the chat destroys the part worth keeping">Wklejenie rozmowy niszczy to, co w niej najcenniejsze</h2>
+          <p data-en="A conversation with a model has structure: bold, links, headings, nested lists, embedded video. The clipboard carries some of that across and flattens the rest into one gray block. Pictures come off worse than the text. They paste as addresses pointing back at the server they came from, so the post looks right on publication day and rots afterward, on somebody else's schedule.">Rozmowa z modelem ma strukturę: pogrubienia, linki, nagłówki, listy zagnieżdżone, wstawione filmy. Schowek przenosi część z tego, a resztę spłaszcza do jednego szarego bloku. Obrazki wychodzą na tym gorzej niż tekst. Wklejają się jako adresy wskazujące z powrotem na serwer, na którym leżą, więc wpis wygląda dobrze w dniu publikacji, a psuje się później, w cudzym terminie.</p>
+          <p data-en="The work came in two contracts. The first one was the faithful export: keep the formatting, and put every picture into the author's own blog storage so that the post owns its images. The second was the harder half. Getting the pictures into the post is not the same as getting them into the right place in it.">Robota przyszła w dwóch kontraktach. Pierwszy to wierny eksport: zachować formatowanie i przenieść każdy obrazek do przestrzeni bloga autora, żeby wpis miał swoje obrazki na własność. Drugi był trudniejszą połową. Wstawienie obrazków do wpisu to nie to samo, co wstawienie ich we właściwe miejsca.</p>
+        </section>
+
+        <section>
+          <span class="kicker" data-en="The core of it">Sedno</span>
+          <h2 data-en="The file name is not on the page">Nazwy pliku nie ma na stronie</h2>
+          <p data-en="Somebody who drops twenty pictures into a chat names them first: a number and a few words. The number says which order they belong in, the words say what each one is about. That is a complete instruction for where every picture should sit in the finished post, written by the only person who knows the answer.">Kto wrzuca do rozmowy dwadzieścia obrazków, ten najpierw je nazywa: numer i kilka słów. Numer mówi, w jakiej kolejności mają iść, a słowa mówią, o czym każdy z nich jest. To jest kompletna instrukcja, gdzie który obrazek ma stanąć w gotowym wpisie, napisana przez jedyną osobę, która zna odpowiedź.</p>
+
+          <div class="turn">
+            <span class="lab sym" data-en="Symptom">Objaw</span>
+            <p data-en="Once the message is sent, that instruction is gone. The page shows the picture and nothing else: no name, no number. An extension that reads what is on the screen has nothing to work with, so it can only stack the pictures at the top of the message and leave the arranging to a human. That is what the first version did, and on a message with twenty pictures it is an afternoon of dragging.">Po wysłaniu wiadomości ta instrukcja znika. Na stronie jest sam obrazek: bez nazwy i bez numeru. Wtyczka czytająca to, co widać na ekranie, nie ma z czego korzystać, więc może tylko ustawić obrazki na górze wiadomości i zostawić układanie człowiekowi. Tak działała pierwsza wersja, a przy wiadomości z dwudziestoma obrazkami to popołudnie przeciągania myszą.</p>
+          </div>
+          <div class="turn">
+            <span class="lab" data-en="What is really going on">Co się naprawdę dzieje</span>
+            <p data-en="The names do exist, just not where anyone would look for them. They arrive once, in the response that loads the conversation, paired with the identifier of each upload. They are not in the markup, they are not in the message, and they are not there at the moment a picture is sent.">Nazwy istnieją, tylko nie tam, gdzie ktokolwiek by ich szukał. Przychodzą raz, w odpowiedzi ładującej rozmowę, w parze z identyfikatorem każdego wgrania. Nie ma ich w kodzie strony, nie ma ich w wiadomości i nie ma ich w momencie, w którym obrazek jest wysyłany.</p>
+          </div>
+          <div class="turn">
+            <span class="lab fix" data-en="The way around it">Obejście</span>
+            <p data-en="The extension listens for that response and binds each name to the upload identifier rather than to where the picture sits on screen. Position moves when the page re-renders. The identifier does not. It is the rule that saves every integration built against somebody else's service: pin yourself to the record, not to the place.">Wtyczka nasłuchuje tej odpowiedzi i wiąże nazwę z identyfikatorem wgrania, a nie z miejscem, w którym obrazek stoi na ekranie. Pozycja przesuwa się przy każdym odświeżeniu widoku. Identyfikator nie. To zasada, która ratuje każdą integrację budowaną po cudzej stronie: przypinaj się do rekordu, nie do miejsca.</p>
+          </div>
+          <p data-en="One consequence of that cannot be engineered away, so the tool warns about it instead. A picture uploaded after the tab was last loaded is not in that data yet and has no name to read, so it stays at the top of its message. The popup says so in plain words after every export, and tells you to reload the tab and export again.">Jednej konsekwencji tego rozwiązania nie da się załatwić kodem, więc jest napisana wprost w narzędziu. Obrazek wgrany już po ostatnim załadowaniu karty nie znalazł się jeszcze w tych danych i nie ma nazwy do odczytania, więc zostaje na górze swojej wiadomości. Okno wtyczki mówi o tym po każdym eksporcie i podpowiada, żeby przeładować kartę i wyeksportować ponownie.</p>
+        </section>
+
+        <section>
+          <span class="kicker" data-en="The method">Metoda</span>
+          <h2 data-en="The words choose the paragraph, the number sets the order">Słowa wybierają akapit, numer ustawia kolejność</h2>
+          <p data-en="Those two halves of a file name answer two different questions, so the tool uses them for two different things. For every pairing of a picture with a paragraph it counts how much of the name shows up in that paragraph, which gives a score. The leading number gives an order.">Te dwie połowy nazwy odpowiadają na dwa różne pytania, więc narzędzie używa ich do dwóch różnych rzeczy. Dla każdej pary obrazek-akapit liczy, ile z nazwy pojawia się w tym akapicie, i to jest wynik dopasowania. Numer z początku nazwy daje kolejność.</p>
+          <p data-en="Then it places all the pictures of a message at once, maximizing the total score while keeping them in the order the numbers ask for. Choosing the best paragraph for each picture separately would be simpler and wrong: two pictures would swap past each other and the reader would meet the third one before the second. A picture is never allowed to land above the one before it, and that single constraint is what makes the result readable rather than merely well-matched.">Potem układa wszystkie obrazki jednej wiadomości naraz, maksymalizując sumę wyników i pilnując kolejności, o którą proszą numery. Wybieranie najlepszego akapitu dla każdego obrazka osobno byłoby prostsze i błędne: dwa obrazki wyminęłyby się, a czytelnik dostałby trzeci przed drugim. Żaden obrazek nie może wylądować powyżej poprzedniego i właśnie to jedno ograniczenie sprawia, że wynik da się czytać, zamiast tylko dobrze pasować.</p>
+          <p data-en="A message with a single paragraph has nothing to choose between, so there the number decides alone. A message with pictures and no writing at all is still a message, which the first version did not notice.">Wiadomość z jednym akapitem nie ma czego wybierać, więc tam decyduje sam numer. Wiadomość z samymi obrazkami, bez ani jednego słowa, też jest wiadomością, czego pierwsza wersja nie zauważała.</p>
+        </section>
+
+        <section>
+          <span class="kicker" data-en="The measurement">Pomiar</span>
+          <h2 data-en="How often it lands">Ile razy trafia</h2>
+          <p data-en="The acceptance set is 56 pictures out of a real conversation, each one with a target paragraph marked by hand. Exact hits: 31 of 56. Within one paragraph of the target: 46 of 56.">Zestaw akceptacyjny to 56 obrazków z prawdziwej rozmowy, każdy z ręcznie wskazanym akapitem docelowym. Trafień co do akapitu: 31 z 56. W granicy jednego akapitu od celu: 46 z 56.</p>
+          <p data-en="Nobody can sell that as it works. What it says is how much work is left: instead of arranging a hundred and thirty pictures, you nudge a dozen of them by one paragraph. I would rather publish that ratio than a rounder one, because the person reading this is deciding whether to hand me something similar.">Nikt tego nie sprzeda jako „działa”. Ta liczba mówi, ile roboty zostaje: zamiast układać sto trzydzieści obrazków, przesuwasz kilkanaście o jeden akapit. Wolę opublikować taką proporcję niż okrągłą, bo kto to czyta, ten decyduje, czy oddać mi coś podobnego.</p>
+          <p data-en="On the finished post the export ran over 78 messages carrying 133 pictures. All 133 went into the blog's own storage as permanent links, and names were recovered for 132 of them. Two YouTube links and one Vimeo link became players. I measured the Vimeo wrapper on a real Blogger post before shipping it, because a bare paste of one renders at a quarter of the size.">Na gotowym wpisie eksport przeszedł przez 78 wiadomości niosących 133 obrazki. Wszystkie 133 trafiły do przestrzeni bloga jako trwałe linki, a nazwy udało się odzyskać dla 132. Dwa linki do YouTube i jeden do Vimeo zamieniły się w odtwarzacze. Wstawkę Vimeo zmierzyłem na prawdziwym wpisie Bloggera, zanim ją wysłałem, bo goła wklejka renderuje się tam cztery razy mniejsza.</p>
+        </section>
+
+        <section>
+          <span class="kicker" data-en="The reporting">Raport</span>
+          <h2 data-en="The tool explains every decision it made">Narzędzie tłumaczy się z każdej swojej decyzji</h2>
+          <p data-en="A counter tells you that something went wrong. It never tells you why, and on somebody else's data, which I cannot see, why is the only thing worth having. So the last version writes a file: one row per message saying how it recognized the speaker, and one row per picture saying which name it read, which number it took from it, which paragraph it chose and what made it choose that one.">Licznik mówi, że coś poszło nie tak. Nigdy nie mówi dlaczego, a na cudzych danych, których nie widzę, „dlaczego” jest jedyną rzeczą wartą posiadania. Ostatnia wersja zapisuje więc plik: wiersz na wiadomość z informacją, po czym rozpoznała autora, i wiersz na obrazek z odczytaną nazwą, wziętym z niej numerem, wybranym akapitem i powodem tego wyboru.</p>
+          <p data-en="It paid for itself on the first report that came back. One picture kept landing in the wrong place despite a name that looked perfect, and the report settled it without a single guess. The words in that name matched the target paragraph completely, a full score, so the naming had done its job. What moved the picture was the order: two files in that message began with the same number, and equal numbers carry no ordering information, so the tie fell to whichever was uploaded first. Since a picture may never land above the one before it, once the other file took the paragraph above, this one could no longer reach the paragraph its words had won.">Ten plik zwrócił się na pierwszym raporcie, który do mnie wrócił. Jeden obrazek uparcie lądował nie tam, gdzie trzeba, mimo nazwy wyglądającej bez zarzutu, a raport rozstrzygnął to bez zgadywania. Słowa z tej nazwy pokrywały akapit docelowy w całości, pełny wynik, więc nazwanie zadziałało. Obrazek przesunęła kolejność: dwa pliki w tej wiadomości zaczynały się tym samym numerem, a równe numery nie niosą żadnej informacji o kolejności, więc remis rozstrzygnął moment wgrania. Skoro obrazek nie może wylądować powyżej poprzedniego, to gdy ten drugi plik zajął akapit wyżej, ten pierwszy nie miał już jak dojść do akapitu, który wygrał słowami.</p>
+          <p data-en="The answer was one paragraph of writing, not a new build: give every picture its own number, running in the order they should be read. Sixteen of the placements in that post had the words pointing one way and the order rule holding the picture elsewhere, four of them on a full-score match, and every one of those is now explainable in a sentence instead of argued about by feel.">Odpowiedzią był jeden akapit tekstu, a nie nowa wersja: nadaj każdemu obrazkowi własny numer, biegnący w kolejności czytania. W tym wpisie szesnaście obrazków miało słowa wskazujące jeden akapit, a regułę kolejności trzymającą je w innym, cztery z nich przy pełnym dopasowaniu. Każdy z tych szesnastu da się teraz wyjaśnić jednym zdaniem, zamiast spierać się o niego na wyczucie.</p>
+        </section>
+
+        <section>
+          <span class="kicker" data-en="The limit">Granica</span>
+          <h2 data-en="What this extension does not do">Czego ta wtyczka nie robi</h2>
+          <p data-en="There is no public repository and there will not be one. The commit history names the person who commissioned it, and the tool itself walks through undocumented internals of services that never promised to keep them still. Publishing it would be an invitation to break it. There is public code of mine in the same class linked below. You can read one of my Manifest V3 extensions before deciding anything.">Kod nie ma publicznego repozytorium i nie będzie go miał. Historia zmian niesie dane osoby, która zamówiła tę robotę, a samo narzędzie chodzi po nieudokumentowanych wnętrzach serwisów, które nigdy nie obiecały, że będą je trzymać w miejscu. Opublikowanie go byłoby zaproszeniem do psucia. Mój publiczny kod z tej samej klasy jest w linkach niżej, więc moją wtyczkę na Manifeście V3 można przeczytać przed jakąkolwiek decyzją.</p>
+          <p data-en="One thing here is unexplained and stays unexplained. On a single export, five messages came out attributed to the wrong speaker. It has not happened again, in any run since, and I cannot tell you what caused it, so the word fixed does not appear anywhere on this page. What the last version does is record the evidence it used to identify the speaker of every message, so the next occurrence will name its own cause instead of hiding.">Jedna rzecz jest tu niewyjaśniona i taka zostaje. Na jednym eksporcie pięć wiadomości wyszło podpisanych nie tym autorem. Nie powtórzyło się w żadnym późniejszym przebiegu i nie umiem powiedzieć, co to wywołało, więc nigdzie na tej stronie nie pada słowo „naprawione”. Ostatnia wersja zapisuje natomiast, na jakiej podstawie rozpoznała autora każdej wiadomości, więc następny taki przypadek sam nazwie swoją przyczynę, zamiast się schować.</p>
+
+          <div class="callout">
+            <span class="kicker" data-en="Worth knowing before you name your files">Warto wiedzieć, zanim nazwiesz pliki</span>
+            <p data-en="Asking the model to rename a file changes nothing the tool reads. Verified on live data: after such a request the extension still reads the original name, because it is still the same upload record. The name is set on your own disk, before the picture is sent, and never afterward.">Prośba do modelu o zmianę nazwy pliku nie zmienia niczego, co czyta narzędzie. Sprawdzone na żywych danych: po takiej prośbie wtyczka nadal czyta pierwotną nazwę, bo to wciąż ten sam rekord wgrania. Nazwę ustawia się na własnym dysku, przed wysłaniem obrazka, i nigdy później.</p>
+          </div>
+        </section>
+
+        <div class="wrap" style="padding:0">
+          <div class="cta">
+            <h2 data-en="Something to move out of a chat?">Masz rozmowę albo archiwum do przeniesienia?</h2>
+            <p data-en="Tell me what it is now and what it has to become, and whether the pictures have to end up on your side. If an export that already exists will do the job, I will say so instead of quoting you for an extension.">Napisz, czym to jest teraz, czym ma się stać i czy obrazki mają wylądować u Ciebie. Jeśli wystarczy eksport, który już istnieje, powiem to, zamiast wyceniać wtyczkę.</p>
+            <a class="btn" href="/#contact" data-en="Ask about your case">Zapytaj o swój przypadek</a>
+          </div>
+
+          <div class="refs">
+            <a href="https://github.com/Helban/keeptouch" target="_blank" rel="noopener"><span class="dot"></span><span data-en="Code · another Manifest V3 extension of mine, public repository">Kod · inna moja wtyczka na Manifeście V3, publiczne repozytorium</span></a>
+            <a href="https://developers.google.com/blogger/docs/3.0/getting_started" target="_blank" rel="noopener"><span class="dot"></span><span data-en="Google · Blogger API v3">Google · Blogger API v3</span></a>
+            <a href="https://developer.chrome.com/docs/extensions/develop/migrate/what-is-mv3" target="_blank" rel="noopener"><span class="dot"></span><span data-en="Chrome · what Manifest V3 changed">Chrome · co zmienił Manifest V3</span></a>
+          </div>
+        </div>
+      </div>
+    </article>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <span class="brand">helban<span class="tld">.dev</span></span>
+      <nav class="f-links" aria-label="Footer">
+        <a href="/#services" data-en="Services">Usługi</a>
+        <a href="/case-studies/" data-en="Case studies">Case studies</a>
+        <a href="/#contact" data-en="Contact">Kontakt</a>
+        <a href="/privacy/" data-en="Privacy policy">Polityka prywatności</a>
+        <a href="https://github.com/Helban" target="_blank" rel="noopener">GitHub</a>
+      </nav>
+      <p class="copy"><span data-en="Built by hand, no framework, no build step.">Napisane ręcznie, bez frameworka, bez etapu budowania.</span> · © 2026 helban.dev</p>
+    </div>
+  </footer>
+
+  <script src="../cs.js" defer></script>
+</body>
+</html>
