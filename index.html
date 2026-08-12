@@ -561,7 +561,7 @@ h1,h2,h3{text-wrap:balance}
   padding-top:14px; border-top:1px solid var(--line)}
 .say .who b{font-weight:700; font-size:var(--fs-3); color:#fff}
 .say .who span{font-family:var(--mono); font-size:var(--fs-2); color:var(--muted)}
-.says-col{display:grid; gap:30px}
+.says-main,.says-col{display:grid; gap:30px}
 .says-col .say q{font-size:var(--fs-3)}
 .proof-strip{display:flex; flex-wrap:wrap; align-items:center; gap:12px 26px; margin-top:20px;
   padding:16px 22px; border-radius:14px; border:1px solid var(--line); background:rgba(255,255,255,.04)}
@@ -952,16 +952,30 @@ textarea{resize:vertical; min-height:120px}
           </defs>
         </svg>
         <div class="says">
-          <div class="say">
-            <div class="rating">
-              <span class="sr-only" data-en="Rated 5 out of 5 on Upwork">Ocena 5 na 5 w Upworku</span>
-              <svg viewBox="0 0 124 24" aria-hidden="true"><use href="#star" x="0"/><use href="#star" x="25"/><use href="#star" x="50"/><use href="#star" x="75"/><use href="#star" x="100"/></svg>
-              <span class="score">5.0</span>
+          <div class="says-main">
+            <div class="say">
+              <div class="rating">
+                <span class="sr-only" data-en="Rated 5 out of 5 on Upwork">Ocena 5 na 5 w Upworku</span>
+                <svg viewBox="0 0 124 24" aria-hidden="true"><use href="#star" x="0"/><use href="#star" x="25"/><use href="#star" x="50"/><use href="#star" x="75"/><use href="#star" x="100"/></svg>
+                <span class="score">5.0</span>
+              </div>
+              <q>Working with Adam was a great experience. Communication was always clear, and he responded quickly to every question I had. He did excellent work on my website and made it easy for me to manage and update it on my own going forward. I really appreciate his professionalism and attention to detail. I would definitely hire him again and highly recommend him to anyone looking for quality web development work.</q>
+              <div class="who">
+                <b>Dan M.</b>
+                <span data-en="WordPress pages, then hired again">Strony WordPress, potem drugie zlecenie</span>
+              </div>
             </div>
-            <q>Working with Adam was a great experience. Communication was always clear, and he responded quickly to every question I had. He did excellent work on my website and made it easy for me to manage and update it on my own going forward. I really appreciate his professionalism and attention to detail. I would definitely hire him again and highly recommend him to anyone looking for quality web development work.</q>
-            <div class="who">
-              <b>Dan M.</b>
-              <span data-en="WordPress pages, then hired again">Strony WordPress, potem drugie zlecenie</span>
+            <div class="say">
+              <div class="rating">
+                <span class="sr-only" data-en="Rated 5 out of 5 on Upwork">Ocena 5 na 5 w Upworku</span>
+                <svg viewBox="0 0 124 24" aria-hidden="true"><use href="#star" x="0"/><use href="#star" x="25"/><use href="#star" x="50"/><use href="#star" x="75"/><use href="#star" x="100"/></svg>
+                <span class="score">5.0</span>
+              </div>
+              <q>Adam was an excellent hire for a technically complex project — building a reusable WordPress master template, branded child theme for a portfolio scaling to 50+ sites. He stood out for his diligence — auditing every reference site before building anything and catching a real content bug I hadn't noticed. Throughout the project, he proactively flagged key architectural decisions before building them. Communication was excellent. Highly recommend for complex WordPress automation or systems-building work.</q>
+              <div class="who">
+                <b>Garry L.</b>
+                <span data-en="Cloneable WordPress template">Szablon WordPress pod klonowanie</span>
+              </div>
             </div>
           </div>
           <div class="says-col">
@@ -1005,8 +1019,8 @@ textarea{resize:vertical; min-height:120px}
         </div>
         <div class="proof-strip">
           <span class="fig"><b>100%</b> Job Success</span>
-          <span class="fig"><b>5.0</b> <span data-en="from 5 reviews">z 5 opinii</span></span>
-          <span class="fig"><b>10</b> <span data-en="total jobs">zleceń łącznie</span></span>
+          <span class="fig"><b>5.0</b> <span data-en="from 7 reviews">z 7 opinii</span></span>
+          <span class="fig"><b>13</b> <span data-en="total jobs">zleceń łącznie</span></span>
           <a href="https://www.upwork.com/freelancers/adamkram" target="_blank" rel="noopener" data-en="Check it on Upwork →">Sprawdź na Upworku →</a>
         </div>
       </div>
