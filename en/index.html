@@ -349,6 +349,18 @@ h1,h2,h3{text-wrap:balance}
    every rung on it is one of the nine. */
 @media (max-width:383px){.hero-term{font-size:var(--fs-1)}}
 .hero-cta{display:flex; gap:13px; justify-content:center; flex-wrap:wrap; margin-top:30px}
+/* Both CTAs ended at 693px regardless of window height, because every hero rule keyed off
+   WIDTH. A 1366x768 laptop with browser chrome, or any window at 660px and below, showed the
+   headline and half the terminal and no way onward. Measured 2026-08-22.
+   The terminal's reserved min-height is deliberately NOT touched here: it exists so the typing
+   effect cannot shift the layout, and shrinking it would trade a fold problem for a CLS one. */
+@media (max-height:760px){
+  .hero{padding:32px 0 36px}
+  .hero .lede{margin-top:14px}
+  .hero-term{margin-top:16px}
+  .hero-cta{margin-top:14px}
+  .trust{margin-top:20px}
+}
 .trust{display:flex; gap:10px 22px; justify-content:center; flex-wrap:wrap; margin-top:34px;
   font-family:var(--mono); font-size:var(--fs-2); color:var(--muted)}
 .trust span{display:inline-flex; align-items:center; gap:8px}
@@ -391,7 +403,8 @@ h1,h2,h3{text-wrap:balance}
   padding:36px 0; border-top:1px solid var(--line)}
 .show:last-child{border-bottom:1px solid var(--line)}
 /* Alternating sides, so four rows do not read as one list stamped four times. */
-.show:nth-child(even) .show-shot{order:2}
+.show:nth-child(even) .show-shot,
+.show:nth-child(even) .show-figures{order:2}
 /* Every shot gets the same plate and hairline, whatever it contains. Several demos are
    near-black by design, and at a fainter border they read as an empty gap rather than as
    a screenshot. The frame, not the pixels, is what tells the eye an image is there:
@@ -408,9 +421,14 @@ h1,h2,h3{text-wrap:balance}
 .show-meta{font-family:var(--mono); font-size:var(--fs-2); color:var(--muted)}
 .show-meta a{color:var(--violet-ll)}
 .show-meta a:hover{color:#fff}
-/* The numbers stand in for a screenshot on the row where the numbers ARE the work. */
+/* The numbers stand in for a screenshot on the row where the numbers ARE the work.
+   It used to carry .show-shot too, which meant the screenshot plate: a heavy border, an inset
+   shadow and aspect-ratio 16/10. In a 542x339 box that left ~60px of content and the rest as
+   empty framed space, so the frame promised an image and did not deliver one (measured
+   2026-08-22). Own surface now, sized to its content. */
 .show-figures{display:grid; grid-template-columns:repeat(3,1fr); gap:12px; align-content:center;
-  padding:26px 18px; aspect-ratio:16/10}
+  padding:26px 18px; border-radius:var(--radius-sm); border:1px solid var(--line);
+  background:rgba(255,255,255,.03)}
 .figure{text-align:center}
 .figure b{display:block; font-family:var(--mono); font-weight:700; font-size:var(--fs-4);
   letter-spacing:-.5px; color:#fff}
@@ -564,6 +582,15 @@ h1,h2,h3{text-wrap:balance}
 @keyframes starPop{to{opacity:1; transform:scale(1)}}
 .say q{quotes:'\201C' '\201D'; display:block; color:#e9ebf5; font-style:italic;
   font-size:var(--fs-4); line-height:1.62; text-wrap:pretty}
+/* Says who is speaking in the glosses below, so a summary is never mistaken for the review.
+   .sec-head p would win on specificity, hence the explicit size. */
+.sec-head .says-note{margin-top:14px; font-size:var(--fs-3); color:var(--muted)}
+/* Polish-only gloss under an English quote. The quotes stay in the original because
+   translating someone else's review falsifies it, but on the PL page that left 3.1 screens
+   (19% of the mobile page, measured 2026-08-22) that the buyer scrolls past without reading.
+   Upright and one step down, so it never reads as part of what the client said. */
+.say-gloss{margin-top:12px; font-size:var(--fs-3); line-height:1.55; color:var(--muted);
+  text-wrap:pretty}
 .say .who{display:flex; flex-wrap:wrap; align-items:baseline; gap:6px 10px; margin-top:16px;
   padding-top:14px; border-top:1px solid var(--line)}
 .say .who b{font-weight:700; font-size:var(--fs-3); color:#fff}
@@ -869,7 +896,7 @@ textarea{resize:vertical; min-height:120px}
           <!-- No screenshot on this one on purpose: the whole point of the job is the
                numbers, and a picture of a landscaping page would say less than they do. -->
           <article class="show">
-            <div class="show-shot show-figures">
+            <div class="show-figures">
               <div class="figure"><b>63 <i>→ 99</i></b><small>Performance</small></div>
               <div class="figure"><b>26,5s <i>→ 2,0s</i></b><small>LCP</small></div>
               <div class="figure"><b><i>−91%</i></b><small data-en="page weight">page weight</small></div>
@@ -884,7 +911,7 @@ textarea{resize:vertical; min-height:120px}
 
           <article class="show">
             <a class="show-shot" href="https://orqa.helban.dev" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true">
-              <img src="/assets/shots/orqa.webp" alt="" width="560" height="350" loading="lazy" decoding="async">
+              <img src="/assets/shots/orqa.webp" alt="" width="1120" height="700" loading="lazy" decoding="async">
             </a>
             <div class="show-txt">
               <h3>orqa.helban.dev</h3>
@@ -896,7 +923,7 @@ textarea{resize:vertical; min-height:120px}
 
           <article class="show">
             <a class="show-shot" href="https://voltera.helban.dev" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true">
-              <img src="/assets/shots/voltera.webp" alt="" width="560" height="350" loading="lazy" decoding="async">
+              <img src="/assets/shots/voltera.webp" alt="" width="1120" height="700" loading="lazy" decoding="async">
             </a>
             <div class="show-txt">
               <h3>voltera.helban.dev</h3>
@@ -1167,7 +1194,7 @@ textarea{resize:vertical; min-height:120px}
       <nav class="f-links" aria-label="Footer">
         <a href="#work" data-en="Live work">Live work</a>
         <a href="#services" data-en="Services">Services</a>
-        <a href="#case-studies" data-en="Case studies">Case studies</a>
+        <a href="/en/case-studies/" data-en="Case studies">Case studies</a>
         <a href="#how" data-en="How it works">How it works</a>
         <a href="#about" data-en="About">About</a>
         <a href="#contact" data-en="Get in touch">Get in touch</a>

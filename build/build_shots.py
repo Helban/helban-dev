@@ -35,8 +35,17 @@ OUTPUT_DIR = REPO_ROOT / "assets" / "shots"
 
 # 16:10 to match the .shot aspect-ratio, so nothing is cropped by object-fit.
 CAPTURE_VIEWPORT = {"width": 1440, "height": 900}
-FLAGSHIP_WIDTH = 1120
-STANDARD_WIDTH = 560
+# One width for every shot since 2026-08-22. The old split (1120 for the flagship, 560 for the
+# rest) was sized for the July layout, where the thumbnails sat in a grid of cards. The spine
+# rebuild turned them into four full-width rows and the slot grew: measured 707px at a 768px
+# viewport and 759px at 820px, so a 560px file was being stretched even before display density
+# entered into it. Cost of the change is ~35 KB across two lazy-loaded images, which never
+# touches LCP.
+# Known ceiling: 1120 covers 2x on desktop (540px slot) and on a phone (344px), but the
+# 768-820px band renders a 722-774px slot, so a tablet at DPR 2 still gets a 1x image. Closing
+# that would need ~1550px files or a srcset; both were judged not worth the bytes for a
+# decorative thumbnail. Raise this, or add srcset, if tablet sharpness ever matters.
+THUMBNAIL_WIDTH = 1120
 THUMBNAIL_RATIO = 10 / 16
 WEBP_QUALITY = 72
 # Hero animations and webfonts settle well after the network goes quiet.
@@ -71,19 +80,14 @@ class Demo:
 
     slug: str
     url: str
-    flagship: bool = False
 
     @property
     def output_path(self) -> Path:
         return OUTPUT_DIR / f"{self.slug}.webp"
 
-    @property
-    def target_width(self) -> int:
-        return FLAGSHIP_WIDTH if self.flagship else STANDARD_WIDTH
-
 
 DEMOS = (
-    Demo("salon", "https://salon.helban.dev", flagship=True),
+    Demo("salon", "https://salon.helban.dev"),
     Demo("kalkulator", "https://kalkulator.helban.dev"),
     Demo("dropwatch", "https://dropwatch.helban.dev"),
     Demo("voltera", "https://voltera.helban.dev"),
@@ -177,13 +181,13 @@ def build_all() -> None:
             except PlaywrightError as unreachable:
                 browser.close()
                 raise RuntimeError(f"could not capture {demo.url}: {unreachable}") from unreachable
-            thumbnail, before, after = to_thumbnail(screenshot, demo.target_width)
+            thumbnail, before, after = to_thumbnail(screenshot, THUMBNAIL_WIDTH)
             demo.output_path.write_bytes(thumbnail)
             total_bytes += len(thumbnail)
             logger.info(
                 "Wrote %s (%d px wide, %.1f KB, luminance %.3f -> %.3f)",
                 demo.output_path.relative_to(REPO_ROOT),
-                demo.target_width,
+                THUMBNAIL_WIDTH,
                 len(thumbnail) / 1024,
                 before,
                 after,
