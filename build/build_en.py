@@ -45,6 +45,7 @@ TRANSLATED_ROUTES = (
     "/privacy/",
     "/case-studies/",
     "/case-studies/wordpress-speed/",
+    "/case-studies/frontpage-to-wordpress/",
     "/case-studies/notion-operating-system/",
     "/case-studies/generateblocks-pro-traps/",
     "/case-studies/cloneable-wordpress-template/",
@@ -150,6 +151,20 @@ PAGES: tuple[PageSpec, ...] = (
         og_description=(
             "One page, three builds, measured. How much speed is really recoverable from "
             "a page builder, and where the ceiling is."
+        ),
+    ),
+    PageSpec(
+        route="/case-studies/frontpage-to-wordpress/",
+        title="25 years of FrontPage moved to WordPress · helban.dev",
+        description=(
+            "A travel archive hand-built in FrontPage since the nineties, moved onto "
+            "WordPress: 128 galleries, 4,786 photographs, 15,205 old addresses still "
+            "answering, and no broken links after the switch."
+        ),
+        og_title="25 years of FrontPage moved to WordPress",
+        og_description=(
+            "128 galleries and 15,205 old addresses moved onto WordPress, with the site "
+            "looking exactly the same afterwards."
         ),
     ),
     PageSpec(

@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>25 years of FrontPage moved to WordPress · helban.dev</title>
+  <meta name="description" content="A travel archive hand-built in FrontPage since the nineties, moved onto WordPress: 128 galleries, 4,786 photographs, 15,205 old addresses still answering, and no broken links after the switch.">
+  <meta name="theme-color" content="#0b0817">
+  <link rel="canonical" href="https://helban.dev/en/case-studies/frontpage-to-wordpress/">
+
+  <!-- Both members of a language pair carry the identical block, so the return link
+       Google requires falls out of copying this file into the English build. -->
+  <link rel="alternate" hreflang="pl" href="https://helban.dev/case-studies/frontpage-to-wordpress/">
+  <link rel="alternate" hreflang="en" href="https://helban.dev/en/case-studies/frontpage-to-wordpress/">
+  <link rel="alternate" hreflang="x-default" href="https://helban.dev/case-studies/frontpage-to-wordpress/">
+
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="helban.dev">
+  <meta property="og:title" content="25 years of FrontPage moved to WordPress">
+  <meta property="og:description" content="128 galleries and 15,205 old addresses moved onto WordPress, with the site looking exactly the same afterwards.">
+  <meta property="og:url" content="https://helban.dev/en/case-studies/frontpage-to-wordpress/">
+  <meta property="og:image" content="https://helban.dev/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="/fonts/inter-800.woff2?v=3" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/inter-400.woff2?v=3" as="font" type="font/woff2" crossorigin>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "25 years of FrontPage moved to WordPress",
+  "description": "A travel archive hand-built in FrontPage since the nineties, moved onto WordPress: 128 galleries, 4,786 photographs, 15,205 old addresses still answering, and no broken links after the switch.",
+  "url": "https://helban.dev/en/case-studies/frontpage-to-wordpress/",
+  "image": "https://helban.dev/assets/og-image.png",
+  "datePublished": "2026-09-03T15:40:00+02:00",
+  "dateModified": "2026-09-03T15:40:00+02:00",
+  "author": {
+    "@type": "Person",
+    "name": "Adam K",
+    "url": "https://helban.dev/#about"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "helban.dev",
+    "url": "https://helban.dev/"
+  },
+  "inLanguage": "en",
+  "about": "Legacy website migration to WordPress",
+  "breadcrumb": {
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "helban.dev",
+        "item": "https://helban.dev/en/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Case studies",
+        "item": "https://helban.dev/en/case-studies/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "25 years of FrontPage moved to WordPress",
+        "item": "https://helban.dev/en/case-studies/frontpage-to-wordpress/"
+      }
+    ]
+  }
+}
+  </script>
+
+  <style>
+/* === generated:begin — build/css/base.css + shell.css, injected by build/build_css.py.
+   Edit those files and re-run the build; do not edit this block. === */
+/* ===================================================================
+   base — tokens, reset and primitives shared by EVERY page.
+
+   Injected into each page's <style> by build/build_css.py, so the
+   served HTML still carries its CSS inline and nothing render-blocks.
+   Edit here, run the build, never edit the generated block in a page.
+
+   Font URLs are written relative to the site root; the injector
+   rewrites the depth (fonts/ -> ../fonts/) per page.
+   =================================================================== */
+
+/* ---------------------------------------------------------------
+   Self-hosted, subset Inter + JetBrains Mono (latin + latin-ext;
+   Polish glyphs live in latin-ext). Replaces a render-blocking
+   Google Fonts <link>, so first paint never waits on a stylesheet.
+   --------------------------------------------------------------- */
+@font-face{font-family:'Inter';font-style:normal;font-weight:400;font-display:swap;src:url(/fonts/inter-400.woff2?v=3) format('woff2');}
+@font-face{font-family:'Inter';font-style:normal;font-weight:600;font-display:swap;src:url(/fonts/inter-600.woff2?v=3) format('woff2');}
+@font-face{font-family:'Inter';font-style:normal;font-weight:700;font-display:swap;src:url(/fonts/inter-700.woff2?v=3) format('woff2');}
+@font-face{font-family:'Inter';font-style:normal;font-weight:800;font-display:swap;src:url(/fonts/inter-800.woff2?v=3) format('woff2');}
+@font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:500;font-display:swap;src:url(/fonts/jetbrains-mono-500.woff2?v=3) format('woff2');}
+@font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:700;font-display:swap;src:url(/fonts/jetbrains-mono-700.woff2?v=3) format('woff2');}
+
+:root{
+  --sans:'Inter',-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,"SF Mono",Menlo,monospace;
+
+  --violet:#7C3AED; --violet-l:#a78bfa; --violet-ll:#c4b5fd;
+  --coral:#F43F5E; --green:#22c55e; --green-d:#16a34a;
+  --amber:#f59e0b; --red:#ef4444;
+
+  --text:#f4f3fb; --ink:#ffffff; --muted:#9aa0b6;
+  --line:rgba(255,255,255,.11);
+  --line-strong:rgba(255,255,255,.18);
+  --glass-1:rgba(255,255,255,.072);
+  --glass-2:rgba(255,255,255,.022);
+
+  /* Type scale, ratio 1.25 from a 10px root. The page once carried twenty distinct sizes,
+     twelve of them inside 12-18px with steps as small as 1.06x: differences too small to
+     read as hierarchy, large enough to read as carelessness. A first pass put everything
+     on a 1.2 ladder, which killed the noise but still sat under the 1.25 floor a brand
+     surface wants, and left body copy and card titles one thin step apart.
+     At 1.25 the rungs are far enough apart that a step MEANS something, which is also why
+     usage is assigned by ROLE rather than by rounding: at this ratio the nearest step
+     would collapse card titles into the body copy underneath them.
+     The rungs carry: 10 micro labels · 12.5 mono meta and badges · 15.6 body, controls and
+     card copy · 19.5 card titles, section intros and pull quotes · 24.4 and up headings.
+     Section prose deliberately shares 19.5 with card titles: it is a lede, weight and
+     position separate them, and card copy still sits a full step below its own heading.
+     Every rung is used except 47.7px, kept so the ladder stays a ladder. */
+  --fs-1:10px; --fs-2:12.5px; --fs-3:15.6px; --fs-4:19.5px; --fs-5:24.4px;
+  --fs-6:30.5px; --fs-7:38.1px; --fs-8:47.7px; --fs-9:59.6px;
+
+  /* Home is the widest surface. Reading pages narrow this in their own block:
+     920px for the list and policy pages, 860px for article bodies. */
+  --maxw:1120px;
+  --radius:18px; --radius-sm:12px; --radius-xs:9px;
+  --shadow-card:0 18px 40px rgba(0,0,0,.46), inset 0 1px 0 rgba(255,255,255,.10);
+  --shadow-pop:0 24px 60px rgba(0,0,0,.55);
+  --space:8px;
+}
+
+*{box-sizing:border-box; margin:0; padding:0}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+body{
+  font-family:var(--sans); color:var(--text);
+  background:#0b0817;
+  -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+  line-height:1.6; overflow-x:hidden;
+}
+
+/* Mesh background, fixed so it doesn't repaint on scroll. This is the calm
+   variant every reading page uses; the home page overrides it with a denser
+   mesh plus a masked dot field tuned to its hero. */
+.bg{position:fixed; inset:0; z-index:-2; pointer-events:none;
+  background:
+    radial-gradient(680px 460px at 6% -8%, rgba(139,92,246,.30), transparent 60%),
+    radial-gradient(560px 420px at 96% 2%, rgba(99,102,241,.22), transparent 60%),
+    radial-gradient(620px 520px at 88% 96%, rgba(244,63,94,.15), transparent 58%),
+    linear-gradient(170deg,#181034 0%,#110c25 52%,#0b0817 100%);}
+
+a{color:inherit; text-decoration:none}
+img,svg{display:block}
+:focus-visible{outline:2px solid var(--violet-l); outline-offset:3px; border-radius:6px}
+
+.wrap{width:100%; max-width:var(--maxw); margin:0 auto; padding:0 22px}
+
+/* ===================================================================
+   shell — top bar, navigation, language toggle, footer, and the
+   utilities that only a navigated page uses.
+
+   Every page that carries the site navigation takes this layer.
+   /dziekuje/ deliberately does NOT: it is a terminal page with no nav
+   and no language toggle, and forcing the shell on it would mean five
+   overrides fighting the shared sheet. The utilities below live here
+   rather than in base for the same reason — that page uses none of
+   them, and base is meant to be what EVERY page genuinely needs.
+   =================================================================== */
+
+.mono{font-family:var(--mono)}
+.sr-only{position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden;
+  clip-path:inset(50%); white-space:nowrap; border:0}
+
+/* Invisible hit-area extension: small controls keep their look but meet the 44px
+   touch floor. A fixed inset could not keep that promise, because the class rides
+   elements from 17px to 40px tall and -13px left the 17px "wyczyść" button at 43px.
+   The floor is now stated as a floor: pad by 26px, or grow to 44px, whichever is
+   larger, centred so nothing shifts. */
+.hit44{position:relative}
+.hit44::after{content:""; position:absolute; left:-6px; right:-6px;
+  top:50%; transform:translateY(-50%); height:max(44px, calc(100% + 26px))}
+/* The PL/EN pair sits 2px apart, so the default -6px made each pseudo reach 4px into
+   its neighbour's pill: clicking the right edge of the highlighted PL fired EN.
+   Half the gap each tiles them edge to edge instead. */
+.lang .hit44::after{left:-1px; right:-1px}
+
+/* ---------- skip link ---------- */
+.skip{position:absolute; left:-9999px; top:0; z-index:100;
+  background:var(--violet); color:#fff; padding:10px 16px; border-radius:0 0 10px 0; font-weight:600}
+.skip:focus{left:0}
+
+/* An anchor jump lands the target under the 64px sticky bar without this. */
+[id]{scroll-margin-top:80px}
+
+/* ---------- top bar ---------- */
+.topbar{position:sticky; top:0; z-index:50;
+  backdrop-filter:saturate(150%) blur(14px); -webkit-backdrop-filter:saturate(150%) blur(14px);
+  background:rgba(11,8,23,.62); border-bottom:1px solid var(--line);}
+.topbar .wrap{display:flex; align-items:center; gap:18px; height:64px}
+.brand{font-family:var(--mono); font-weight:700; font-size:var(--fs-4); letter-spacing:.3px; color:#efe9ff}
+.brand .tld{color:var(--coral)}
+.nav{display:flex; gap:6px; margin-left:auto; align-items:center}
+.nav a{padding:8px 12px; border-radius:10px; font-size:var(--fs-3); font-weight:500; color:#d2d4e3}
+.nav a:hover{background:rgba(255,255,255,.06); color:#fff}
+.nav a.active:not(.nav-cta){background:rgba(255,255,255,.07); color:#fff}
+.nav-cta{font-weight:600; color:#fff !important;
+  background:linear-gradient(160deg,#7c3aed,#5b21b6); box-shadow:0 6px 14px rgba(124,58,237,.28)}
+.nav-cta:hover{filter:brightness(1.08)}
+
+/* language toggle */
+.lang{display:inline-flex; align-items:center; gap:2px; padding:3px;
+  background:rgba(255,255,255,.06); border:1px solid var(--line); border-radius:999px}
+/* Not var(--muted): the topbar is translucent, and around scrollY 2100 the green PSI
+   badge row passes underneath and tints it, which dropped the inactive label to 3.93:1
+   at p90, under AA. This lighter grey clears the floor against the tinted bar too. */
+.lang a{font-family:var(--mono); font-size:var(--fs-2); font-weight:700; letter-spacing:.5px;
+  color:#c3c6d6; background:transparent; border:0; cursor:pointer; padding:5px 11px; border-radius:999px}
+.lang a[aria-current="page"]{color:#fff; background:linear-gradient(160deg,#7c3aed,#5b21b6)}
+
+.nav-toggle{display:none; margin-left:auto; background:rgba(255,255,255,.06);
+  border:1px solid var(--line); border-radius:10px; width:44px; height:44px; cursor:pointer; color:#fff}
+.nav-toggle svg{width:22px; height:22px; margin:auto; stroke:#fff}
+
+/* ---------- footer ---------- */
+footer{border-top:1px solid var(--line); padding:34px 0 46px; margin-top:20px}
+footer .wrap{display:flex; align-items:center; gap:18px; flex-wrap:wrap}
+footer .brand{font-size:var(--fs-4)}
+footer .f-links{display:flex; gap:16px; margin-left:auto; flex-wrap:wrap}
+footer .f-links a{font-size:var(--fs-3); color:var(--muted); position:relative}
+footer .f-links a::after{content:""; position:absolute; inset:-12px -6px}
+footer .f-links a:hover{color:#fff}
+footer .copy{width:100%; display:flex; justify-content:space-between; gap:8px 18px; flex-wrap:wrap;
+  font-size:var(--fs-2); color:#8a90a6; font-family:var(--mono); padding-top:6px}
+
+/* ---------- mobile navigation ----------
+   The breakpoint is 880px, not 760px: the horizontal nav runs out of room
+   before 800px on the pages that carry a CTA. Page-specific layout rules
+   keep their own breakpoints and stay in the page's own block. */
+@media (max-width:880px){
+  /* Opaque, and it has to stay opaque. The panel hangs over the hero, and 3% transparency
+     that is invisible on a mid-tone background is plainly readable in a dark UI: the h1 used
+     to show through the nav labels. Do NOT "fix" this with backdrop-filter, which is the
+     obvious-looking move and cannot work here: .topbar is an ancestor and already carries
+     backdrop-filter, so it establishes the backdrop root and a filter on .nav has nothing
+     behind it left to blur. Verified by removing the topbar's filter, at which point the
+     panel's blur springs to life. #100c22 sits just above the body so it reads as a surface. */
+  .nav{display:none; position:absolute; top:64px; left:0; right:0; z-index:1;
+    flex-direction:column; align-items:stretch;
+    gap:4px; padding:14px 22px 18px; background:#100c22; border-bottom:1px solid var(--line)}
+  .nav.open{display:flex}
+  .nav a{padding:12px 14px}
+  .nav .lang{align-self:flex-start; margin-top:6px}
+  .nav-toggle{display:block}
+}
+
+/* The open panel covers roughly half the screen and the rest of the page stays
+   visible, looking live while ignoring every tap. This dims it and gives the tap
+   that closes the menu something to land on.
+
+   Two things here are deliberate and easy to "fix" wrongly. It is NOT a
+   backdrop-filter on .nav: .topbar is an ancestor and already carries one, so it
+   establishes the backdrop root and a filter on the panel has nothing left behind
+   it to blur (tried 2026-07-18, the result was worse than none). And the scrim
+   hangs off body rather than sitting inside the panel, because that same
+   backdrop-filter makes .topbar the containing block for fixed descendants, so a
+   fixed layer inside it would cover the bar instead of the page.
+
+   It starts below the bar and sits under z-index 50, so bar and panel stay lit. */
+body.nav-locked{overflow:hidden}
+body.nav-locked::after{content:""; position:fixed; inset:64px 0 0; z-index:40;
+  background:rgba(6,4,14,.62)}
+@media (min-width:881px){body.nav-locked::after{content:none}}
+/* === generated:end === */
+/* An article page: a narrower measure and looser leading than the rest of the
+   site, plus its own dot field — the mask is tuned to an article's opening,
+   not to the home hero. Everything else comes from base + shell. */
+:root{--maxw:860px}
+body{line-height:1.7}
+.bg::after{content:""; position:absolute; inset:0;
+  background-image:radial-gradient(rgba(255,255,255,.05) 1px, transparent 1.4px);
+  background-size:28px 28px;
+  -webkit-mask-image:radial-gradient(1100px 640px at 60% 12%, #000 20%, transparent 78%);
+          mask-image:radial-gradient(1100px 640px at 60% 12%, #000 20%, transparent 78%);}
+
+/* article */
+.doc{padding:56px 0 30px}
+.crumb{font-family:var(--mono); font-size:12.5px; color:var(--muted); margin-bottom:18px}
+.crumb a:hover{color:#fff}
+h1.title{font-size:clamp(28px,5vw,46px); font-weight:800; letter-spacing:-1.2px; line-height:1.08; margin:14px 0 16px;
+  color:var(--ink)}
+.lead{font-size:clamp(16px,2.2vw,19px); color:#cdd0e0; max-width:66ch}
+.meta{display:flex; flex-wrap:wrap; gap:9px; margin-top:22px}
+.meta .chip{font-family:var(--mono); font-size:12px; color:#d3d9e4;
+  background:rgba(255,255,255,.05); border:1px solid var(--line); border-radius:9px; padding:7px 11px}
+.meta .chip b{color:var(--violet-ll); font-weight:600}
+
+.glance{display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:34px 0 8px}
+.gstat{position:relative; overflow:hidden; text-align:center;
+  background:linear-gradient(180deg, var(--glass-1), var(--glass-2)); border:1px solid var(--line);
+  border-radius:var(--radius); padding:20px 14px; box-shadow:var(--shadow-card)}
+.gstat::before{content:""; position:absolute; left:18px; right:18px; top:0; height:1px; background:linear-gradient(90deg, transparent, rgba(167,139,250,.7), transparent)}
+.gstat .big{font-family:var(--mono); font-weight:800; font-size:clamp(20px,3.4vw,27px); letter-spacing:-.5px; color:#fff}
+.gstat .big i{font-style:normal; color:var(--green)}
+.gstat .lab{font-size:12px; color:var(--muted); margin-top:6px; line-height:1.4}
+
+section{padding:34px 0}
+section > h2{font-size:clamp(21px,3vw,27px); font-weight:800; letter-spacing:-.6px; line-height:1.15; margin-bottom:6px}
+/* Mono keeps these labels in the site's metadata voice, but the uppercase and the
+   wide tracking are gone: that combination is the eyebrow costume banned after
+   critique #2, and the ban had only ever reached the home page. */
+.kicker{font-family:var(--mono); font-size:var(--fs-2); font-weight:700; color:var(--violet-l); display:block; margin-bottom:9px}
+section p{color:#c6c9d8; font-size:16.5px; margin-top:14px}
+section p:first-of-type{margin-top:12px}
+strong{color:#efe9ff; font-weight:700}
+.ul{list-style:none; margin-top:16px; display:flex; flex-direction:column; gap:11px}
+.ul li{position:relative; padding-left:26px; color:#c6c9d8; font-size:16px}
+.ul li::before{content:""; position:absolute; left:4px; top:9px; width:8px; height:8px; border-radius:2px;
+  background:linear-gradient(160deg,#8b5cf6,#6d28d9); box-shadow:0 0 10px rgba(124,58,237,.7)}
+.ul li b{color:#efe9ff}
+
+/* results table */
+.tablewrap{overflow-x:auto; margin:22px 0 6px; border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow-card)}
+table.results{width:100%; border-collapse:collapse; font-size:14.5px; min-width:560px}
+table.results thead th{font-family:var(--mono); font-size:10.5px; font-weight:700; letter-spacing:1px; text-transform:uppercase;
+  color:var(--muted); text-align:right; padding:14px 12px; background:rgba(255,255,255,.03)}
+table.results thead th:first-child{text-align:left}
+table.results tbody td{padding:14px 12px; text-align:right; border-top:1px solid var(--line); font-family:var(--mono)}
+table.results tbody td:first-child{text-align:left; font-family:var(--sans)}
+.state{display:block; font-weight:700; color:#fff; font-size:14.5px}
+.state + small{display:block; font-family:var(--mono); font-weight:500; font-size:11px; color:var(--muted); letter-spacing:.2px; margin-top:2px}
+.s-good{color:var(--green); font-weight:700}
+.s-avg{color:var(--amber); font-weight:700}
+.win td{background:rgba(34,197,94,.07)}
+.caption{font-size:13.5px; color:var(--muted); margin-top:12px}
+
+/* callout */
+.callout{margin:24px 0 6px; padding:20px 22px; border-radius:var(--radius);
+  background:rgba(244,63,94,.10); border:1px solid rgba(244,63,94,.3)}
+.callout .kicker{color:#f7a6b4}
+.callout p{color:#e7d9dc; margin-top:8px; font-size:16.5px}
+
+/* two paths */
+.paths{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:20px}
+.path{position:relative; overflow:hidden; background:linear-gradient(180deg, var(--glass-1), var(--glass-2));
+  border:1px solid var(--line); border-radius:var(--radius); padding:20px; box-shadow:var(--shadow-card)}
+.path::before{content:""; position:absolute; left:20px; right:20px; top:0; height:1px; background:linear-gradient(90deg, transparent, rgba(167,139,250,.7), transparent)}
+.path h3{font-size:16px; font-weight:700; color:#fff; margin-bottom:8px}
+.path p{font-size:14.5px; color:#b6b9c9; margin:0}
+.path .num{font-family:var(--mono); font-weight:700; font-size:13px; color:var(--violet-ll); margin-bottom:10px; display:block}
+
+/* cta + refs */
+.cta{margin:30px 0 8px; padding:26px 24px; text-align:center; border-radius:var(--radius);
+  background:linear-gradient(180deg, rgba(124,58,237,.18), rgba(124,58,237,.06)); border:1px solid var(--line-strong)}
+.cta h2{font-size:clamp(20px,3vw,26px); font-weight:800; letter-spacing:-.5px}
+.cta p{color:#cdd0e0; margin:10px 0 18px; font-size:16px}
+.btn{display:inline-flex; align-items:center; gap:9px; font-weight:600; font-size:15px; cursor:pointer;
+  padding:13px 24px; border-radius:12px; border:1px solid transparent; color:#fff;
+  background:linear-gradient(160deg,#7c3aed,#5b21b6); box-shadow:0 12px 26px rgba(124,58,237,.45), inset 0 1px 0 rgba(255,255,255,.35)}
+.btn:hover{filter:brightness(1.08)}
+.refs{display:flex; flex-wrap:wrap; gap:12px; margin-top:26px}
+.refs a{font-family:var(--mono); font-size:13px; color:var(--violet-ll); display:inline-flex; align-items:center; gap:8px;
+  background:rgba(255,255,255,.04); border:1px solid var(--line); border-radius:10px; padding:11px 14px}
+.refs a:hover{color:#fff; border-color:var(--line-strong)}
+.refs .dot{width:6px; height:6px; border-radius:50%; background:var(--coral); box-shadow:0 0 9px rgba(244,63,94,.9)}
+
+
+/* screenshots: the before/after pair and one full-width gallery shot. Fixed width and
+   height attributes on every image, lazy below the fold, so adding pictures to an
+   article template that had none does not start costing layout shift. */
+figure.shot{margin:24px 0 6px}
+figure.shot img{width:100%; height:auto; display:block;
+  border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow-card)}
+figure.shot figcaption{font-size:13.5px; color:var(--muted); margin-top:10px; line-height:1.5}
+.shots-pair{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:24px 0 6px}
+.shots-pair figure.shot{margin:0}
+
+@media (max-width:760px){
+  .glance{grid-template-columns:1fr 1fr 1fr; gap:10px}
+  .gstat{padding:16px 8px}
+  .paths{grid-template-columns:1fr}
+  .shots-pair{grid-template-columns:1fr}
+}
+  </style>
+</head>
+<body>
+  <div class="bg" aria-hidden="true"></div>
+  <a class="skip" href="#article" data-en="Skip to article">Skip to article</a>
+
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="/en/">helban<span class="tld">.dev</span></a>
+      <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false" aria-controls="nav">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+      <nav class="nav" id="nav">
+        <a href="/en/#services" data-en="Services">Services</a>
+        <a href="/en/#work" data-en="Live work">Live work</a>
+        <a href="/en/case-studies/" data-en="Case studies">Case studies</a>
+        <a href="/en/#contact" data-en="Contact">Contact</a>
+        <div class="lang" role="group" aria-label="Language / Język">
+          <a id="langPl" class="hit44" href="/case-studies/frontpage-to-wordpress/" data-lang-link="pl">PL</a>
+          <a id="langEn" class="hit44" href="/en/case-studies/frontpage-to-wordpress/" aria-current="page" data-lang-link="en">EN</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main id="article">
+    <article class="doc">
+      <div class="wrap">
+        <div class="crumb"><a href="/en/case-studies/" data-en="← Case studies">← Case studies</a></div>
+        <h1 class="title" data-en="25 years of FrontPage moved to WordPress, without breaking a single old address">25 years of FrontPage moved to WordPress, without breaking a single old address</h1>
+        <p class="lead" data-en="Jurek Patoczka has been publishing his travel photography at patoczka.net since the late nineties, in FrontPage, folder by folder. 128 galleries, 4,786 photographs, and 15,205 addresses that other sites and Google Images had been linking to for years. This is how the archive moved onto WordPress and why the site looks exactly the same afterward.">Jurek Patoczka has been publishing his travel photography at patoczka.net since the late nineties, in FrontPage, folder by folder. 128 galleries, 4,786 photographs, and 15,205 addresses that other sites and Google Images had been linking to for years. This is how the archive moved onto WordPress and why the site looks exactly the same afterward.</p>
+
+        <div class="meta">
+          <span class="chip"><b data-en="Role:">Role:</b> <span data-en="inventory, migration, go-live">inventory, migration, go-live</span></span>
+          <span class="chip"><b data-en="Stack:">Stack:</b> WordPress · PHP 8.4 · MySQL 8 · Python (Playwright, SFTP)</span>
+          <span class="chip"><b data-en="Client:">Client:</b> <a href="https://patoczka.net" target="_blank" rel="noopener">patoczka.net</a></span>
+        </div>
+
+        <div class="glance">
+          <div class="gstat"><div class="big">128</div><div class="lab" data-en="galleries migrated, 4,786 photographs">galleries migrated, 4,786 photographs</div></div>
+          <div class="gstat"><div class="big">15 205</div><div class="lab" data-en="old addresses answering with a redirect">old addresses answering with a redirect</div></div>
+          <div class="gstat"><div class="big"><i>0</i></div><div class="lab" data-en="broken links after the switch (measured 2026-09-02)">broken links after the switch (measured 2026-09-02)</div></div>
+        </div>
+      </div>
+
+      <div class="wrap">
+        <section>
+          <span class="kicker" data-en="The starting point">The starting point</span>
+          <h2 data-en="A site older than the tools that read it">A site older than the tools that read it</h2>
+          <p data-en="The site was built in Microsoft FrontPage and grown by hand for a quarter of a century. Framesets instead of pages, four different text encodings in one archive (iso-8859-1, windows-1252, windows-1250, iso-8859-2), thumbnails with a yellow border burned into the JPEG, and a hidden twin file for every single page, left behind by FrontPage itself. On the server: 32,039 files, 1,660 MB.">The site was built in Microsoft FrontPage and grown by hand for a quarter of a century. Framesets instead of pages, four different text encodings in one archive (iso-8859-1, windows-1252, windows-1250, iso-8859-2), thumbnails with a yellow border burned into the JPEG, and a hidden twin file for every single page, left behind by FrontPage itself. On the server: 32,039 files, 1,660 MB.</p>
+          <p data-en="The ask was narrow and clear: the archive on a platform he can edit himself, the look unchanged, and the old addresses still working. He was explicit about which parts to leave alone, and those parts stayed untouched.">The ask was narrow and clear: the archive on a platform he can edit himself, the look unchanged, and the old addresses still working. He was explicit about which parts to leave alone, and those parts stayed untouched.</p>
+        </section>
+
+        <section>
+          <span class="kicker" data-en="First measurement">First measurement</span>
+          <h2 data-en="The crawler was wrong by half">The crawler was wrong by half</h2>
+          <p data-en="The first count came from crawling the site over HTTP: 2,232 photographs. The file listing over SFTP said 4,786. Both numbers were produced honestly, and the crawler's was simply false: a gallery reachable only from a frameset, or from a page whose link sits inside a JavaScript menu, is invisible to a link graph but perfectly visible to a visitor who bookmarked it in 2011.">The first count came from crawling the site over HTTP: 2,232 photographs. The file listing over SFTP said 4,786. Both numbers were produced honestly, and the crawler's was simply false: a gallery reachable only from a frameset, or from a page whose link sits inside a JavaScript menu, is invisible to a link graph but perfectly visible to a visitor who bookmarked it in 2011.</p>
+          <p data-en="The opposite trap sat right next to it. FrontPage keeps a hidden twin file for every piece of content, 9,807 of them here, and counting the directory naively turns 4,786 photographs into 16,216. An inventory built on the wrong number would have quietly dropped half the archive, or invented a second copy of it.">The opposite trap sat right next to it. FrontPage keeps a hidden twin file for every piece of content, 9,807 of them here, and counting the directory naively turns 4,786 photographs into 16,216. An inventory built on the wrong number would have quietly dropped half the archive, or invented a second copy of it.</p>
+        </section>
+
+        <section>
+          <span class="kicker" data-en="Before and after">Before and after</span>
+          <h2 data-en="The migration you cannot see">The migration you cannot see</h2>
+          <p data-en="These two screenshots are the same page. The left one is the FrontPage version as the Internet Archive kept it in December 2024; the right one is WordPress, serving the same tiles from the database today. Nothing underneath is shared: not the HTML, not the template, not a single file path.">These two screenshots are the same page. The left one is the FrontPage version as the Internet Archive kept it in December 2024; the right one is WordPress, serving the same tiles from the database today. Nothing underneath is shared: not the HTML, not the template, not a single file path.</p>
+          <div class="shots-pair">
+            <figure class="shot">
+              <img src="/assets/case-studies/patoczka-before-home.webp" width="1120" height="700" loading="lazy" decoding="async" alt="" aria-hidden="true">
+              <figcaption data-en="Before: FrontPage, as archived on 2024-12-24.">Before: FrontPage, as archived on 2024-12-24.</figcaption>
+            </figure>
+            <figure class="shot">
+              <img src="/assets/case-studies/patoczka-after-home.webp" width="1120" height="700" loading="lazy" decoding="async" alt="" aria-hidden="true">
+              <figcaption data-en="After: WordPress, the same tiles rendered from his own content.">After: WordPress, the same tiles rendered from his own content.</figcaption>
+            </figure>
+          </div>
+          <p class="caption" data-en="Keeping the look was the point of the job. The tile titles are recognized by their color rather than their markup, because 25 years of hand-editing left no consistent structure to read.">Keeping the look was the point of the job. The tile titles are recognized by their color rather than their markup, because 25 years of hand-editing left no consistent structure to read.</p>
+        </section>
+
+        <section>
+          <span class="kicker" data-en="The import">The import</span>
+          <h2 data-en="128 galleries, and looking at them is not proof">128 galleries, and looking at them is not proof</h2>
+          <p data-en="Each gallery became a WordPress page with a gallery block, and each photograph an attachment that remembers where it came from, so a second run updates instead of duplicating. Captions went in character for character, including the Polish ones that three of the four encodings would have silently mangled.">Each gallery became a WordPress page with a gallery block, and each photograph an attachment that remembers where it came from, so a second run updates instead of duplicating. Captions went in character for character, including the Polish ones that three of the four encodings would have silently mangled.</p>
+          <p data-en="With 128 galleries, opening them one by one and nodding is not verification. Every gallery is checked by a script against the inventory: the number of photographs, their order, the captions character for character, and the file behind each thumbnail. The check has a positive control: I break the site on purpose and confirm that the check really does go red.">With 128 galleries, opening them one by one and nodding is not verification. Every gallery is checked by a script against the inventory: the number of photographs, their order, the captions character for character, and the file behind each thumbnail. The check has a positive control: I break the site on purpose and confirm that the check really does go red.</p>
+          <p data-en="Nine galleries had no heading anywhere in the old HTML. I did not invent their names: they came from the labels he had used on his own navigation links, nine out of nine. I read the three color schemes (navy in 37 galleries, green in 70, orange in 21) from a FrontPage meta tag instead of guessing them from folder names.">Nine galleries had no heading anywhere in the old HTML. I did not invent their names: they came from the labels he had used on his own navigation links, nine out of nine. I read the three color schemes (navy in 37 galleries, green in 70, orange in 21) from a FrontPage meta tag instead of guessing them from folder names.</p>
+          <figure class="shot">
+            <img src="/assets/case-studies/patoczka-after-gallery.webp" width="1120" height="700" loading="lazy" decoding="async" alt="" aria-hidden="true">
+            <figcaption data-en="A migrated gallery: his color scheme, his thumbnail border, his side navigation built from the sister galleries, and the route map where he always put it.">A migrated gallery: his color scheme, his thumbnail border, his side navigation built from the sister galleries, and the route map where he always put it.</figcaption>
+          </figure>
+        </section>
+
+        <section>
+          <span class="kicker" data-en="The addresses">The addresses</span>
+          <h2 data-en="15,205 old URLs, and why it is not a .htaccess file">15,205 old URLs, and why it is not a .htaccess file</h2>
+          <p data-en="The list the client approved had 5,215 pages. What actually stopped existing was 15,205 addresses, because a gallery folder leaves the disk whole: the folder addresses, the FrontPage framesets, the old index page, and 9,602 photo files that Google Images had been sending people to for years.">The list the client approved had 5,215 pages. What actually stopped existing was 15,205 addresses, because a gallery folder leaves the disk whole: the folder addresses, the FrontPage framesets, the old index page, and 9,602 photo files that Google Images had been sending people to for years.</p>
+          <p data-en="Fifteen thousand rules in .htaccess would be parsed by Apache on every single request, so the redirects live in an indexed table read by a small plugin, and that plugin runs BEFORE WordPress starts guessing. That order decides the whole thing: faced with a 404, WordPress helpfully looks for a page whose slug resembles the last part of the address, and a lucky guess is indistinguishable from a correct redirect unless you can tell who answered. Ours stamps its own header, which is what makes the verification mean anything.">Fifteen thousand rules in .htaccess would be parsed by Apache on every single request, so the redirects live in an indexed table read by a small plugin, and that plugin runs BEFORE WordPress starts guessing. That order decides the whole thing: faced with a 404, WordPress helpfully looks for a page whose slug resembles the last part of the address, and a lucky guess is indistinguishable from a correct redirect unless you can tell who answered. Ours stamps its own header, which is what makes the verification mean anything.</p>
+          <p data-en="Measured on the live site the evening it went up: 15,205 addresses answer with a permanent redirect from the table, 4,965 targets answer 200, zero errors. The old folders went into a separate directory and are still on disk, so going back is one rename.">Measured on the live site the evening it went up: 15,205 addresses answer with a permanent redirect from the table, 4,965 targets answer 200, zero errors. The old folders went into a separate directory and are still on disk, so going back is one rename.</p>
+        </section>
+
+        <section>
+          <span class="kicker" data-en="The switch">The switch</span>
+          <h2 data-en="One request, with a way back at every step">One request, with a way back at every step</h2>
+          <p data-en="His hosting has no shell and the database is unreachable from outside, so everything that had to run on his server ran as a single throwaway script that deletes itself afterward. The switch itself is one request: 21 items renamed into the web root, the old index page moved into a folder, the addresses updated in the database, the site opened to search engines.">His hosting has no shell and the database is unreachable from outside, so everything that had to run on his server ran as a single throwaway script that deletes itself afterward. The switch itself is one request: 21 items renamed into the web root, the old index page moved into a folder, the addresses updated in the database, the site opened to search engines.</p>
+          <p data-en="The rehearsal ran locally with the failure modes forced on purpose, including the one that matters most here: a folder left on disk shadows the WordPress page with the same path, which is exactly how a migration can look finished and serve the old version to half the visitors.">The rehearsal ran locally with the failure modes forced on purpose, including the one that matters most here: a folder left on disk shadows the WordPress page with the same path, which is exactly how a migration can look finished and serve the old version to half the visitors.</p>
+        </section>
+
+        <section>
+          <span class="kicker" data-en="What he does himself now">What he does himself now</span>
+          <h2 data-en="He built his next trip before the site went live">He built his next trip before the site went live</h2>
+          <p data-en="The point of the whole job was that he stops needing me. New trips are ordinary WordPress pages: he adds a trip, its galleries become child pages, the color scheme follows from the title, the side navigation builds itself from the sister galleries, and a tile appears at the top of the home page. He got a 12-page guide with the four things he actually does.">The point of the whole job was that he stops needing me. New trips are ordinary WordPress pages: he adds a trip, its galleries become child pages, the color scheme follows from the title, the side navigation builds itself from the sister galleries, and a tile appears at the top of the home page. He got a 12-page guide with the four things he actually does.</p>
+          <p data-en="He tested that himself, on the staging copy, before the switch: a new trip with three galleries and ten captioned photographs, built without asking me anything.">He tested that himself, on the staging copy, before the switch: a new trip with three galleries and ten captioned photographs, built without asking me anything.</p>
+          <div class="callout">
+            <span class="kicker" data-en="What this case study does not claim">What this case study does not claim</span>
+            <p data-en="Speed was never part of the job and I did not measure PageSpeed here, so there is no performance number to quote. Several sections of the site were deliberately out of scope at his instruction and were left exactly as they were, including the ones in Polish with the broken byte encodings. And the figures above are dated on purpose: the site is his now, and he adds to it.">Speed was never part of the job and I did not measure PageSpeed here, so there is no performance number to quote. Several sections of the site were deliberately out of scope at his instruction and were left exactly as they were, including the ones in Polish with the broken byte encodings. And the figures above are dated on purpose: the site is his now, and he adds to it.</p>
+          </div>
+        </section>
+
+        <section>
+          <span class="kicker" data-en="The client">The client</span>
+          <h2 data-en="What he wrote at the end">What he wrote at the end</h2>
+          <p data-en="His public review on Upwork, 5.0 of 5:">His public review on Upwork, 5.0 of 5:</p>
+          <div class="callout" style="background:rgba(34,197,94,.08); border-color:rgba(34,197,94,.28)">
+            <p style="color:#dff3e4">„Excellent experience with Adam on restructuring and migrating an old, legacy website to a modern platform (WordPress). Works very quickly, very good communication, addressed promptly all concerns and requests. Recommended!”</p>
+          </div>
+          <p class="caption" data-en="Published with his permission, given on 2026-09-03. He also released every milestone within hours of delivery, which is worth saying because it is rarer than good code.">Published with his permission, given on 2026-09-03. He also released every milestone within hours of delivery, which is worth saying because it is rarer than good code.</p>
+        </section>
+
+        <div class="wrap" style="padding:0">
+          <div class="cta">
+            <h2 data-en="Have a site older than your CMS?">Have a site older than your CMS?</h2>
+            <p data-en="Send me the address. I will tell you how many pages and addresses are really there before anyone talks about a price.">Send me the address. I will tell you how many pages and addresses are really there before anyone talks about a price.</p>
+            <a class="btn" href="/en/#contact" data-en="Ask about a migration">Ask about a migration</a>
+          </div>
+
+          <div class="refs">
+            <a href="https://patoczka.net" target="_blank" rel="noopener"><span class="dot"></span><span data-en="The site today · patoczka.net">The site today · patoczka.net</span></a>
+            <a href="/en/case-studies/wordpress-speed/"><span class="dot"></span><span data-en="Related: WordPress speed, 63 → 99">Related: WordPress speed, 63 → 99</span></a>
+          </div>
+        </div>
+      </div>
+    </article>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <span class="brand">helban<span class="tld">.dev</span></span>
+      <nav class="f-links" aria-label="Footer">
+        <a href="/en/#services" data-en="Services">Services</a>
+        <a href="/en/case-studies/" data-en="Case studies">Case studies</a>
+        <a href="/en/#contact" data-en="Contact">Contact</a>
+        <a href="/en/privacy/" data-en="Privacy policy">Privacy policy</a>
+        <a href="https://github.com/Helban" target="_blank" rel="noopener">GitHub</a>
+      </nav>
+      <p class="copy"><span data-en="Built by hand, no framework, no build step.">Built by hand, no framework, no build step.</span> · © 2026 helban.dev</p>
+    </div>
+  </footer>
+
+  <script src="/case-studies/cs.js" defer></script>
+</body>
+</html>

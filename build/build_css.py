@@ -45,6 +45,7 @@ PAGE_LAYERS: dict[str, tuple[str, ...]] = {
     "privacy/index.html": ("base", "shell"),
     "case-studies/index.html": ("base", "shell"),
     "case-studies/wordpress-speed/index.html": ("base", "shell"),
+    "case-studies/frontpage-to-wordpress/index.html": ("base", "shell"),
     "case-studies/ksef-woocommerce/index.html": ("base", "shell"),
     "case-studies/notion-operating-system/index.html": ("base", "shell"),
     "case-studies/generateblocks-pro-traps/index.html": ("base", "shell"),
