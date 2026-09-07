@@ -1147,6 +1147,12 @@ textarea{resize:vertical; min-height:120px}
               <input type="hidden" name="package_price" id="fPrice">
               <input type="hidden" name="ui_language" id="fLang" value="pl">
               <input type="hidden" name="platform" id="fPlatform" value="Useme">
+              <!-- Filled by js/source.js with the FIRST touch of the visit (entry page +
+                   external referrer + any utm tags), so a lead says where it came from.
+                   The default value is what a no-JS visitor sends, and it is the truth
+                   about that submission rather than a guess. Value stays Polish on /en/
+                   too: this field is read by me, not by the visitor. -->
+              <input type="hidden" name="source" id="fSource" value="bez JS">
               <button class="btn btn-primary btn-block" type="submit" id="submitBtn" data-en="Send the request">Wyślij zapytanie</button>
               <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
               <p class="form-note" id="formNote" data-en="I'll reply with a Useme or Upwork contract for the agreed scope. No payment happens on this site.">Odpowiem umową na Useme lub Upwork z ustalonym zakresem. Na tej stronie nie ma żadnej płatności.</p>
@@ -1205,6 +1211,7 @@ textarea{resize:vertical; min-height:120px}
     </div>
   </footer>
 
+  <script src="/js/source.js" defer></script>
   <script src="js/main.js" defer></script>
 </body>
 </html>

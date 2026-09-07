@@ -309,7 +309,7 @@ body.nav-locked::after{content:""; position:fixed; inset:64px 0 0; z-index:40;
       <div class="wrap">
         <h1 data-en="Privacy policy">Privacy policy</h1>
         <p class="lead" data-en="The short version: this site does not track you. No cookies, no analytics, no ad pixels. The only personal data you leave here is what you type into the contact form yourself.">The short version: this site does not track you. No cookies, no analytics, no ad pixels. The only personal data you leave here is what you type into the contact form yourself.</p>
-        <p class="updated" data-en="Last updated: July 18, 2026">Last updated: July 18, 2026</p>
+        <p class="updated" data-en="Last updated: September 7, 2026">Last updated: September 7, 2026</p>
       </div>
     </section>
 
@@ -322,7 +322,8 @@ body.nav-locked::after{content:""; position:fixed; inset:64px 0 0; z-index:40;
       <section aria-labelledby="p-what">
         <h2 id="p-what" data-en="What I collect and why">What I collect and why</h2>
         <p data-en="The contact form gives me your name, email address and the message itself. If you click “Order” next to a service, the message also carries that service's name, the package price and the language you were browsing in.">The contact form gives me your name, email address and the message itself. If you click “Order” next to a service, the message also carries that service's name, the package price and the language you were browsing in.</p>
-        <p data-en="I use this data for one thing: to reply to your inquiry and prepare an offer or a contract. The legal basis is steps taken at your request before entering into a contract (Article 6(1)(b) GDPR), and my legitimate interest in keeping the correspondence itself (Article 6(1)(f)).">I use this data for one thing: to reply to your inquiry and prepare an offer or a contract. The legal basis is steps taken at your request before entering into a contract (Article 6(1)(b) GDPR), and my legitimate interest in keeping the correspondence itself (Article 6(1)(f)).</p>
+        <p data-en="The message also carries one line about how you reached the site: the address that referred you, the first page you opened and the campaign tags from the link, when there are any. That line sits in the browser's session storage, it disappears when you close the tab, and it goes nowhere except the message you send yourself. I read it to know which of my pages brings people in.">The message also carries one line about how you reached the site: the address that referred you, the first page you opened and the campaign tags from the link, when there are any. That line sits in the browser's session storage, it disappears when you close the tab, and it goes nowhere except the message you send yourself. I read it to know which of my pages brings people in.</p>
+        <p data-en="I use the form data to reply to your inquiry and prepare an offer or a contract. The legal basis is steps taken at your request before entering into a contract (Article 6(1)(b) GDPR), and my legitimate interest in keeping the correspondence itself (Article 6(1)(f)).">I use the form data to reply to your inquiry and prepare an offer or a contract. The legal basis is steps taken at your request before entering into a contract (Article 6(1)(b) GDPR), and my legitimate interest in keeping the correspondence itself (Article 6(1)(f)).</p>
         <p data-en="Providing your data is voluntary. Without an email address I simply have no way to reply.">Providing your data is voluntary. Without an email address I simply have no way to reply.</p>
       </section>
 
@@ -345,8 +346,8 @@ body.nav-locked::after{content:""; position:fixed; inset:64px 0 0; z-index:40;
       </section>
 
       <section aria-labelledby="p-cookies">
-        <h2 id="p-cookies" data-en="Cookies, localStorage and the demos">Cookies, localStorage and the demos</h2>
-        <p data-en="This site sets no cookies and loads no analytics or ad scripts. The only thing it stores in your browser is your language choice (the helbanLang key in localStorage). It is a technical setting: it does not identify you and never leaves your browser.">This site sets no cookies and loads no analytics or ad scripts. The only thing it stores in your browser is your language choice (the helbanLang key in localStorage). It is a technical setting: it does not identify you and never leaves your browser.</p>
+        <h2 id="p-cookies" data-en="Cookies, browser storage and the demos">Cookies, browser storage and the demos</h2>
+        <p data-en="This site sets no cookies and loads no analytics or ad scripts. It keeps two things in your browser, both in session storage, which dies when you close the tab: the package you picked if you click “Order” (the helbanOrder key) and one line about how you reached the site (helbanFirstTouch). Neither identifies you, and they leave the browser only inside a message you send.">This site sets no cookies and loads no analytics or ad scripts. It keeps two things in your browser, both in session storage, which dies when you close the tab: the package you picked if you click “Order” (the helbanOrder key) and one line about how you reached the site (helbanFirstTouch). Neither identifies you, and they leave the browser only inside a message you send.</p>
         <p data-en="The demo sites on the subdomains (salon.helban.dev, kalkulator.helban.dev and the rest) carry no trackers either. If you submit a sample form in one of the demos, the message lands in the same inbox under the same rules.">The demo sites on the subdomains (salon.helban.dev, kalkulator.helban.dev and the rest) carry no trackers either. If you submit a sample form in one of the demos, the message lands in the same inbox under the same rules.</p>
         <p data-en="One exception: the payment demo at pay.helban.dev runs on Stripe in test mode, and Stripe sets its own cookies used for payment fraud prevention. All payments there are fictional and no real money moves.">One exception: the payment demo at pay.helban.dev runs on Stripe in test mode, and Stripe sets its own cookies used for payment fraud prevention. All payments there are fictional and no real money moves.</p>
       </section>
@@ -373,6 +374,7 @@ body.nav-locked::after{content:""; position:fixed; inset:64px 0 0; z-index:40;
     </div>
   </footer>
 
+  <script src="/js/source.js" defer></script>
   <script src="/case-studies/cs.js" defer></script>
 </body>
 </html>
