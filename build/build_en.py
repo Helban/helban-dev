@@ -2,7 +2,8 @@
 
 The English copy already exists inside the Polish markup, carried by data-en,
 data-en-title, data-en-placeholder and data-price-en attributes that main.js
-applies in the browser. None of the AI crawlers hitting this domain document
+applies in the browser (data-en-href, for links to a language-specific file,
+exists only here). None of the AI crawlers hitting this domain document
 JavaScript rendering, and Google recommends a distinct URL per language rather
 than adjusting content from browser settings, so a translation that only exists
 at runtime is invisible to all of them. This script performs the same swap at
@@ -331,6 +332,8 @@ def _rewrite_localized_attributes(start_tag_text: str, attributes: Mapping[str, 
     for source_attribute, target_attribute in (
         ("data-en-placeholder", "placeholder"),
         ("data-en-title", "title"),
+        # A link to a language-specific file, such as a narrated video, points at the English one.
+        ("data-en-href", "href"),
     ):
         if source_attribute not in attributes:
             continue
