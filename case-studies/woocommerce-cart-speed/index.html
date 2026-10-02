@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Koszyk WooCommerce z 11,2 do 2,2 sekundy · helban.dev</title>
+  <meta name="description" content="Klient sprzedaje dwie książki przez własny sklep na WooCommerce. Zgłosił, że koszyk ładuje się 12,5 sekundy na telefonie i że konwersja tonie. Poprosił o diagnozę: co dokładnie zwalnia sklep i w jakiej kolejności to naprawiać.">
+  <meta name="theme-color" content="#0b0817">
+  <link rel="canonical" href="https://helban.dev/case-studies/woocommerce-cart-speed/">
+  <!-- Polish only, like the KSeF guide: the client accepted this exact Polish text, and the
+       promise was that no other version goes on the site without his say-so. -->
+
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="helban.dev">
+  <meta property="og:title" content="Koszyk WooCommerce z 11,2 do 2,2 sekundy">
+  <meta property="og:description" content="Klient sprzedaje dwie książki przez własny sklep na WooCommerce. Zgłosił, że koszyk ładuje się 12,5 sekundy na telefonie i że konwersja tonie.">
+  <meta property="og:url" content="https://helban.dev/case-studies/woocommerce-cart-speed/">
+  <meta property="og:image" content="https://helban.dev/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="../../fonts/inter-800.woff2?v=3" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../../fonts/inter-400.woff2?v=3" as="font" type="font/woff2" crossorigin>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Koszyk WooCommerce z 11,2 do 2,2 sekundy",
+    "description": "Klient sprzedaje dwie książki przez własny sklep na WooCommerce. Zgłosił, że koszyk ładuje się 12,5 sekundy na telefonie i że konwersja tonie.",
+    "url": "https://helban.dev/case-studies/woocommerce-cart-speed/",
+    "image": "https://helban.dev/assets/og-image.png",
+    "datePublished": "2026-10-02T20:00:00+02:00",
+    "dateModified": "2026-10-02T20:00:00+02:00",
+    "author": { "@type": "Person", "name": "Adam K", "url": "https://helban.dev/#about" },
+    "publisher": { "@type": "Organization", "name": "helban.dev", "url": "https://helban.dev/" },
+    "inLanguage": "pl",
+    "about": "WooCommerce cart and checkout performance",
+    "breadcrumb": {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "helban.dev", "item": "https://helban.dev/" },
+        { "@type": "ListItem", "position": 2, "name": "Case studies", "item": "https://helban.dev/case-studies/" },
+        { "@type": "ListItem", "position": 3, "name": "Koszyk WooCommerce z 11,2 do 2,2 sekundy", "item": "https://helban.dev/case-studies/woocommerce-cart-speed/" }
+      ]
+    }
+  }
+  </script>
+
+  <style>
+/* === generated:begin — build/css/base.css + shell.css, injected by build/build_css.py.
+   Edit those files and re-run the build; do not edit this block. === */
+/* ===================================================================
+   base — tokens, reset and primitives shared by EVERY page.
+
+   Injected into each page's <style> by build/build_css.py, so the
+   served HTML still carries its CSS inline and nothing render-blocks.
+   Edit here, run the build, never edit the generated block in a page.
+
+   Font URLs are written relative to the site root; the injector
+   rewrites the depth (fonts/ -> ../fonts/) per page.
+   =================================================================== */
+
+/* ---------------------------------------------------------------
+   Self-hosted, subset Inter + JetBrains Mono (latin + latin-ext;
+   Polish glyphs live in latin-ext). Replaces a render-blocking
+   Google Fonts <link>, so first paint never waits on a stylesheet.
+   --------------------------------------------------------------- */
+@font-face{font-family:'Inter';font-style:normal;font-weight:400;font-display:swap;src:url(../../fonts/inter-400.woff2?v=3) format('woff2');}
+@font-face{font-family:'Inter';font-style:normal;font-weight:600;font-display:swap;src:url(../../fonts/inter-600.woff2?v=3) format('woff2');}
+@font-face{font-family:'Inter';font-style:normal;font-weight:700;font-display:swap;src:url(../../fonts/inter-700.woff2?v=3) format('woff2');}
+@font-face{font-family:'Inter';font-style:normal;font-weight:800;font-display:swap;src:url(../../fonts/inter-800.woff2?v=3) format('woff2');}
+@font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:500;font-display:swap;src:url(../../fonts/jetbrains-mono-500.woff2?v=3) format('woff2');}
+@font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:700;font-display:swap;src:url(../../fonts/jetbrains-mono-700.woff2?v=3) format('woff2');}
+
+:root{
+  --sans:'Inter',-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,"SF Mono",Menlo,monospace;
+
+  --violet:#7C3AED; --violet-l:#a78bfa; --violet-ll:#c4b5fd;
+  --coral:#F43F5E; --green:#22c55e; --green-d:#16a34a;
+  --amber:#f59e0b; --red:#ef4444;
+
+  --text:#f4f3fb; --ink:#ffffff; --muted:#9aa0b6;
+  --line:rgba(255,255,255,.11);
+  --line-strong:rgba(255,255,255,.18);
+  --glass-1:rgba(255,255,255,.072);
+  --glass-2:rgba(255,255,255,.022);
+
+  /* Type scale, ratio 1.25 from a 10px root. The page once carried twenty distinct sizes,
+     twelve of them inside 12-18px with steps as small as 1.06x: differences too small to
+     read as hierarchy, large enough to read as carelessness. A first pass put everything
+     on a 1.2 ladder, which killed the noise but still sat under the 1.25 floor a brand
+     surface wants, and left body copy and card titles one thin step apart.
+     At 1.25 the rungs are far enough apart that a step MEANS something, which is also why
+     usage is assigned by ROLE rather than by rounding: at this ratio the nearest step
+     would collapse card titles into the body copy underneath them.
+     The rungs carry: 10 micro labels · 12.5 mono meta and badges · 15.6 body, controls and
+     card copy · 19.5 card titles, section intros and pull quotes · 24.4 and up headings.
+     Section prose deliberately shares 19.5 with card titles: it is a lede, weight and
+     position separate them, and card copy still sits a full step below its own heading.
+     Every rung is used except 47.7px, kept so the ladder stays a ladder. */
+  --fs-1:10px; --fs-2:12.5px; --fs-3:15.6px; --fs-4:19.5px; --fs-5:24.4px;
+  --fs-6:30.5px; --fs-7:38.1px; --fs-8:47.7px; --fs-9:59.6px;
+
+  /* Home is the widest surface. Reading pages narrow this in their own block:
+     920px for the list and policy pages, 860px for article bodies. */
+  --maxw:1120px;
+  --radius:18px; --radius-sm:12px; --radius-xs:9px;
+  --shadow-card:0 18px 40px rgba(0,0,0,.46), inset 0 1px 0 rgba(255,255,255,.10);
+  --shadow-pop:0 24px 60px rgba(0,0,0,.55);
+  --space:8px;
+}
+
+*{box-sizing:border-box; margin:0; padding:0}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+body{
+  font-family:var(--sans); color:var(--text);
+  background:#0b0817;
+  -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+  line-height:1.6; overflow-x:hidden;
+}
+
+/* Mesh background, fixed so it doesn't repaint on scroll. This is the calm
+   variant every reading page uses; the home page overrides it with a denser
+   mesh plus a masked dot field tuned to its hero. */
+.bg{position:fixed; inset:0; z-index:-2; pointer-events:none;
+  background:
+    radial-gradient(680px 460px at 6% -8%, rgba(139,92,246,.30), transparent 60%),
+    radial-gradient(560px 420px at 96% 2%, rgba(99,102,241,.22), transparent 60%),
+    radial-gradient(620px 520px at 88% 96%, rgba(244,63,94,.15), transparent 58%),
+    linear-gradient(170deg,#181034 0%,#110c25 52%,#0b0817 100%);}
+
+a{color:inherit; text-decoration:none}
+img,svg{display:block}
+:focus-visible{outline:2px solid var(--violet-l); outline-offset:3px; border-radius:6px}
+
+.wrap{width:100%; max-width:var(--maxw); margin:0 auto; padding:0 22px}
+
+/* ===================================================================
+   shell — top bar, navigation, language toggle, footer, and the
+   utilities that only a navigated page uses.
+
+   Every page that carries the site navigation takes this layer.
+   /dziekuje/ deliberately does NOT: it is a terminal page with no nav
+   and no language toggle, and forcing the shell on it would mean five
+   overrides fighting the shared sheet. The utilities below live here
+   rather than in base for the same reason — that page uses none of
+   them, and base is meant to be what EVERY page genuinely needs.
+   =================================================================== */
+
+.mono{font-family:var(--mono)}
+.sr-only{position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden;
+  clip-path:inset(50%); white-space:nowrap; border:0}
+
+/* Invisible hit-area extension: small controls keep their look but meet the 44px
+   touch floor. A fixed inset could not keep that promise, because the class rides
+   elements from 17px to 40px tall and -13px left the 17px "wyczyść" button at 43px.
+   The floor is now stated as a floor: pad by 26px, or grow to 44px, whichever is
+   larger, centred so nothing shifts. */
+.hit44{position:relative}
+.hit44::after{content:""; position:absolute; left:-6px; right:-6px;
+  top:50%; transform:translateY(-50%); height:max(44px, calc(100% + 26px))}
+/* The PL/EN pair sits 2px apart, so the default -6px made each pseudo reach 4px into
+   its neighbour's pill: clicking the right edge of the highlighted PL fired EN.
+   Half the gap each tiles them edge to edge instead. */
+.lang .hit44::after{left:-1px; right:-1px}
+
+/* ---------- skip link ---------- */
+.skip{position:absolute; left:-9999px; top:0; z-index:100;
+  background:var(--violet); color:#fff; padding:10px 16px; border-radius:0 0 10px 0; font-weight:600}
+.skip:focus{left:0}
+
+/* An anchor jump lands the target under the 64px sticky bar without this. */
+[id]{scroll-margin-top:80px}
+
+/* ---------- top bar ---------- */
+.topbar{position:sticky; top:0; z-index:50;
+  backdrop-filter:saturate(150%) blur(14px); -webkit-backdrop-filter:saturate(150%) blur(14px);
+  background:rgba(11,8,23,.62); border-bottom:1px solid var(--line);}
+.topbar .wrap{display:flex; align-items:center; gap:18px; height:64px}
+.brand{font-family:var(--mono); font-weight:700; font-size:var(--fs-4); letter-spacing:.3px; color:#efe9ff}
+.brand .tld{color:var(--coral)}
+.nav{display:flex; gap:6px; margin-left:auto; align-items:center}
+.nav a{padding:8px 12px; border-radius:10px; font-size:var(--fs-3); font-weight:500; color:#d2d4e3}
+.nav a:hover{background:rgba(255,255,255,.06); color:#fff}
+.nav a.active:not(.nav-cta){background:rgba(255,255,255,.07); color:#fff}
+.nav-cta{font-weight:600; color:#fff !important;
+  background:linear-gradient(160deg,#7c3aed,#5b21b6); box-shadow:0 6px 14px rgba(124,58,237,.28)}
+.nav-cta:hover{filter:brightness(1.08)}
+
+/* language toggle */
+.lang{display:inline-flex; align-items:center; gap:2px; padding:3px;
+  background:rgba(255,255,255,.06); border:1px solid var(--line); border-radius:999px}
+/* Not var(--muted): the topbar is translucent, and around scrollY 2100 the green PSI
+   badge row passes underneath and tints it, which dropped the inactive label to 3.93:1
+   at p90, under AA. This lighter grey clears the floor against the tinted bar too. */
+.lang a{font-family:var(--mono); font-size:var(--fs-2); font-weight:700; letter-spacing:.5px;
+  color:#c3c6d6; background:transparent; border:0; cursor:pointer; padding:5px 11px; border-radius:999px}
+.lang a[aria-current="page"]{color:#fff; background:linear-gradient(160deg,#7c3aed,#5b21b6)}
+
+.nav-toggle{display:none; margin-left:auto; background:rgba(255,255,255,.06);
+  border:1px solid var(--line); border-radius:10px; width:44px; height:44px; cursor:pointer; color:#fff}
+.nav-toggle svg{width:22px; height:22px; margin:auto; stroke:#fff}
+
+/* ---------- footer ---------- */
+footer{border-top:1px solid var(--line); padding:34px 0 46px; margin-top:20px}
+footer .wrap{display:flex; align-items:center; gap:18px; flex-wrap:wrap}
+footer .brand{font-size:var(--fs-4)}
+footer .f-links{display:flex; gap:16px; margin-left:auto; flex-wrap:wrap}
+footer .f-links a{font-size:var(--fs-3); color:var(--muted); position:relative}
+footer .f-links a::after{content:""; position:absolute; inset:-12px -6px}
+footer .f-links a:hover{color:#fff}
+footer .copy{width:100%; display:flex; justify-content:space-between; gap:8px 18px; flex-wrap:wrap;
+  font-size:var(--fs-2); color:#8a90a6; font-family:var(--mono); padding-top:6px}
+
+/* ---------- mobile navigation ----------
+   The breakpoint is 880px, not 760px: the horizontal nav runs out of room
+   before 800px on the pages that carry a CTA. Page-specific layout rules
+   keep their own breakpoints and stay in the page's own block. */
+@media (max-width:880px){
+  /* Opaque, and it has to stay opaque. The panel hangs over the hero, and 3% transparency
+     that is invisible on a mid-tone background is plainly readable in a dark UI: the h1 used
+     to show through the nav labels. Do NOT "fix" this with backdrop-filter, which is the
+     obvious-looking move and cannot work here: .topbar is an ancestor and already carries
+     backdrop-filter, so it establishes the backdrop root and a filter on .nav has nothing
+     behind it left to blur. Verified by removing the topbar's filter, at which point the
+     panel's blur springs to life. #100c22 sits just above the body so it reads as a surface. */
+  .nav{display:none; position:absolute; top:64px; left:0; right:0; z-index:1;
+    flex-direction:column; align-items:stretch;
+    gap:4px; padding:14px 22px 18px; background:#100c22; border-bottom:1px solid var(--line)}
+  .nav.open{display:flex}
+  .nav a{padding:12px 14px}
+  .nav .lang{align-self:flex-start; margin-top:6px}
+  .nav-toggle{display:block}
+}
+
+/* The open panel covers roughly half the screen and the rest of the page stays
+   visible, looking live while ignoring every tap. This dims it and gives the tap
+   that closes the menu something to land on.
+
+   Two things here are deliberate and easy to "fix" wrongly. It is NOT a
+   backdrop-filter on .nav: .topbar is an ancestor and already carries one, so it
+   establishes the backdrop root and a filter on the panel has nothing left behind
+   it to blur (tried 2026-07-18, the result was worse than none). And the scrim
+   hangs off body rather than sitting inside the panel, because that same
+   backdrop-filter makes .topbar the containing block for fixed descendants, so a
+   fixed layer inside it would cover the bar instead of the page.
+
+   It starts below the bar and sits under z-index 50, so bar and panel stay lit. */
+body.nav-locked{overflow:hidden}
+body.nav-locked::after{content:""; position:fixed; inset:64px 0 0; z-index:40;
+  background:rgba(6,4,14,.62)}
+@media (min-width:881px){body.nav-locked::after{content:none}}
+/* === generated:end === */
+/* An article page: a narrower measure and looser leading than the rest of the
+   site, plus its own dot field — the mask is tuned to an article's opening,
+   not to the home hero. Everything else comes from base + shell. */
+:root{--maxw:860px}
+body{line-height:1.7}
+.bg::after{content:""; position:absolute; inset:0;
+  background-image:radial-gradient(rgba(255,255,255,.05) 1px, transparent 1.4px);
+  background-size:28px 28px;
+  -webkit-mask-image:radial-gradient(1100px 640px at 60% 12%, #000 20%, transparent 78%);
+          mask-image:radial-gradient(1100px 640px at 60% 12%, #000 20%, transparent 78%);}
+
+/* article */
+.doc{padding:56px 0 30px}
+.crumb{font-family:var(--mono); font-size:12.5px; color:var(--muted); margin-bottom:18px}
+.crumb a:hover{color:#fff}
+h1.title{font-size:clamp(28px,5vw,46px); font-weight:800; letter-spacing:-1.2px; line-height:1.08; margin:14px 0 16px;
+  color:var(--ink)}
+.lead{font-size:clamp(16px,2.2vw,19px); color:#cdd0e0; max-width:66ch}
+.meta{display:flex; flex-wrap:wrap; gap:9px; margin-top:22px}
+.meta .chip{font-family:var(--mono); font-size:12px; color:#d3d9e4;
+  background:rgba(255,255,255,.05); border:1px solid var(--line); border-radius:9px; padding:7px 11px}
+.meta .chip b{color:var(--violet-ll); font-weight:600}
+
+.glance{display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:34px 0 8px}
+.gstat{position:relative; overflow:hidden; text-align:center;
+  background:linear-gradient(180deg, var(--glass-1), var(--glass-2)); border:1px solid var(--line);
+  border-radius:var(--radius); padding:20px 14px; box-shadow:var(--shadow-card)}
+.gstat::before{content:""; position:absolute; left:18px; right:18px; top:0; height:1px; background:linear-gradient(90deg, transparent, rgba(167,139,250,.7), transparent)}
+.gstat .big{font-family:var(--mono); font-weight:800; font-size:clamp(20px,3.4vw,27px); letter-spacing:-.5px; color:#fff}
+.gstat .big i{font-style:normal; color:var(--green)}
+.gstat .lab{font-size:12px; color:var(--muted); margin-top:6px; line-height:1.4}
+
+section{padding:34px 0}
+section > h2{font-size:clamp(21px,3vw,27px); font-weight:800; letter-spacing:-.6px; line-height:1.15; margin-bottom:6px}
+/* Mono keeps these labels in the site's metadata voice, but the uppercase and the
+   wide tracking are gone: that combination is the eyebrow costume banned after
+   critique #2, and the ban had only ever reached the home page. */
+.kicker{font-family:var(--mono); font-size:var(--fs-2); font-weight:700; color:var(--violet-l); display:block; margin-bottom:9px}
+section p{color:#c6c9d8; font-size:16.5px; margin-top:14px}
+section p:first-of-type{margin-top:12px}
+strong{color:#efe9ff; font-weight:700}
+.ul{list-style:none; margin-top:16px; display:flex; flex-direction:column; gap:11px}
+.ul li{position:relative; padding-left:26px; color:#c6c9d8; font-size:16px}
+.ul li::before{content:""; position:absolute; left:4px; top:9px; width:8px; height:8px; border-radius:2px;
+  background:linear-gradient(160deg,#8b5cf6,#6d28d9); box-shadow:0 0 10px rgba(124,58,237,.7)}
+.ul li b{color:#efe9ff}
+
+/* results table */
+.tablewrap{overflow-x:auto; margin:22px 0 6px; border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow-card)}
+table.results{width:100%; border-collapse:collapse; font-size:14.5px; min-width:560px}
+table.results thead th{font-family:var(--mono); font-size:10.5px; font-weight:700; letter-spacing:1px; text-transform:uppercase;
+  color:var(--muted); text-align:right; padding:14px 12px; background:rgba(255,255,255,.03)}
+table.results thead th:first-child{text-align:left}
+table.results tbody td{padding:14px 12px; text-align:right; border-top:1px solid var(--line); font-family:var(--mono)}
+table.results tbody td:first-child{text-align:left; font-family:var(--sans)}
+.state{display:block; font-weight:700; color:#fff; font-size:14.5px}
+.state + small{display:block; font-family:var(--mono); font-weight:500; font-size:11px; color:var(--muted); letter-spacing:.2px; margin-top:2px}
+.s-good{color:var(--green); font-weight:700}
+.s-avg{color:var(--amber); font-weight:700}
+.win td{background:rgba(34,197,94,.07)}
+.caption{font-size:13.5px; color:var(--muted); margin-top:12px}
+
+/* callout */
+.callout{margin:24px 0 6px; padding:20px 22px; border-radius:var(--radius);
+  background:rgba(244,63,94,.10); border:1px solid rgba(244,63,94,.3)}
+.callout .kicker{color:#f7a6b4}
+.callout p{color:#e7d9dc; margin-top:8px; font-size:16.5px}
+
+/* two paths */
+.paths{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:20px}
+.path{position:relative; overflow:hidden; background:linear-gradient(180deg, var(--glass-1), var(--glass-2));
+  border:1px solid var(--line); border-radius:var(--radius); padding:20px; box-shadow:var(--shadow-card)}
+.path::before{content:""; position:absolute; left:20px; right:20px; top:0; height:1px; background:linear-gradient(90deg, transparent, rgba(167,139,250,.7), transparent)}
+.path h3{font-size:16px; font-weight:700; color:#fff; margin-bottom:8px}
+.path p{font-size:14.5px; color:#b6b9c9; margin:0}
+.path .num{font-family:var(--mono); font-weight:700; font-size:13px; color:var(--violet-ll); margin-bottom:10px; display:block}
+
+/* cta + refs */
+.cta{margin:30px 0 8px; padding:26px 24px; text-align:center; border-radius:var(--radius);
+  background:linear-gradient(180deg, rgba(124,58,237,.18), rgba(124,58,237,.06)); border:1px solid var(--line-strong)}
+.cta h2{font-size:clamp(20px,3vw,26px); font-weight:800; letter-spacing:-.5px}
+.cta p{color:#cdd0e0; margin:10px 0 18px; font-size:16px}
+.btn{display:inline-flex; align-items:center; gap:9px; font-weight:600; font-size:15px; cursor:pointer;
+  padding:13px 24px; border-radius:12px; border:1px solid transparent; color:#fff;
+  background:linear-gradient(160deg,#7c3aed,#5b21b6); box-shadow:0 12px 26px rgba(124,58,237,.45), inset 0 1px 0 rgba(255,255,255,.35)}
+.btn:hover{filter:brightness(1.08)}
+.refs{display:flex; flex-wrap:wrap; gap:12px; margin-top:26px}
+.refs a{font-family:var(--mono); font-size:13px; color:var(--violet-ll); display:inline-flex; align-items:center; gap:8px;
+  background:rgba(255,255,255,.04); border:1px solid var(--line); border-radius:10px; padding:11px 14px}
+.refs a:hover{color:#fff; border-color:var(--line-strong)}
+.refs .dot{width:6px; height:6px; border-radius:50%; background:var(--coral); box-shadow:0 0 9px rgba(244,63,94,.9)}
+
+
+/* screenshots: the before/after pair and one full-width gallery shot. Fixed width and
+   height attributes on every image, lazy below the fold, so adding pictures to an
+   article template that had none does not start costing layout shift. */
+figure.shot{margin:24px 0 6px}
+figure.shot img{width:100%; height:auto; display:block;
+  border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow-card)}
+figure.shot figcaption{font-size:13.5px; color:var(--muted); margin-top:10px; line-height:1.5}
+.shots-pair{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:24px 0 6px}
+.shots-pair figure.shot{margin:0}
+
+@media (max-width:760px){
+  .glance{grid-template-columns:1fr 1fr 1fr; gap:10px}
+  .gstat{padding:16px 8px}
+  .paths{grid-template-columns:1fr}
+  .shots-pair{grid-template-columns:1fr}
+}
+  </style>
+</head>
+<body>
+  <div class="bg" aria-hidden="true"></div>
+  <a class="skip" href="#article" data-en="Skip to article">Przejdź do treści</a>
+
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="/">helban<span class="tld">.dev</span></a>
+      <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false" aria-controls="nav">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+      <nav class="nav" id="nav">
+        <a href="/#services" data-en="Services">Usługi</a>
+        <a href="/#work" data-en="Live work">Realizacje</a>
+        <a href="/case-studies/" data-en="Case studies">Case studies</a>
+        <a href="/#contact" data-en="Contact">Kontakt</a>
+        <div class="lang" role="group" aria-label="Language / Język">
+          <a id="langPl" class="hit44" href="/case-studies/woocommerce-cart-speed/" aria-current="page" data-lang-link="pl">PL</a>
+          <a id="langEn" class="hit44" href="/en/" data-lang-link="en">EN</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main id="article">
+    <article class="doc">
+      <div class="wrap">
+        <div class="crumb"><a href="/case-studies/">← Case studies</a></div>
+        <h1 class="title">Koszyk WooCommerce z 11,2 do 2,2 sekundy</h1>
+        <p class="lead">Klient sprzedaje dwie książki przez własny sklep na WooCommerce. Zgłosił, że koszyk ładuje się 12,5 sekundy na telefonie i że konwersja tonie. W konsoli widział duplikaty skryptów i podejrzewał, że to one. Poprosił o diagnozę: co dokładnie zwalnia sklep i w jakiej kolejności to naprawiać.</p>
+
+        <div class="meta">
+          <span class="chip"><b>Sklep:</b> <a href="https://zespokojem.com" target="_blank" rel="noopener">zespokojem.com</a></span>
+          <span class="chip"><b>Rola:</b> audyt i wdrożenie</span>
+          <span class="chip"><b>Pomiar:</b> PageSpeed Insights, mobile, na zimno</span>
+        </div>
+      </div>
+
+      <div class="wrap">
+        <section>
+          <h2>Liczby</h2>
+          <div class="tablewrap">
+            <table class="results">
+              <thead>
+                <tr>
+                  <th>strona</th>
+                  <th>LCP przed</th>
+                  <th>LCP po</th>
+                  <th>po 4 tygodniach</th>
+                  <th>wynik przed → po</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="win"><td>koszyk</td><td>11,2 s</td><td class="s-good">2,2 s</td><td>2,8 s</td><td>59 → <span class="s-good">91</span></td></tr>
+                <tr class="win"><td>zamówienie</td><td>12,8 s</td><td class="s-good">3,4 s</td><td>3,3 s</td><td>54 → <span class="s-good">81</span></td></tr>
+                <tr><td>strona główna</td><td>16,2 s</td><td>9,3 s</td><td>9,0 s</td><td>→ 62</td></tr>
+                <tr><td>landing Codziennika</td><td>15,2 s</td><td>9,8 s</td><td>9,6 s</td><td>→ 66</td></tr>
+                <tr><td>landing Filozofii</td><td>4,8 s</td><td>5,1 s</td><td>5,3 s</td><td>→ 67</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="caption">Pomiar „przed” z 25.07.2026, „po” z tego samego wieczoru po wdrożeniu, kontrolny z 20.08.2026. Za każdym razem PageSpeed Insights na mobile, na zimno, tym samym skryptem.</p>
+        </section>
+
+        <section>
+          <h2>Co pokazał audyt</h2>
+          <p>Liczba klienta się potwierdziła. W pomiarze z połowy lipca koszyk miał 11,0 s LCP, strona zamówienia 13,2 s, strona główna 16,2 s.</p>
+          <p>Hosting był niewinny. Serwer odpowiadał w 50 ms, a podstrona jednej z książek, na tym samym serwerze i tym samym WordPressie, ładowała się w 6,5 s. Różnicę robiły skrypty, nie maszyna.</p>
+          <p>Duplikacja, którą klient widział w konsoli, była prawdziwa, tylko siedziała warstwę niżej, niż patrzył. Koszyk ładował dwa pełne mechanizmy naraz: klasyczny WooCommerce i nowy, blokowy, oparty na Reakcie. Stąd 88 skryptów i dokument ważący 537 KB na jednej podstronie. Powielonych tagów script w źródle nie było, więc z konsoli tego nie było widać.</p>
+          <p>Do tego rzeczy, które na koszyku nie mają czego szukać: pełny SDK PayPala, siedem skryptów bramki płatności, skrypty strony produktu razem z wariantami i kalendarzem jQuery UI, Pixel i CAPI Facebooka na jakieś 250 KB. Strona zamówienia wysyłała 250 żądań sieciowych.</p>
+        </section>
+
+        <section>
+          <h2>Co zrobiłem</h2>
+          <p>Koszyk i zamówienie przeszły z bloków na klasyczne i dostały wygląd marki sklepu. Teraz serwer oddaje gotowy HTML, zamiast wysyłać szkielet, który przeglądarka dobudowuje JavaScriptem.</p>
+          <p>Doszła warstwa, która pilnuje, żeby każda strona ładowała tylko potrzebne jej skrypty. Koszyk zszedł ze 108 tagów script do 31, strona główna tak samo. To jest ta część, która działa dalej po zakończeniu zlecenia: nowa wtyczka nie ładuje się już wszędzie.</p>
+          <p>Opcja „zapakuj na prezent” działa bez osobnej wtyczki, własnym kodem, więc strona produktu też się odchudziła. Podwójny nagłówek i stopka, czyli blok HTML w Elementorze nałożony na elementy motywu, zniknęły z pięciu stron. Google Analytics wrócił jako jeden lekki fragment.</p>
+        </section>
+
+        <section>
+          <h2>Czy to się utrzymało</h2>
+          <p>Cztery tygodnie później zmierzyłem sklep ponownie, tym samym skryptem, po miesiącu bez mojej opieki: koszyk 2,8 s, zamówienie 3,3 s. Po sierpniowej rundzie aktualizacji wtyczek i bramki płatności koszyk wypadł jeszcze lepiej, 2,1 s i wynik 93.</p>
+          <p>Warunkiem odbioru było poniżej 4 sekund LCP na koszyku i stronie zamówienia. Trzymają go od lipca, z zapasem.</p>
+        </section>
+
+        <section>
+          <h2>Czego nie obiecywałem</h2>
+          <p>Strona główna i dwa landingi stoją na Elementorze i były spod gwarancji wyjęte. Zeszły z 16,2 do 9,3 s i z 15,2 do 9,8 s, bo ten sam ciężar skryptów ładował się na każdej podstronie, ale nie podawałem tam liczby, której potem bym nie utrzymał. Na page builderze takiej liczby się nie obiecuje.</p>
+          <p>PageSpeed na adresie zamówienia mierzy ścieżkę po przekierowaniu, bo robot wchodzi tam z pustym koszykiem, a pusty koszyk przerzuca gościa na koszyk. Kasę z produktem sprawdzam osobno, skryptem i wylogowaną przeglądarką.</p>
+          <p>Każda liczba wyżej ma datę pomiaru, bo cudzy sklep żyje. Klient dokłada treść i wtyczki, więc wynik bez daty przestaje być prawdą, zanim ktokolwiek go przeczyta.</p>
+        </section>
+
+        <section>
+          <h2>Co powiedział klient</h2>
+          <div class="callout" style="background:rgba(34,197,94,.08); border-color:rgba(34,197,94,.28)">
+            <p style="color:#dff3e4">„Koszyk 2,2 sekundy zamiast 11,2 to skok, który realnie pewnie zmieni konwersję. […] Widać, że nie robiłeś tego na czas, tylko na efekt.”</p>
+            <p style="color:#dff3e4; margin-top:10px">Dominik, zespokojem.com</p>
+          </div>
+        </section>
+
+        <div class="wrap" style="padding:0">
+          <div class="cta">
+            <h2>Twój koszyk też się wlecze?</h2>
+            <p>Podeślij adres sklepu. Zmierzę koszyk i zamówienie tak samo jak wyżej, zanim porozmawiamy o cenie.</p>
+            <a class="btn" href="/#contact">Zapytaj o przyspieszenie</a>
+          </div>
+
+          <div class="refs">
+            <a href="https://zespokojem.com" target="_blank" rel="noopener"><span class="dot"></span><span>Sklep dziś · zespokojem.com</span></a>
+            <a href="/case-studies/wordpress-speed/"><span class="dot"></span><span>Powiązane: ta sama strona WordPress zbudowana trzy razy, 63 → 99</span></a>
+          </div>
+        </div>
+      </div>
+    </article>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <span class="brand">helban<span class="tld">.dev</span></span>
+      <nav class="f-links" aria-label="Footer">
+        <a href="/#services" data-en="Services">Usługi</a>
+        <a href="/case-studies/" data-en="Case studies">Case studies</a>
+        <a href="/#contact" data-en="Contact">Kontakt</a>
+        <a href="/privacy/" data-en="Privacy policy">Polityka prywatności</a>
+        <a href="https://github.com/Helban" target="_blank" rel="noopener">GitHub</a>
+      </nav>
+      <p class="copy"><span data-en="Built by hand, no framework, no build step.">Napisane ręcznie, bez frameworka, bez etapu budowania.</span> · © 2026 helban.dev</p>
+    </div>
+  </footer>
+
+  <script src="/js/source.js" defer></script>
+  <script src="../cs.js" defer></script>
+</body>
+</html>

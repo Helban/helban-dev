@@ -47,6 +47,7 @@ TRANSLATED_ROUTES = (
     "/case-studies/",
     "/case-studies/wordpress-speed/",
     "/case-studies/frontpage-to-wordpress/",
+    "/case-studies/learndash-course-site/",
     "/case-studies/notion-operating-system/",
     "/case-studies/generateblocks-pro-traps/",
     "/case-studies/cloneable-wordpress-template/",
@@ -166,6 +167,20 @@ PAGES: tuple[PageSpec, ...] = (
         og_description=(
             "128 galleries and 15,205 old addresses moved onto WordPress, with the site "
             "looking exactly the same afterwards."
+        ),
+    ),
+    PageSpec(
+        route="/case-studies/learndash-course-site/",
+        title="A LearnDash course site built from scratch and switched over live · helban.dev",
+        description=(
+            "Case study: a new LearnDash site for the NUDDA martial-arts school. Card checkout "
+            "with no account needed, six earlier buyers moved over with their passwords, and "
+            "the switch to nudda.com done with a way back."
+        ),
+        og_title="A LearnDash course site built from scratch and switched over live",
+        og_description=(
+            "NUDDA's new course site: pay by card without an account, earlier buyers keep "
+            "their logins, and the old site kept whole as the way back."
         ),
     ),
     PageSpec(
@@ -557,10 +572,11 @@ def build_page(spec: PageSpec) -> None:
 def build_sitemap() -> None:
     """Rewrite sitemap.xml with both language trees.
 
-    The KSeF guide appears once, under its Polish URL only.
+    The KSeF guide and the cart case study appear once, under their Polish URL only. The cart
+    one stays Polish because the client accepted that exact text and nothing else.
     """
 
-    polish_only_routes = ("/case-studies/ksef-woocommerce/",)
+    polish_only_routes = ("/case-studies/ksef-woocommerce/", "/case-studies/woocommerce-cart-speed/")
     priority_by_route = {
         "/": "1.0",
         "/case-studies/": "0.7",
@@ -570,6 +586,7 @@ def build_sitemap() -> None:
         "/": "monthly",
         "/case-studies/": "monthly",
         "/case-studies/ksef-woocommerce/": "monthly",
+        "/case-studies/woocommerce-cart-speed/": "yearly",
         "/privacy/": "yearly",
     }
 

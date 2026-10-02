@@ -51,6 +51,16 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://helban.dev/case-studies/learndash-course-site/</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://helban.dev/en/case-studies/learndash-course-site/</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://helban.dev/case-studies/notion-operating-system/</loc>
     <changefreq>yearly</changefreq>
     <priority>0.8</priority>
@@ -93,6 +103,11 @@
   <url>
     <loc>https://helban.dev/case-studies/ksef-woocommerce/</loc>
     <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://helban.dev/case-studies/woocommerce-cart-speed/</loc>
+    <changefreq>yearly</changefreq>
     <priority>0.8</priority>
   </url>
 </urlset>
