@@ -427,24 +427,13 @@ h1,h2,h3{text-wrap:balance}
   letter-spacing:-.5px; color:#fff}
 .figure b i{font-style:normal; color:var(--green)}
 .figure small{display:block; font-family:var(--mono); font-size:var(--fs-1); color:var(--muted); margin-top:5px}
-/* Client projects: a flat list with hairlines, like the price list. The moment a row grows
-   a frame it turns into the identical-card grid this page got rid of. */
-.clients{list-style:none}
-.client-row{display:grid; grid-template-columns:1fr minmax(0,15rem); gap:16px 40px; align-items:center;
-  padding:28px 0; border-top:1px solid var(--line)}
-.client-row:last-child{border-bottom:1px solid var(--line)}
-.client-txt{display:flex; flex-direction:column; gap:9px; align-items:flex-start; min-width:0}
-.client-txt h3{font-size:var(--fs-4); font-weight:800; letter-spacing:-.3px; line-height:1.25}
-.client-txt h3 a{color:#fff; text-decoration:underline; text-decoration-color:var(--line-strong); text-underline-offset:4px}
-.client-txt h3 a:hover{text-decoration-color:#fff}
-.client-txt p{font-size:var(--fs-3); color:#b6b9c9; max-width:60ch; text-wrap:pretty}
-.client-fig{text-align:right}
-.client-fig b{display:block; font-size:var(--fs-6); font-weight:800; letter-spacing:-.6px; line-height:1.1; color:#fff}
-.client-fig small{display:block; margin-top:6px; font-size:var(--fs-2); line-height:1.45; color:var(--muted)}
-@media (max-width:760px){
-  .client-row{grid-template-columns:1fr; gap:14px}
-  .client-fig{text-align:left}
-}
+/* The client's own words under a client row. No side stripe (a banned pattern): the italic
+   and the brighter ink are what set it apart from my description above it. */
+.show-quote p{font-style:italic; color:#e4e2f2; font-size:var(--fs-3); max-width:56ch; text-wrap:pretty}
+/* A span, not <footer>: the shell styles every footer element as the page footer. */
+.show-quote-by{display:block; margin-top:4px; font-size:var(--fs-2); color:var(--muted)}
+/* .show-txt p outranks .show-meta, which had silently set this line at body size. */
+.show-txt .show-meta{font-size:var(--fs-2)}
 .show-rest{margin-top:24px; font-family:var(--mono); font-size:var(--fs-2); color:var(--muted)}
 .show-rest a{color:var(--violet-ll); text-decoration:underline; text-underline-offset:3px}
 .show-rest a:hover{color:#fff}
@@ -465,7 +454,8 @@ h1,h2,h3{text-wrap:balance}
 @media (max-width:820px){
   .show{grid-template-columns:1fr; gap:20px; padding:30px 0}
   /* The shot leads on a phone whichever side it took on the desktop. */
-  .show:nth-child(even) .show-shot{order:0}
+  .show:nth-child(even) .show-shot,
+  .show:nth-child(even) .show-figures{order:0}
   .show-figures{padding:22px 10px}
 }
 
@@ -718,7 +708,7 @@ textarea{resize:vertical; min-height:120px}
              scrolling does is worse than no menu. Case studies now points at the subpage,
              because the section that used to hold that anchor was folded into #work. -->
         <a href="#services" data-en="Pricing">Cennik</a>
-        <a href="#work" data-en="Live work">Realizacje</a>
+        <a href="#clients" data-en="Live work">Realizacje</a>
         <a href="#how" data-en="How it works">Jak to działa</a>
         <a href="#about" data-en="About">O mnie</a>
         <a href="/case-studies/" data-en="Case studies">Case studies</a>
@@ -741,7 +731,7 @@ textarea{resize:vertical; min-height:120px}
           <noscript><span class="ln"><span class="pr">&gt;</span> <span data-en="this page: hand-written HTML, ~60 KB with the fonts. Measure it yourself: PageSpeed Insights.">ta strona: ręcznie pisany HTML, ~60 KB z fontami. Zmierz sam: PageSpeed Insights.</span></span></noscript>
         </div>
         <div class="hero-cta">
-          <a href="#work" class="btn btn-primary" data-en="See live work">Zobacz realizacje</a>
+          <a href="#clients" class="btn btn-primary" data-en="See live work">Zobacz realizacje</a>
           <a href="#services" class="btn btn-ghost" data-en="Services and pricing">Usługi i ceny</a>
         </div>
         <div class="trust">
@@ -749,6 +739,77 @@ textarea{resize:vertical; min-height:120px}
           <span><span class="dot"></span><span data-en="code you own, with tests">kod na własność, z testami</span></span>
           <span><span class="dot"></span><span data-en="billing via Useme / Upwork">rozliczenie przez Useme / Upwork</span></span>
           <span><span class="dot"></span><span data-en="10 years of C++ embedded">10 lat C++ embedded</span></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= CLIENT PROJECTS ================= -->
+    <!-- The first thing after the hero, on purpose: a visitor wants to see what was built for
+         people who paid, before any demo. Each site is shown with its owner's consent (see the
+         job's USTALENIA), and every figure carries the date it was measured. The cart row has
+         figures instead of a screenshot because that client agreed to no screenshots.
+         Client quotes stay in the language the client wrote them, so they carry no data-en. -->
+    <section id="clients" aria-labelledby="clients-h">
+      <div class="wrap">
+        <div class="sec-head">
+          <h2 id="clients-h" data-en="Built for clients who paid for it">Zrobione dla klientów, którzy za to zapłacili</h2>
+          <p data-en="Three sites their owners run today. Each one is shown with the owner's permission, next to what they wrote once the work was done. The numbers carry the date they were measured, because the sites are theirs now and keep changing.">Trzy strony, na których klienci dziś pracują. Każdą pokazuję za zgodą właściciela, a obok to, co sam napisał po odbiorze. Liczby mają datę pomiaru, bo strony należą teraz do nich i wciąż się zmieniają.</p>
+        </div>
+        <div class="showcase">
+
+          <article class="show">
+            <a class="show-shot" href="https://www.nudda.com" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true">
+              <img src="assets/case-studies/nudda-after-home.webp" alt="" width="1120" height="700" loading="lazy" decoding="async">
+            </a>
+            <div class="show-txt">
+              <h3 data-en="nudda.com: an online course on LearnDash">nudda.com: kurs online na LearnDashu</h3>
+              <p data-en="A martial-arts school sold three courses through WooCommerce and a user role. I built a new LearnDash site from scratch where the course is paid for by card with no account needed, and switched it onto the client's domain with the old site kept whole as the way back.">Szkoła walki sprzedawała trzy kursy przez WooCommerce i rolę użytkownika. Zbudowałem od zera nową stronę na LearnDashu, na której kurs kupuje się kartą bez zakładania konta, i przełączyłem ją na domenę klienta, ze starą stroną odłożoną w całości jako droga powrotu.</p>
+              <blockquote class="show-quote">
+                <p>„He kept the build lean instead of loading it with plugins we did not need.”</p>
+                <span class="show-quote-by" data-en="Antonio F., Upwork review, 5.0">Antonio F., opinia na Upworku, 5,0</span>
+              </blockquote>
+              <p class="show-meta" data-en="6 of 6 earlier buyers moved over with their passwords · 01.10.2026">6 z 6 kont dawnych kupujących przeniesionych z hasłami · 01.10.2026</p>
+              <a class="live" href="https://www.nudda.com" target="_blank" rel="noopener">nudda.com <span class="arrow" aria-hidden="true">→</span></a>
+              <a class="live live-read" href="/case-studies/learndash-course-site/"><span data-en="Read the case study">Czytaj case study</span> <span class="arrow" aria-hidden="true">→</span></a>
+            </div>
+          </article>
+
+          <article class="show">
+            <div class="show-figures">
+              <div class="figure"><b><span data-en="11.2">11,2</span> <i data-en="→ 2.2s">→ 2,2s</i></b><small data-en="cart LCP">LCP koszyka</small></div>
+              <div class="figure"><b>108 <i>→ 31</i></b><small data-en="script tags">tagów script</small></div>
+              <div class="figure"><b>59 <i>→ 91</i></b><small data-en="cart PageSpeed">PageSpeed koszyka</small></div>
+            </div>
+            <div class="show-txt">
+              <h3 data-en="zespokojem.com: a slow WooCommerce cart">zespokojem.com: wolny koszyk WooCommerce</h3>
+              <p data-en="The cart loaded two complete cart systems at once, classic WooCommerce and the newer React block cart. The cart and checkout went back to the classic version in the shop's own look, and each page now loads only the scripts it needs.">Koszyk ładował dwa pełne mechanizmy naraz: klasyczny WooCommerce i nowy, blokowy, oparty na Reakcie. Koszyk i zamówienie przeszły z bloków na klasyczne i dostały wygląd marki sklepu.</p>
+              <blockquote class="show-quote">
+                <p>„Koszyk 2,2 sekundy zamiast 11,2 to skok, który realnie pewnie zmieni konwersję.”</p>
+                <span class="show-quote-by">Dominik, zespokojem.com</span>
+              </blockquote>
+              <p class="show-meta" data-en="PageSpeed on mobile, cold, before and after · 25.07.2026">PageSpeed na telefonie, na zimno, przed i po · 25.07.2026</p>
+              <a class="live" href="https://zespokojem.com" target="_blank" rel="noopener">zespokojem.com <span class="arrow" aria-hidden="true">→</span></a>
+              <a class="live live-read" href="/case-studies/woocommerce-cart-speed/"><span data-en="Read the case study (in Polish)">Czytaj case study</span> <span class="arrow" aria-hidden="true">→</span></a>
+            </div>
+          </article>
+
+          <article class="show">
+            <a class="show-shot" href="https://patoczka.net" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true">
+              <img src="assets/case-studies/patoczka-after-home.webp" alt="" width="1120" height="700" loading="lazy" decoding="async">
+            </a>
+            <div class="show-txt">
+              <h3 data-en="patoczka.net: 25 years of FrontPage moved to WordPress">patoczka.net: archiwum z FrontPage'a na WordPressie</h3>
+              <p data-en="A travel photo archive hand-built in FrontPage since the late nineties: 128 galleries and 4,786 photographs. I moved it onto a WordPress the owner now runs himself, with the look left as it was.">Archiwum zdjęć z podróży, budowane we FrontPage'u od końca lat dziewięćdziesiątych: 128 galerii i 4 786 zdjęć. Przeniosłem je na WordPressa, którego właściciel obsługuje sam, a wygląd został taki jak wcześniej.</p>
+              <blockquote class="show-quote">
+                <p>„Excellent experience with Adam on restructuring and migrating an old, legacy website to a modern platform (WordPress).”</p>
+                <span class="show-quote-by" data-en="Jurek P., Upwork review, 5.0">Jurek P., opinia na Upworku, 5,0</span>
+              </blockquote>
+              <p class="show-meta" data-en="15,205 old addresses redirected, 0 broken links · 02.09.2026">15 205 starych adresów z przekierowaniem, 0 martwych linków · 02.09.2026</p>
+              <a class="live" href="https://patoczka.net" target="_blank" rel="noopener">patoczka.net <span class="arrow" aria-hidden="true">→</span></a>
+              <a class="live live-read" href="/case-studies/frontpage-to-wordpress/"><span data-en="Read the case study">Czytaj case study</span> <span class="arrow" aria-hidden="true">→</span></a>
+            </div>
+          </article>
+
         </div>
       </div>
     </section>
@@ -886,8 +947,8 @@ textarea{resize:vertical; min-height:120px}
     <section id="work" aria-labelledby="work-h">
       <div class="wrap">
         <div class="sec-head">
-          <h2 id="work-h" data-en="Click the proof, don't take my word">Dowód, który klikniesz. Nie obietnice.</h2>
-          <p data-en="Five projects, opened up. The sites with a PageSpeed score also get 100 on accessibility, best practices and SEO, so performance is the only number I print. The Shopify store is a development store behind a password, and PageSpeed would only measure its login page.">Pięć projektów, rozłożonych na części. Strony z wynikiem PageSpeed mają też 100 w dostępności, dobrych praktykach i SEO, więc wypisuję tylko wydajność. Sklep na Shopify jest deweloperski i stoi za hasłem, a PageSpeed zmierzyłby w nim tylko stronę logowania.</p>
+          <h2 id="work-h" data-en="My own demos, built without a client">Moje dema, zrobione bez klienta</h2>
+          <p data-en="Five projects I built for myself, opened up. The sites with a PageSpeed score also get 100 on accessibility, best practices and SEO, so performance is the only number I print. The Shopify store is a development store behind a password, and PageSpeed would only measure its login page.">Pięć projektów, które zrobiłem dla siebie, rozłożonych na części. Strony z wynikiem PageSpeed mają też 100 w dostępności, dobrych praktykach i SEO, więc wypisuję tylko wydajność. Sklep na Shopify jest deweloperski i stoi za hasłem, a PageSpeed zmierzyłby w nim tylko stronę logowania.</p>
           <p class="psi-legend" data-en="Google PageSpeed, mobile, July 2026. Scores swing 1-2 points between runs. Click a score to measure it yourself.">Wyniki Google PageSpeed na mobile, lipiec 2026. Wahają się o 1-2 punkty między pomiarami. Kliknij wynik, żeby zmierzyć samemu.</p>
         </div>
         <div class="showcase">
@@ -965,45 +1026,6 @@ textarea{resize:vertical; min-height:120px}
         <p class="show-rest">
           <span data-en="The rest, without the write-up: ">Reszta, bez rozpisywania: </span><a href="https://kalkulator.helban.dev" target="_blank" rel="noopener">kalkulator</a><span aria-hidden="true"> · </span><a href="https://dropwatch.helban.dev" target="_blank" rel="noopener">dropwatch</a><span aria-hidden="true"> · </span><a href="https://aurum-casino.helban.dev" target="_blank" rel="noopener">aurum</a><span aria-hidden="true"> · </span><a href="https://aethos.helban.dev" target="_blank" rel="noopener">aethos</a><span aria-hidden="true"> · </span><a href="/case-studies/" data-en="all case studies">wszystkie case studies</a>
         </p>
-      </div>
-    </section>
-    <!-- ================= CLIENT PROJECTS ================= -->
-    <!-- Kept apart from the demos above on purpose: the whole value of these three is that
-         somebody paid for them and runs a business on them. Each one is published with that
-         client's consent, and every figure carries the date it was measured, because the sites
-         are theirs now and keep changing. A flat list, not cards: same rule as the price list. -->
-    <section id="clients" aria-labelledby="clients-h">
-      <div class="wrap">
-        <div class="sec-head">
-          <h2 id="clients-h" data-en="Three sites that clients paid for and run today">Trzy strony, za które klienci zapłacili i na których dziś pracują</h2>
-          <p data-en="The demos above I built for myself. These three run for people who hired me, and each one is shown here with its owner's permission. The numbers carry the date they were measured, because the sites belong to their owners now and keep changing.">Dema wyżej zrobiłem dla siebie. Te trzy działają u ludzi, którzy mnie zatrudnili, i każdą pokazuję za zgodą właściciela. Liczby mają datę pomiaru, bo strony należą teraz do nich i wciąż się zmieniają.</p>
-        </div>
-        <ul class="clients">
-          <li class="client-row">
-            <div class="client-txt">
-              <h3><a href="https://www.nudda.com" target="_blank" rel="noopener">nudda.com</a></h3>
-              <p data-en="A course site for a martial-arts school, built from scratch on LearnDash and switched over on the live domain, with the old site kept whole as the way back.">Strona kursu online dla szkoły walki, zbudowana od zera na LearnDashu i przełączona na docelowej domenie, ze starą stroną odłożoną w całości jako droga powrotu.</p>
-              <a class="live live-read" href="/case-studies/learndash-course-site/"><span data-en="Read the case study">Czytaj case study</span> <span class="arrow" aria-hidden="true">→</span></a>
-            </div>
-            <div class="client-fig"><b>6 / 6</b><small data-en="earlier buyers moved over with their passwords, 01.10.2026">kont dawnych kupujących przeniesionych z hasłami, 01.10.2026</small></div>
-          </li>
-          <li class="client-row">
-            <div class="client-txt">
-              <h3><a href="https://zespokojem.com" target="_blank" rel="noopener">zespokojem.com</a></h3>
-              <p data-en="A WooCommerce shop whose cart loaded two complete cart systems at once. The cart and checkout went back to the classic version, and each page now loads only the scripts it needs.">Koszyk ładował dwa pełne mechanizmy naraz: klasyczny WooCommerce i nowy, blokowy, oparty na Reakcie. Koszyk i zamówienie przeszły z bloków na klasyczne i dostały wygląd marki sklepu.</p>
-              <a class="live live-read" href="/case-studies/woocommerce-cart-speed/"><span data-en="Read the case study (in Polish)">Czytaj case study</span> <span class="arrow" aria-hidden="true">→</span></a>
-            </div>
-            <div class="client-fig"><b data-en="11.2 → 2.2 s">11,2 → 2,2 s</b><small data-en="cart LCP on mobile, the evening of the fix, 25.07.2026">LCP koszyka na telefonie, wieczór wdrożenia, 25.07.2026</small></div>
-          </li>
-          <li class="client-row">
-            <div class="client-txt">
-              <h3><a href="https://patoczka.net" target="_blank" rel="noopener">patoczka.net</a></h3>
-              <p data-en="A travel photo archive hand-built in FrontPage since the nineties, moved onto WordPress with the look left exactly as it was.">Archiwum zdjęć z podróży, budowane we FrontPage'u od końca lat dziewięćdziesiątych, przeniesione na WordPressa bez zmiany wyglądu.</p>
-              <a class="live live-read" href="/case-studies/frontpage-to-wordpress/"><span data-en="Read the case study">Czytaj case study</span> <span class="arrow" aria-hidden="true">→</span></a>
-            </div>
-            <div class="client-fig"><b>15 205</b><small data-en="old addresses redirected, zero broken links, 02.09.2026">starych adresów z przekierowaniem, zero martwych linków, 02.09.2026</small></div>
-          </li>
-        </ul>
       </div>
     </section>
     <!-- ================= HOW IT WORKS ================= -->
@@ -1285,7 +1307,7 @@ textarea{resize:vertical; min-height:120px}
     <div class="wrap">
       <span class="brand">helban<span class="tld">.dev</span></span>
       <nav class="f-links" aria-label="Footer">
-        <a href="#work" data-en="Live work">Realizacje</a>
+        <a href="#clients" data-en="Live work">Realizacje</a>
         <a href="#services" data-en="Services">Usługi</a>
         <a href="/case-studies/" data-en="Case studies">Case studies</a>
         <a href="#how" data-en="How it works">Jak to działa</a>
